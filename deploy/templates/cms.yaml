@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cms
+  labels:
+    app: cms
+    group: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cms
+      group: frontend
+  template:
+    metadata:
+      labels:
+        app: cms
+        group: frontend
+    spec:
+      containers:
+        - name: main
+          image: cms.frontend.local:0.0.1
+          ports:
+            - containerPort: 80
+          # resources:
+          #   limits:
+          #     cpu: 500m
+          #     memory: 1Gi
+          #   requests:
+          #     cpu: 100m
+          #     memory: 500Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cms
+  labels:
+    app: cms
+    group: frontend
+spec:
+  type: NodePort
+  selector:
+    app: cms
+    group: frontend
+  ports:
+    - port: 80
+      targetPort: 80

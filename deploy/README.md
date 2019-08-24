@@ -1,0 +1,3 @@
+
+docker build
+helm install
