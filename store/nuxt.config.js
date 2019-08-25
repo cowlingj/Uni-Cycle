@@ -60,7 +60,7 @@ export default {
     extend(config, ctx) {}
   },
   server: {
-    port: 80,
+    port: process.env.PORT || 80,
     host: '0.0.0.0',
   },
 }
