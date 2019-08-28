@@ -20,8 +20,5 @@ services:
       DB_USER: cms
       DB_PASSWORD: cms
       DB_ROLE: dbOwner
-  # nginx-mongo:
-  #   build: "./mongo-proxy"
-  #   environment: {}
   test:
     build: "./runner"
