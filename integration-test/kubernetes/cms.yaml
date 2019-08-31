@@ -14,10 +14,6 @@ spec:
         app: cms
         group: frontend
     spec:
-      initContainers:
-        - name: mongodb-probe
-          image: busybox:1.30.1
-          command: ['sh', '-c', 'for i in {1..6}; do nc -w 5 mongodb:27017 && exit 0; done; exit 1']
       containers:
         - name: main
           image: cms.frontend.local:test
