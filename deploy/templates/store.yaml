@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: main
-          image: store.frontend.local:0.0.1
+          image: store.frontend.local:{{ .Values.store.version }}
           ports:
             - containerPort: 80
           # resources:

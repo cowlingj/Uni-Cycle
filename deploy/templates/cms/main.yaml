@@ -1,10 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cms
-  labels:
-    app: cms
-    group: frontend
+  name: test-cms
 spec:
   replicas: 1
   selector:
@@ -19,16 +16,20 @@ spec:
     spec:
       containers:
         - name: main
-          image: cms.frontend.local:0.0.1
+          image: cms.frontend.local:{{ .Values.cms.version }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
           ports:
             - containerPort: 80
-          # resources:
-          #   limits:
-          #     cpu: 500m
-          #     memory: 1Gi
-          #   requests:
-          #     cpu: 100m
-          #     memory: 500Mi
+          env:
+            - name: DB_NAME
+              value: cms
+            - name: DB_USER
+              value: cms
+            - name: DB_PASSWORD
+              value: cms
 ---
 apiVersion: v1
 kind: Service

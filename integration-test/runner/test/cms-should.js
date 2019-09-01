@@ -1,13 +1,28 @@
 import request from "request-promise-native"
 
-test('cms install succeds', async () => {
+// test('cms install succeds', async () => {
+//   const res = await request({
+//     methid: 'GET',
+//     uri: 'http://cms/install',
+//     resolveWithFullResponse: true,
+//   })
+//   expect(res.statusCode).toBe(200)
+//   expect(res.body).not.toMatch(/fatal\s+error/i)
+// })
+
+test('cms cannot login as admin', async () => {
   const res = await request({
-    methid: 'GET',
-    uri: 'http://cms/install',
+    methid: 'POST',
+    uri: 'http://cms/auth/check',
     resolveWithFullResponse: true,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ auth: { user: "admin", password: "admin" } })
   })
+
   expect(res.statusCode).toBe(200)
-  expect(res.body).not.toMatch(/error/i)
+  expect(JSON.parse(res.body).success).toBe(false)
 })
 
 test('cms get strings succeds', async () => {

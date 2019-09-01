@@ -14,6 +14,17 @@ spec:
         app: mongodb
         group: backend
     spec:
+      # volumes:
+      # - name: data
+      #   persistentVolumeClaim:
+      #     claimName: mongodb
+      # initContainers:
+      #   - name: fix-mount-permissions
+      #     image: busybox:1.30.1
+      #     volumeMounts:
+      #       - mountPath: "/data/db"
+      #         name: data
+      #     command: [ "sh", "-c", "chmod -R 0777 /data/db" ]
       containers:
         - name: main
           image: mongodb.backend.local:test
@@ -23,6 +34,9 @@ spec:
           ports:
             - protocol: TCP
               containerPort: 27017
+          # volumeMounts:
+          #   - mountPath: "/data/db"
+          #     name: data
           env:
             - name: DB_NAME
               value: cms
@@ -54,3 +68,37 @@ spec:
   ports:
     - port: 27017
       targetPort: 27017
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: mongodb
+#   labels:
+#     app: mongodb
+#     group: backend
+# spec:
+#   storageClassName: manual
+#   volumeMode: Filesystem
+#   capacity:
+#     storage: 1Gi
+#   hostPath:
+#     path: /tmp/mongodb
+#   accessModes:
+#     - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: mongodb
+#   labels:
+#     app: mongodb
+#     group: backend
+# spec:
+#   storageClassName: manual
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
+  

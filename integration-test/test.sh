@@ -1,29 +1,35 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -u
 
 clean() {
-  kubectl delete -Rf ./kubernetes
-  docker image rm -f cms.frontend.local:test mongodb.backend.local:test integration.test.local:test
+  helm delete --purge integration-test
 }
 trap clean EXIT
 
 clean
 
-docker build -t cms.frontend.local:test ../cms &
+docker build -t cms.frontend.local:test ../cms/main &
+docker build -t init-cms.frontend.local:test ../cms/init &
+docker build -t store.frontend.local:test ../store &
 docker build -t mongodb.backend.local:test ./mongodb &
 docker build -t integration.test.local:test ./runner &
 
 wait
 
-kubectl apply -Rf ./kubernetes
+# helm is the test fixture and contains infrastructure under test
+helm dependency update ./deploy
+helm install --name integration-test ./deploy || exit 1
 
-sleep 30
+# let initialisation finish
+kubectl wait --timeout 30s --for=condition=Ready --all pods || exit 1
+kubectl wait --timeout 300s --for=condition=complete job/init-cms || exit 1
 
+# run tests
 kubectl run integration-test \
   --attach \
   --rm \
   --generator=run-pod/v1 \
   --restart=Never \
   --image=integration.test.local:test
-
+ 
