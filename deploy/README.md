@@ -1,6 +1,16 @@
 
-docker build
-  init-cms.frontend.local:${cms.version}
-  cms.frontend.local:${cms.version}
-  store.frontend.local:${store.version}
-helm install
+### Prequisites
+
+The following images should be built with docker
+- cms.frontend.local:<version>
+- store.frontend.local:<version>
+
+A url for a running mongodb instance is needed by the cms
+
+### Configuration
+
+see `/values.yaml`
+
+### Installation
+
+use helm deploy

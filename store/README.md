@@ -1,6 +1,6 @@
 # nuxt-ecommerce
 
-> A whitelabel ecommerce frontend
+> An ecommerce frontend
 
 ## Build Setup
 
