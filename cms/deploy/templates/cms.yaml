@@ -19,16 +19,16 @@ spec:
     spec:
       containers:
         - name: main
-          image: cms.frontend.local:{{ .Values.cms.version }}
+          image: {{ printf "%s%s" "cms.frontend.local:" .Values.version | quote }}
           ports:
             - containerPort: 80
           env:
             - name: COOKIE_SECRET
-              value: secret
+              value: {{ .Values.cookieSecret }}
             - name: MONGO_URI
-              value: "mongodb://cms:cms@mongodb:27017/cms"
+              value: {{ quote .Values.db }}
             - name: NODE_ENV
-              value: "development" # TODO: production
+              value: {{ .Values.env | default "production" }}
             - name: PORT
               value: "80"
             - name: IP
