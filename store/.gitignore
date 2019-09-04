@@ -54,3 +54,5 @@ typings/
 
 # Mac OSX
 .DS_Store
+
+/static/sw.js
