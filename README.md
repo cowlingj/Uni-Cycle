@@ -2,7 +2,6 @@
 
 An ecommerce frontend consisting of:
 - store pwa built with [nuxt](https://nuxtjs.org/)
-- headless cms (with admin area) using [keystonejs](https://keystonejs.com/)
 - ci/cd using [helm](https://helm.sh/)
 
 > Part of my final year project at the University of Manchester

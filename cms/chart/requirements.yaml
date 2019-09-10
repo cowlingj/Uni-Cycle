@@ -1,4 +1,0 @@
-dependencies:
-  - name: mongodb
-    repository: file://../../mongodb/chart
-    version: 0.0.1
