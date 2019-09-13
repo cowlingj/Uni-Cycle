@@ -1,8 +1,9 @@
-# nuxt-ecommerce
+# Unicycle
 
-An ecommerce frontend consisting of:
+An ecommerce app consisting of:
 - store pwa built with [nuxt](https://nuxtjs.org/)
-- ci/cd using [helm](https://helm.sh/)
+- deployment using [helm](https://helm.sh/)
+- a backend made from [ecommerce-backend](https://github.com/cowlingj/ecommerce-backend)
 
 > Part of my final year project at the University of Manchester
 
