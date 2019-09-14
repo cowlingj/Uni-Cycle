@@ -32,7 +32,7 @@ helmRepos:
 apps:
   auth:
       namespace: "dev"
-      enabled: false
+      enabled: true
       chart: "local/auth"
       version: 0.0.1
       name: "fusionauth"
