@@ -1,0 +1,46 @@
+# version: v1.5.0
+metadata: {}
+settings:
+  kubeContext: "gke_gke-test-253221_europe-west1-b_standard-cluster-1"
+  storageBackend: "secret"
+namespaces:
+  prod:
+    protected: true
+  tiller:
+    protected: true
+    installTiller: true
+    # TODO: what are the security implications of not using tls here?
+helmRepos:
+  stable: "https://kubernetes-charts.storage.googleapis.com"
+  master: "https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/"
+apps:
+  auth:
+      namespace: "prod"
+      enabled: false
+      chart: "master/auth"
+      version: 0.0.1
+      name: "auth"
+      description: "fusionauth service"
+      valuesFile: ""
+      purge: false
+      test: false
+      protected: true
+      wait: true
+      tillerNamespace: "tiller"
+      set:
+        env: development
+  cms:
+      namespace: "prod"
+      enabled: false
+      chart: "master/cms"
+      version: "0.0.1"
+      name: "cms"
+      description: "a keystonejs cms"
+      valuesFile: ""
+      purge: false
+      test: false
+      protected: true
+      wait: true
+      tillerNamespace: "tiller"
+      set:
+        env: development
