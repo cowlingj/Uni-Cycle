@@ -88,12 +88,12 @@ jobs:
   package-store:
     executor: helm
     steps:
-      - helm_package:
+      - helm-package:
           path: deploy/charts/store
   package-gateway:
     executor: helm
     steps:
-      - helm_package:
+      - helm-package:
           path: deploy/charts/gateway
 
 commands:
