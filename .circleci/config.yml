@@ -197,8 +197,8 @@ commands:
       - run:
           name: possibly commit diff
           command: |
-            find /tmp/workspace/
-            if ! git diff --quiet; then
+            find helm
+            if ! git diff --exit-code; then
               echo "changes detected, committing"
               git add --all
               git commit --message "[CIRCLE CI] [ci skip] << parameters.message >>"
