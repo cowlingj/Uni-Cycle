@@ -99,6 +99,11 @@ jobs:
     executor: helm
     steps:
       - generate-index
+  commit_if_different:
+    executor: git
+    steps:
+      - commit-if-workspace-different:
+          message: "Update helm repo"
 
 commands:
   docker-package:
