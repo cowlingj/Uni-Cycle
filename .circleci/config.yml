@@ -1,4 +1,9 @@
 # SECRETS:
+# HELM_REPO_PREFIX - url for the helm repo (/helm/repo is appended to complete full url)
+# HELM_REPO_BRANCH - branch for push to helm repo
+# GIT_USER_NAME - username for git account to use
+# GIT_USER_EMAIL - email for git account to use
+# GITHUB_TOKEN - github personal access token (requires permission to commit to repo)
 # GCP_SERVICE_KEY - key for gcp service account (backslash sequences must be escaped)
 # GCP_PROJECT_ID - gcp project id
 # GCP_ZONE - gcp compute zone
@@ -19,23 +24,80 @@ workflows:
                 - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
               ignore: /.*/
+      - package-store:
+          filters:
+            tags:
+              only:
+              # regex: release prefixed semver range
+                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
+            branches:
+              ignore: /.*/
+      - package-gateway:
+          filters:
+            tags:
+              only:
+              # regex: release prefixed semver range
+                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
+            branches:
+              ignore: /.*/
+      - generate-index:
+          filters:
+            tags:
+              only:
+                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
+            branches:
+              ignore: /.*/
+          requires:
+            - package-store
+            - package-gateway
+      - commit-if-different:
+          filters:
+            tags:
+              only:
+                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
+            branches:
+              ignore: /.*/
+          requires:
+            - generate-index
 
 executors:
   gcloud:
     shell: /bin/sh -le
     docker:
       - image: google/cloud-sdk
+  alpine:
+    shell: /bin/sh -leo pipefail
+    docker:
+      - image: alpine:latest
+  git:
+    shell: /bin/sh -leo pipefail
+    docker:
+      - image: alpine/git:1.0.7
+  helm:
+    shell: /bin/sh -leo pipefail
+    docker:
+      - image: praqma/helmsman:v1.12.0
 
 jobs:
   build-store:
     executor: gcloud
     steps:
-      - docker_package:
+      - docker-package:
           image: "store.frontend"
           path: "store/main/"
+  package-store:
+    executor: helm
+    steps:
+      - helm_package:
+          path: deploy/charts/store
+  package-gateway:
+    executor: helm
+    steps:
+      - helm_package:
+          path: deploy/charts/gateway
 
 commands:
-  docker_package:
+  docker-package:
     parameters:
       image:
         type: string
@@ -67,3 +129,68 @@ commands:
           command: |
             docker push "${GCP_REGISTRY_PREFIX}/${GCP_PROJECT_ID}/<< parameters.image >>:$(cat /tmp/image_version)"
             docker push "${GCP_REGISTRY_PREFIX}/${GCP_PROJECT_ID}/<< parameters.image >>:latest"
+  helm-package:
+    parameters:
+      path:
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: helm init
+          command: helm init --client-only
+      - run:
+          name: helm package
+          command: |
+            mkdir --parents /tmp/helm/repo
+            helm package --dependency-update --destination /tmp/helm/repo/ << parameters.path >>
+      - persist_to_workspace:
+          root: /tmp/
+          paths:
+            - "helm/repo/*"
+  generate-index:
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: helm repo index
+          command: |
+            helm repo index --url ${HELM_REPO_PREFIX}/helm/repo/ /tmp/workspace/helm/repo/
+            mkdir --parents /tmp/helm/repo
+            mv /tmp/workspace/helm/repo/index.yaml /tmp/helm/repo/index.yaml
+      - persist_to_workspace:
+          root: /tmp/
+          paths:
+            - "helm/repo/index.yaml"
+  commit-if-workspace-different:
+    parameters:
+      workspace_dir:
+        type: string
+        default: ""
+      src_dir:
+        type: string
+        default: "."
+      message:
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: git config
+          command: |
+            git config user.name "${GIT_USER_NAME}"
+            git config user.email "${GIT_USER_EMAIL}"
+      - run:
+          name: replace files
+          command: cp -r /tmp/workspace/<< parameters.workspace_dir >>/* << parameters.src_dir >>
+      - run:
+          name: possibly commit diff
+          command: |
+            if ! git diff --quiet; then
+              echo "changes detected, committing"
+              git add --all
+              git commit --message "[CIRCLE CI] [ci skip] << parameters.message >>"
+              git push --quiet \
+                https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git 2>&1 \
+                HEAD:${HELM_REPO_BRANCH} | sed s/${GITHUB_TOKEN}/**********/
+            fi
