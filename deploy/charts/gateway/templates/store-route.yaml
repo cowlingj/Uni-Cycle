@@ -9,6 +9,8 @@ spec:
   - ingress
   http:
   - match:
+    - uri:
+        prefix: "/store"
     route:
     - destination:
         port:
