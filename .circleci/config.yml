@@ -146,7 +146,9 @@ commands:
       - checkout
       - run:
           name: helm init
-          command: helm init --client-only
+          command: |
+            helm init --client-only
+            helm repo add backend https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/
       - run:
           name: helm package
           command: |
