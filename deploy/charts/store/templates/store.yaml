@@ -30,9 +30,9 @@ spec:
               memory: 64Mi
           env:
             - name: NUXT_ENV_CMS_URL
-              value: {{ .Values.cms.url }}
+              value: {{ .Values.cms.url | quote }}
             - name: PORT
-              value: 80
+              value: "80"
           ports:
             - containerPort: 80
           readinessProbe:
