@@ -21,7 +21,6 @@ provider "helm" {
   }
 }
 
-
 provider "kubernetes" {
   config_context = "gke_${var.google_project}_${var.google_region}_main"
 }

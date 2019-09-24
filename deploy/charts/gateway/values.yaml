@@ -1,0 +1,6 @@
+cms:
+  host: cms.admin.cluster
+  port: 80
+store:
+  host: store.frontend.cluster
+  port: 80

@@ -1,0 +1,69 @@
+# SECRETS:
+# GCP_SERVICE_KEY - key for gcp service account (backslash sequences must be escaped)
+# GCP_PROJECT_ID - gcp project id
+# GCP_ZONE - gcp compute zone
+# GCP_REGISTRY_PREFIX - the registry prefix to use for gcp container registry (determines storage location)
+---
+
+version: 2.1
+workflows:
+  version: 2
+
+  package:
+    jobs:
+      - build-store:
+          filters:
+            tags:
+              only:
+              # regex: release prefixed semver range
+                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
+            branches:
+              ignore: /.*/
+
+executors:
+  gcloud:
+    shell: /bin/sh -le
+    docker:
+      - image: google/cloud-sdk
+
+jobs:
+  build-store:
+    executor: gcloud
+    steps:
+      - docker_package:
+          image: "store.frontend"
+          path: "store/main/"
+
+commands:
+  docker_package:
+    parameters:
+      image:
+        type: string
+      path:
+        type: string
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Setup GCP
+          command: |
+            echo "${GCP_SERVICE_KEY}" | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GCP_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GCP_ZONE}
+            gcloud auth configure-docker
+      - run:
+          name: Docker build
+          command: docker build -t tmp << parameters.path >>
+      - run:
+          name: Set image version
+          command: docker inspect tmp --format '{{ index .Config.Labels "version" }}' > /tmp/image_version
+      - run:
+          name: Docker tag
+          command: |
+            docker tag tmp "${GCP_REGISTRY_PREFIX}/${GCP_PROJECT_ID}/<< parameters.image >>:$(cat /tmp/image_version)"
+            docker tag tmp "${GCP_REGISTRY_PREFIX}/${GCP_PROJECT_ID}/<< parameters.image >>:latest"
+      - deploy:
+          name: Docker push
+          command: |
+            docker push "${GCP_REGISTRY_PREFIX}/${GCP_PROJECT_ID}/<< parameters.image >>:$(cat /tmp/image_version)"
+            docker push "${GCP_REGISTRY_PREFIX}/${GCP_PROJECT_ID}/<< parameters.image >>:latest"

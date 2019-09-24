@@ -1,0 +1,5 @@
+env: production
+port: 80
+image: gcr.io/gke-test-253221/store.frontend
+cms:
+  url: http://localhost/3000

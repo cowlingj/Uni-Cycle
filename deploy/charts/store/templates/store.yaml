@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: store
+  labels:
+    app: store
+    group: frontend
+    version: {{ .Chart.AppVersion }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: store
+      group: frontend
+  template:
+    metadata:
+      labels:
+        app: store
+        group: frontend
+    spec:
+      containers:
+        - name: main
+          image: {{ printf "%s:%s" .Values.image .Chart.AppVersion | quote }}
+          resources:
+            limits:
+              cpu: 50m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          env:
+            - name: NUXT_ENV_CMS_URL
+              value: {{ .Values.cms.url }}
+            - name: PORT
+              value: 80
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: store
+  labels:
+    app: store
+    group: frontend
+spec:
+  type: {{ template "helpers.service.type" .Values.env }}
+  selector:
+    app: store
+    group: frontend
+  ports:
+    - name: http-store
+      port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}
