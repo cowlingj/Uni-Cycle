@@ -95,6 +95,10 @@ jobs:
     steps:
       - helm-package:
           path: deploy/charts/gateway
+  generate-index:
+    executor: helm
+    steps:
+      - generate-index
 
 commands:
   docker-package:
