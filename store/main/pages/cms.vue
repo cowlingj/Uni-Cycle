@@ -14,9 +14,12 @@ import axios from 'axios'
 
 export default {
   async asyncData(context) {
+
+    console.log("cms asyncData")
+    console.log(env.CMS_URL)
     
     const res = await axios.post(
-      `http://${process.env.NUXT_ENV_CMS_URL}/`,
+      `http://${process.env.CMS_URL}/`,
       "query { strings { name, value } }"
       ) // TODO: use something like gql
 

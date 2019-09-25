@@ -65,5 +65,8 @@ export default {
   },
   router: {
     base: '/store/'
+  },
+  env: {
+    CMS_URL: process.env.CMS_URL
   }
 }
