@@ -7,7 +7,7 @@ resource "helm_release" "store" {
   namespace  = var.namespaces.main
 
   set {
-    name = "NUXT_ENV_CMS_URL"
+    name = "cms.url"
     value = "store.${var.namespaces.main}.svc.cluster.local"
   }
 }

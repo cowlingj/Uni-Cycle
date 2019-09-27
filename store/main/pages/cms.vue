@@ -1,9 +1,10 @@
 <template>
   <div>
-    <p>cms</p>
-    <ul>
-      <li v-for="string in strings" v-bind:key="string.name">
-        {{ JSON.stringify(string) }}
+    <h1>Communication with CMS:</h1> 
+    <h1 v-if="err" id="error-message">Error: {{ err }}</h1>
+    <ul v-else id="string-resource-list">
+      <li v-for="string in data.strings" :key="string.name">
+        {{ string.name }} = {{ string.value }}
       </li>
     </ul>
   </div>
@@ -14,21 +15,19 @@ import axios from 'axios'
 
 export default {
   async asyncData(context) {
+    try {
+      const res = await axios.get(`${context.env.CMS_URL}`, {
+        params: { query: '{ strings { name, value } }' }
+      })
 
-    console.log("cms asyncData")
-    console.log(env.CMS_URL)
-    
-    const res = await axios.post(
-      `http://${process.env.CMS_URL}/`,
-      "query { strings { name, value } }"
-      ) // TODO: use something like gql
-
-    const strings = res.data.data
-
-    console.log(res.data)
-
-    return {
-      strings,
+      return {
+        err: false,
+        data: {
+          strings: res.data.data.strings
+        }
+      }
+    } catch (err) {
+      return { err }
     }
   }
 }

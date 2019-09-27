@@ -1,4 +1,7 @@
 module.exports = {
+  rootDir: "..",
+  testMatch: [ "<rootDir>/integration-test/**/*.spec.js", "<rootDir>/**/*.integration.js" ],
+  testPathIgnorePatterns: [ "<rootDir>/node_modules" ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
@@ -9,9 +12,5 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest'
   },
-  collectCoverage: true,
-  collectCoverageFrom: [
-    '<rootDir>/components/**/*.vue',
-    '<rootDir>/pages/**/*.vue'
-  ]
+  collectCoverage: false,
 }
