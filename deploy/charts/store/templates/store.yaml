@@ -32,7 +32,7 @@ spec:
             - name: CMS_URL
               value: {{ .Values.cms.url | quote }}
             - name: PORT
-              value: {{ .Values.port | required | quote }}
+              value: {{ .Values.port | quote }}
           ports:
             - containerPort: {{ .Values.port }}
           readinessProbe:
