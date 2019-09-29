@@ -1,3 +1,6 @@
+
+console.log(JSON.stringify(process.env))
+
 export default {
   mode: 'universal',
   /*

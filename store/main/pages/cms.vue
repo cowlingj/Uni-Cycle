@@ -15,6 +15,9 @@ import axios from 'axios'
 
 export default {
   async asyncData(context) {
+
+    console.log(JSON.stringify(context.env))
+
     try {
       const res = await axios.get(`${context.env.CMS_URL}`, {
         params: { query: '{ strings { name, value } }' }

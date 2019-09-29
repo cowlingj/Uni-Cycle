@@ -32,12 +32,12 @@ spec:
             - name: CMS_URL
               value: {{ .Values.cms.url | quote }}
             - name: PORT
-              value: "80"
+              value: {{ .Values.port | required | quote }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.port }}
           readinessProbe:
             tcpSocket:
-              port: 80
+              port: {{ .Values.port }}
 ---
 apiVersion: v1
 kind: Service
