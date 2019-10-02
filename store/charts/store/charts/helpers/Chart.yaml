@@ -1,5 +1,0 @@
-apiVersion: v1
-appVersion: 0.0.0
-description: utility template functions
-name: helpers
-version: 0.0.1

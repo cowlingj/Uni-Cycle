@@ -36,7 +36,7 @@ spec:
               memory: 64Mi
           env:
             - name: CMS_URL
-              value: {{ printf "\"%s://_%s._%s.%s.%s.svc.cluster.local\"" .Values.cms.ports.api.protocol .Values.cms.ports.api.name .Values.cms.ports.api.protocol .Values.cms.name ( default .Release.Namespace .Values.cms.svc.api.namespace ) ( toString .Values.cms.ports.api.port ) }}
+              value: {{ printf "\"%s://_%s._%s.%s.%s.svc.cluster.local\"" .Values.cms.ports.api.protocol .Values.cms.ports.api.name .Values.cms.ports.api.protocol .Values.cms.name ( default .Release.Namespace .Values.cms.svc.api.namespace ) }}
             - name: PORT
               value: "80"
           ports:
