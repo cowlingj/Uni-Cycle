@@ -7,7 +7,12 @@ resource "helm_release" "store" {
   namespace  = var.namespaces.main
 
   set {
-    name = "cms.url"
-    value = "store.${var.namespaces.main}.svc.cluster.local"
+    name = "cms.cms.db"
+    value = "cms"
+  }
+
+  set {
+    name = "cms.svc.api.namespace"
+    value = var.namespaces.main
   }
 }

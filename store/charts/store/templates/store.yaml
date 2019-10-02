@@ -60,9 +60,9 @@ spec:
     group: {{ .Values.group }}
     version: {{ .Values.version }}
   ports:
-    {{ with .Values.ports.main -}}
-      - name: {{ printf "\"%s-%s\"" .protocol .name }}
-        port: {{ .port }}
-        protocol: {{ .protocol }}
-        targetPort: 80
+    {{- with .Values.ports.main }}
+    - name: {{ printf "\"%s-%s\"" .protocol .name }}
+      port: {{ .port }}
+      protocol: {{ .protocol }}
+      targetPort: 80
     {{- end }}

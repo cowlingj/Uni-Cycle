@@ -2,5 +2,11 @@ dependencies:
 - name: helpers
   repository: https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/
   version: 0.0.1
-digest: sha256:11880feb387fcb2551bd12e4960f6bf695a99836ae09bcf037b99511e8be39d1
-generated: "2019-09-30T19:45:28.727674978+01:00"
+- name: cms
+  repository: https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/
+  version: 0.0.1
+- name: mongodb
+  repository: https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/
+  version: 0.0.1
+digest: sha256:c2cf055009073bfe54fae6439efee748db63cee32bbb150d7c108eb11f1da8a3
+generated: "2019-10-02T13:56:48.198227726+01:00"
