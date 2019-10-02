@@ -1,6 +1,3 @@
-
-console.log(JSON.stringify(process.env))
-
 export default {
   mode: 'universal',
   /*
@@ -46,7 +43,12 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    ['nuxt-env', {
+      keys: [
+        { key: 'CMS_URL' },
+      ]
+    }]
   ],
   /*
    ** Axios module configuration
@@ -68,8 +70,5 @@ export default {
   },
   router: {
     base: '/store/'
-  },
-  env: {
-    CMS_URL: process.env.CMS_URL
   }
 }

@@ -16,10 +16,10 @@ import axios from 'axios'
 export default {
   async asyncData(context) {
 
-    console.log(JSON.stringify(context.env))
+    // console.log(JSON.stringify(context.app))
 
     try {
-      const res = await axios.get(`${context.env.CMS_URL}`, {
+      const res = await axios.get(`${context.app.$env.CMS_URL}/graphql`, {
         params: { query: '{ strings { name, value } }' }
       })
 

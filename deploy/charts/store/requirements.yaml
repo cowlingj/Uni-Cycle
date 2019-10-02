@@ -1,4 +1,0 @@
-dependencies:
-  - name: helpers
-    repository: https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/
-    version: 0.0.1

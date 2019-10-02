@@ -38,11 +38,10 @@ describe('Cms route', () => {
       Object.assign({}, config, {
         rootDir: path.join(__dirname, '..'),
         dev: false,
-        env: {
-          CMS_URL: 'http://localhost:8080'
-        }
       })
     )
+
+    process.env.CMS_URL = "http://localhost:8000"
     
     await new Builder(nuxt).build()
     done()

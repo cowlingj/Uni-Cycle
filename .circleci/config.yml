@@ -28,7 +28,6 @@ workflows:
           filters:
             tags:
               only:
-              # regex: release prefixed semver range
                 - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
               ignore: /.*/
@@ -36,7 +35,6 @@ workflows:
           filters:
             tags:
               only:
-              # regex: release prefixed semver range
                 - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
               ignore: /.*/
@@ -89,7 +87,7 @@ jobs:
     executor: helm
     steps:
       - helm-package:
-          path: deploy/charts/store
+          path: store/charts/store
   package-gateway:
     executor: helm
     steps:
