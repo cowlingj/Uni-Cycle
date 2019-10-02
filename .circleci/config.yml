@@ -18,43 +18,27 @@ workflows:
     jobs:
       - build-store:
           filters:
-            tags:
-              only:
-              # regex: release prefixed semver range
-                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
-              ignore: /.*/
+              only: master
       - package-store:
           filters:
-            tags:
-              only:
-                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
-              ignore: /.*/
+              only: master
       - package-gateway:
           filters:
-            tags:
-              only:
-                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
-              ignore: /.*/
+              only: master
       - generate-index:
           filters:
-            tags:
-              only:
-                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
-              ignore: /.*/
+              only: master
           requires:
             - package-store
             - package-gateway
       - commit-if-different:
           filters:
-            tags:
-              only:
-                - /^release[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-z0-9-]+(?:\.[a-zA-z0-9-]+)*)?$/
             branches:
-              ignore: /.*/
+              only: master
           requires:
             - generate-index
 
