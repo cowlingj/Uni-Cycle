@@ -2,8 +2,8 @@ apiVersion: v1
 entries:
   gateway:
   - apiVersion: v1
-    created: 2019-10-02T16:18:45.416728385Z
-    digest: eaf009b564456fd7f75f389fbd2718ed407afcea50630e253c31cb528b349559
+    created: 2019-10-02T16:55:48.308336843Z
+    digest: ca06c6c7bf4dc9fb479212e38a7d9e4a615c6b3232fd4b90c52e05d192fa9261
     name: gateway
     urls:
     - https://raw.githubusercontent.com/cowlingj/nuxt-ecommerce/helm/repo/gateway-0.0.1.tgz
@@ -11,10 +11,10 @@ entries:
   store:
   - apiVersion: v1
     appVersion: 0.0.1
-    created: 2019-10-02T16:18:45.417385773Z
-    digest: 6fd5cc57f55a754d7797565b4ff785a8ee2736a4ace07dd87fd96adb15777365
+    created: 2019-10-02T16:55:48.309471025Z
+    digest: 06fa8f1fc2401849fafd3b9039805bbd9da4980d6d32e63952669e97b3fedfce
     name: store
     urls:
     - https://raw.githubusercontent.com/cowlingj/nuxt-ecommerce/helm/repo/store-0.0.1.tgz
     version: 0.0.1
-generated: 2019-10-02T16:18:45.416482816Z
+generated: 2019-10-02T16:55:48.307965777Z
