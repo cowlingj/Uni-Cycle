@@ -44,11 +44,12 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    ['nuxt-env', {
-      keys: [
-        { key: 'CMS_URL' },
-      ]
-    }]
+    [
+      'nuxt-env',
+      {
+        keys: [{ key: 'CMS_URL' }]
+      }
+    ]
   ],
   /*
    ** Axios module configuration
@@ -66,7 +67,7 @@ export default {
   },
   server: {
     port: process.env.PORT || 80,
-    host: process.env.HOST || '0.0.0.0'
+    host: process.env.HOST || 'localhost'
   },
   router: {
     base: '/store/'

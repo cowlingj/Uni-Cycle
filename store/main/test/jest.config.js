@@ -1,7 +1,7 @@
 module.exports = {
-  rootDir: "../",
-  testMatch: [ "<rootDir>/test/**/*.spec.js", "<rootDir>/**/*.unit.js" ],
-  testPathIgnorePatterns: [ "<rootDir>/node_modules" ],
+  rootDir: '../',
+  testMatch: ['<rootDir>/test/**/*.spec.js', '<rootDir>/**/*.unit.js'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
