@@ -1,73 +1,38 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        nuxt-ecommerce
-      </h1>
-      <h2 class="subtitle">
-        A whitelabel ecommerce frontend
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div class="w-screen h-screen main">
+    <header class="flex items-center justify-between flex-no-wrap p-6">
+      <h1 class="text-xl">Uni-Cycle</h1>
+      <nav class="flex items-center justify-between flex-wrap">
+        <a class="mr-6 active">Home</a>
+        <a class="mr-6">Events</a>
+      </nav>
+    </header>
+    <article class="overflow-hidden relative flex">
+      <img
+        class="object-contain max-h-full m-auto justify-center"
+        src="https://via.placeholder.com/1000x600.png"
+      />
+      <div class="m-auto min-w-full tagline">
+        <h2 class="text-3xl text-center">Choose to re-use with Uni-Cycle</h2>
       </div>
-    </div>
+    </article>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
-export default {
-  components: {
-    Logo
-  }
-}
+export default {}
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+.tagline {
+  position: absolute;
+  bottom: 33%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.main {
+  display: grid;
+  grid-template-rows: max-content 1fr;
 }
 </style>
