@@ -61,7 +61,7 @@ describe('Cms', () => {
       throw err
     })
 
-    const res = await Cms.asyncData({ env: { CMS_URL: '' } })
+    const res = await Cms.asyncData({ app: { $env: { CMS_URL: '' } } })
 
     expect(res.err).toBe(err)
 
@@ -70,7 +70,7 @@ describe('Cms', () => {
 
   it('asyncData returns a list of strings', async (done) => {
     const mock = { err: false, data: { data: { strings: [] } } }
-    const context = { env: { CMS_URL: '' } }
+    const context = { app: { $env: { CMS_URL: '' } } }
 
     axios.get = jest.fn(() => mock)
 
@@ -79,7 +79,7 @@ describe('Cms', () => {
     expect(res.err).toBe(false)
     expect(res.data.strings).toBe(mock.data.data.strings)
     expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(context.env.CMS_URL)
+    expect(axios.get.mock.calls[0][0]).toBe(`${context.app.$env.CMS_URL}/graphql`)
 
     done()
   })
