@@ -1,19 +1,14 @@
 <template>
-  <div class="w-screen h-screen main">
-    <header class="flex items-center justify-between flex-no-wrap p-6">
-      <h1 class="text-xl">Uni-Cycle</h1>
-      <nav class="flex items-center justify-between flex-wrap">
-        <a class="mr-6 active">Home</a>
-        <a class="mr-6">Events</a>
-      </nav>
-    </header>
-    <article id="events-list">
-      <section v-for="(event, index) in data.events" :key="index">
-        <h1>{{ event.title }}</h1>
-        <p>{{ event.description }}</p>
-      </section>
-    </article>
-  </div>
+  <article id="events-list" class="flex justify-center">
+    <section
+      v-for="(event, index) in data.events"
+      :key="index"
+      class="shadow-lg overflow-hidden w-4/5 p-4"
+    >
+      <h1 class="text-xl leading-loose">{{ event.title }}</h1>
+      <p class="text-base">{{ event.description }}</p>
+    </section>
+  </article>
 </template>
 
 <script>
@@ -29,8 +24,7 @@ export default {
           {
             title: 'Placeholder',
             description: fold`
-          this is a placeholder description for some event taking place
-          it should even turn multi lne strings into single strings`
+          this is a placeholder description for some event taking place`
           }
         ]
       }

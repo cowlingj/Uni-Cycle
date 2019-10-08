@@ -6,8 +6,7 @@ describe('Event', () => {
     const wrapper = shallowMount(Event, {
       data: () => ({ err: false, data: { events: [] } })
     })
-    expect(wrapper.element.querySelector('#events-list').children.length)
-      .toBe(0)
+    expect(wrapper.element.children.length).toBe(0)
   })
 
   it('renders a non empty list of events', () => {
@@ -22,15 +21,11 @@ describe('Event', () => {
     }
 
     const wrapper = shallowMount(Event, { data: () => data })
-    expect(wrapper.element.querySelector('#events-list').children.length).toBe(
-      data.data.events.length
-    )
+    expect(wrapper.element.children.length).toBe(data.data.events.length)
 
-    Array.from(wrapper.element.querySelector('#events-list').children).forEach(
-      (child, index) => {
-        expect(child.innerHTML).toContain(data.data.events[index].title)
-        expect(child.innerHTML).toContain(data.data.events[index].description)
-      }
-    )
+    Array.from(wrapper.element.children).forEach((child, index) => {
+      expect(child.innerHTML).toContain(data.data.events[index].title)
+      expect(child.innerHTML).toContain(data.data.events[index].description)
+    })
   })
 })

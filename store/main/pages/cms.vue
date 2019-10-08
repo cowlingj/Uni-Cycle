@@ -2,11 +2,16 @@
   <div>
     <h1>Communication with CMS:</h1>
     <h1 v-if="err" id="error-message">Error: {{ err }}</h1>
-    <ul v-else id="string-resource-list">
-      <li v-for="string in data.strings" :key="string.name">
-        {{ string.name }} = {{ string.value }}
-      </li>
-    </ul>
+    <div v-else id="string-resource-list">
+      <section
+        v-for="string in data.strings"
+        :key="string.name"
+        class="shadow-lg overflow-hidden w-4/5 p-4"
+      >
+        <h1 class="text-xl leading-loose">{{ string.name }}</h1>
+        <p class="text-base">{{ string.value }}</p>
+      </section>
+    </div>
   </div>
 </template>
 

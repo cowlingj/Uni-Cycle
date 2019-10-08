@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen root block">
+  <div class="w-screen h-screen root">
     <Header active-page="home" />
     <nuxt />
   </div>
@@ -21,5 +21,10 @@ html {
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+}
+
+.root {
+  display: grid;
+  grid-template-rows: max-content 1fr;
 }
 </style>
