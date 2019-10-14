@@ -42,38 +42,36 @@ export default {
         ]
       }
     }
+  },
+  async asyncData(context) {
+    if (process.server) {
+      console.log(`HOST: ${context.req.headers.host}`)
+      context.beforeNuxtRender(({ nuxtState }) => {
+        nuxtState.CMS_EXTERNAL_HOST = context.req.headers.host
+      })
+    }
+
+    const url = process.server
+      ? context.app.$env.CMS_CLUSTER_URL
+      : `http://${context.nuxtState.CMS_EXTERNAL_HOST}/cms`
+
+    console.log(`URL: ${url}`)
+    console.log(`NUXT STATE: ${JSON.stringify(context.nuxtState)}`)
+
+    try {
+      const res = await axios.get(`${url}/graphql`, {
+        params: { query: '{ events { title, description } }' }
+      })
+
+      return {
+        err: null,
+        data: {
+          events: res.data.data.events
+        }
+      }
+    } catch (err) {
+      return { err }
+    }
   }
-  //,
-  // async asyncData(context) {
-  //   if (process.server) {
-  //     console.log(`HOST: ${context.req.headers.host}`)
-  //     context.beforeNuxtRender(({ nuxtState }) => {
-  //       nuxtState.CMS_EXTERNAL_HOST = context.req.headers.host
-  //     })
-  //   }
-
-  //   const url = process.server
-  //     ? context.app.$env.CMS_CLUSTER_URL
-  //     : `http://${window.__NUXT__.CMS_EXTERNAL_HOST}/cms`
-
-  //   console.log(`URL: ${url}`)
-
-  //   try {
-  //     const res = await axios.get(`${url}/graphql`, {
-  //       params: { query: '{ events { title, description } }' }
-  //     })
-
-  //     console.log(JSON.stringify(res.data, null, 2))
-
-  //     return {
-  //       err: null,
-  //       data: {
-  //         events: res.data.data.events
-  //       }
-  //     }
-  //   } catch (err) {
-  //     return { err }
-  //   }
-  // }
 }
 </script>
