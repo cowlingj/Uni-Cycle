@@ -70,6 +70,7 @@ export default {
         }
       }
     } catch (err) {
+      console.log(JSON.stringify(err))
       return { err }
     }
   }
