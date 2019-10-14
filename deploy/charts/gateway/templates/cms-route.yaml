@@ -16,3 +16,22 @@ spec:
         port:
           number: {{ .Values.cms.port }}
         host: {{ .Values.cms.host | quote }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: cms-graphql
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ingress
+  http:
+  - match:
+    - uri:
+        prefix: "/cms/graphql"
+    route:
+    - destination:
+        port:
+          number: {{ .Values.cms.graphql.port }}
+        host: {{ .Values.cms.graphql.host | quote }}

@@ -12,6 +12,11 @@ resource "helm_release" "gateway" {
   }
 
   set {
+    name = "cms.graphql.host"
+    value = "cms.${var.namespaces.main}.svc.cluster.local"
+  }
+
+  set {
     name = "store.host"
     value = "store.${var.namespaces.main}.svc.cluster.local"
   }
