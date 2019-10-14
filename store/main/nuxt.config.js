@@ -47,7 +47,9 @@ export default {
     [
       'nuxt-env',
       {
-        keys: [{ key: 'CMS_URL' }]
+        keys: [
+          { key: 'CMS_CLUSTER_URL' }
+        ]
       }
     ]
   ],

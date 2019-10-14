@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@nuxtjs/axios'
 
 export default {
   async asyncData(context) {
     try {
-      const res = await axios.get(`${context.app.$env.CMS_URL}/graphql`, {
+      const res = await axios.get(`http://broker.cluster/graphql`, {
         params: { query: '{ strings { name, value } }' }
       })
 

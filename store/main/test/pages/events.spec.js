@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import Event from '@/pages/events.vue'
-import axios from 'axios'
+import axios from '@nuxtjs/axios'
 
 describe('Event', () => {
   it('renders an empty list of events', () => {
@@ -46,7 +46,7 @@ describe('Event', () => {
       throw new Error()
     })
 
-    const res = await Event.asyncData({ app: { $env: { CMS_URL: '' } } })
+    const res = await Event.asyncData()
 
     expect(res.err).not.toBeNull()
 
@@ -55,7 +55,6 @@ describe('Event', () => {
 
   it('asyncData returns a list of events', async (done) => {
     const mock = { err: null, data: { data: { events: [] } } }
-    const context = { app: { $env: { CMS_URL: '' } } }
 
     axios.get = jest.fn(() => mock)
 
@@ -64,9 +63,7 @@ describe('Event', () => {
     expect(res.err).toBeNull()
     expect(res.data.events).toBe(mock.data.data.events)
     expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(
-      `${context.app.$env.CMS_URL}/graphql`
-    )
+    expect(axios.get.mock.calls[0][0]).toBe(`http://broker.cluster/graphql`)
 
     done()
   })

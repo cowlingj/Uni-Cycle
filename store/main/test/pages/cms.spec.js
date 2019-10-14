@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import axios from 'axios'
+import axios from '@nuxtjs/axios'
 import Cms from '@/pages/cms.vue'
 
 describe('Cms', () => {
@@ -61,7 +61,7 @@ describe('Cms', () => {
       throw err
     })
 
-    const res = await Cms.asyncData({ app: { $env: { CMS_URL: '' } } })
+    const res = await Cms.asyncData()
 
     expect(res.err).toBe(err)
 
@@ -70,18 +70,15 @@ describe('Cms', () => {
 
   it('asyncData returns a list of strings', async (done) => {
     const mock = { err: false, data: { data: { strings: [] } } }
-    const context = { app: { $env: { CMS_URL: '' } } }
 
     axios.get = jest.fn(() => mock)
 
-    const res = await Cms.asyncData(context)
+    const res = await Cms.asyncData()
 
     expect(res.err).toBe(false)
     expect(res.data.strings).toBe(mock.data.data.strings)
     expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(
-      `${context.app.$env.CMS_URL}/graphql`
-    )
+    expect(axios.get.mock.calls[0][0]).toBe(`broker.cluster/graphql`)
 
     done()
   })
