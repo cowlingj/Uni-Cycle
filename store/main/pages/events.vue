@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import axios from '@nuxtjs/axios'
+import axios from 'axios'
 function fold(strings) {
   return strings.map((str) => str.replace(/\n\s*/g, ' ')).join('')
 }
