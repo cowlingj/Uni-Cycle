@@ -63,6 +63,8 @@ export default {
         params: { query: '{ events { title, description } }' }
       })
 
+      console.log('request worked')
+
       return {
         err: null,
         data: {
@@ -70,7 +72,7 @@ export default {
         }
       }
     } catch (err) {
-      console.log(JSON.stringify(err))
+      console.log(`ERR: ${JSON.stringify(err)}`)
       return { err }
     }
   }
