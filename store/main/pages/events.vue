@@ -47,7 +47,7 @@ export default {
 
     const url = process.server
       ? context.app.$env.CMS_CLUSTER_URL
-      : `${context.nuxtState.CMS_EXTERNAL_HOST}/cms`
+      : `http://${context.nuxtState.CMS_EXTERNAL_HOST}/cms`
 
     console.log(`URL: ${url}`)
 
