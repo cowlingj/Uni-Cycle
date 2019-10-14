@@ -49,10 +49,14 @@ export default {
       ? context.app.$env.CMS_CLUSTER_URL
       : `${context.nuxtState.CMS_EXTERNAL_HOST}/cms`
 
+    console.log(`URL: ${url}`)
+
     try {
       const res = await axios.get(`${url}/graphql`, {
         params: { query: '{ events { title, description } }' }
       })
+
+      console.log(JSON.stringify(res.data, null, 2))
 
       return {
         err: null,
