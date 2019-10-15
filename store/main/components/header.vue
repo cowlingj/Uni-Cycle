@@ -4,7 +4,6 @@
     <nav id="nav" class="flex items-center justify-between flex-wrap">
       <nuxt-link exact replace to="/" class="mr-6">Home</nuxt-link>
       <nuxt-link exact replace to="/events" class="mr-6">Events</nuxt-link>
-      <nuxt-link exact replace to="/cms" class="mr-6">CMS [TMP]</nuxt-link>
     </nav>
   </header>
 </template>
