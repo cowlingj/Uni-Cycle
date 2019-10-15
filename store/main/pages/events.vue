@@ -20,50 +20,22 @@
 
 <script>
 import axios from 'axios'
-function fold(strings) {
-  return strings.map((str) => str.replace(/\n\s*/g, ' ')).join('')
-}
 
 export default {
   data() {
     return {
       data: {
-        events: [
-          {
-            title: 'Placeholder 1',
-            description: fold`
-          this is a placeholder description for some event taking place`
-          },
-          {
-            title: 'Placeholder1',
-            description: fold`
-          this is a placeholder description for some event taking place`
-          }
-        ]
+        events: []
       }
     }
   },
   async asyncData(context) {
-    if (process.server) {
-      console.log(`HOST: ${context.req.headers.host}`)
-      context.beforeNuxtRender(({ nuxtState }) => {
-        nuxtState.CMS_EXTERNAL_HOST = context.req.headers.host
-      })
-    }
-
-    const url = process.server
-      ? context.app.$env.CMS_CLUSTER_URL
-      : `http://${context.nuxtState.CMS_EXTERNAL_HOST}/cms`
-
-    console.log(`URL: ${url}`)
-    console.log(`NUXT STATE: ${JSON.stringify(context.nuxtState)}`)
+    const url = context.app.$getCmsUrl()
 
     try {
       const res = await axios.get(`${url}/graphql`, {
         params: { query: '{ events { title, description } }' }
       })
-
-      console.log('request worked')
 
       return {
         err: null,
@@ -72,7 +44,6 @@ export default {
         }
       }
     } catch (err) {
-      console.log(`ERR: ${JSON.stringify(err)}`)
       return { err }
     }
   }

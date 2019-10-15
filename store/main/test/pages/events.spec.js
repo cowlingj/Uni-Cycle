@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
+import axios from 'axios'
 import Event from '@/pages/events.vue'
-import axios from '@nuxtjs/axios'
 
 describe('Event', () => {
   it('renders an empty list of events', () => {
@@ -24,7 +24,9 @@ describe('Event', () => {
 
     const wrapper = shallowMount(Event, { data: () => data })
     expect(wrapper.element.querySelector('#error-message')).toBeNull()
-    expect(wrapper.element.querySelectorAll('.event').length).toBe(data.data.events.length)
+    expect(wrapper.element.querySelectorAll('.event').length).toBe(
+      data.data.events.length
+    )
 
     Array.from(wrapper.element.children).forEach((child, index) => {
       expect(child.innerHTML).toContain(data.data.events[index].title)
@@ -41,12 +43,13 @@ describe('Event', () => {
   })
 
   it('asyncData handles error', async (done) => {
+    const context = { app: { $getCmsUrl: () => 'URL' } }
 
     axios.get = jest.fn(() => {
-      throw new Error()
+      throw new Error('test error')
     })
 
-    const res = await Event.asyncData()
+    const res = await Event.asyncData(context)
 
     expect(res.err).not.toBeNull()
 
@@ -54,6 +57,7 @@ describe('Event', () => {
   })
 
   it('asyncData returns a list of events', async (done) => {
+    const context = { app: { $getCmsUrl: () => 'URL' } }
     const mock = { err: null, data: { data: { events: [] } } }
 
     axios.get = jest.fn(() => mock)
@@ -63,7 +67,9 @@ describe('Event', () => {
     expect(res.err).toBeNull()
     expect(res.data.events).toBe(mock.data.data.events)
     expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(`http://broker.cluster/graphql`)
+    expect(axios.get.mock.calls[0][0]).toBe(
+      `${context.app.$getCmsUrl()}/graphql`
+    )
 
     done()
   })

@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: './plugins/cms-path.js' }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -47,9 +47,7 @@ export default {
     [
       'nuxt-env',
       {
-        keys: [
-          { key: 'CMS_CLUSTER_URL' }
-        ]
+        keys: [{ key: 'CMS_CLUSTER_URL' }]
       }
     ]
   ],
@@ -72,6 +70,7 @@ export default {
     host: process.env.HOST || 'localhost'
   },
   router: {
-    base: '/store/'
+    base: '/store/',
+    middleware: ['cms-path']
   }
 }
