@@ -44,6 +44,8 @@ export default {
         }
       }
     } catch (err) {
+      // todo: only in dev mode
+      console.log(err)
       return { err }
     }
   }
