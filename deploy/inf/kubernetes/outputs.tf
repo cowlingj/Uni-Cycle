@@ -10,3 +10,11 @@ output "namespaces" {
     istio = kubernetes_namespace.istio.metadata[0].name
   }
 }
+
+output "image_pull_secret_names" {
+  value = kubernetes_secret.image_pull_secrets[*].metadata[0].name
+}
+
+output "pvc_name" {
+  value = kubernetes_persistent_volume_claim.pvc.metadata[0].name
+}

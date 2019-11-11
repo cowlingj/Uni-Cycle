@@ -19,7 +19,7 @@ resource "kubernetes_service_account" "helm" {
 
 resource "kubernetes_cluster_role_binding" "helm_role_binding" {
   metadata {
-    name = "helm"
+    name = "helm-crb"
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"

@@ -7,3 +7,8 @@ data "helm_repository" "istio" {
     name = "istio"
     url = "https://storage.googleapis.com/istio-release/releases/1.1.7/charts/"
 }
+
+data "helm_repository" "stable" {
+    name = "stable"
+    url = "https://kubernetes-charts.storage.googleapis.com"
+}
