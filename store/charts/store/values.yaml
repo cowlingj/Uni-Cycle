@@ -21,25 +21,7 @@ cms:
   db: cms
   cookieSecret: tmp
   ports:
-    ui:
-      port: 80
-      protocol: http
-      name: ui
     api:
       port: 8080
       protocol: http
       name: api
-mongodb:
-  env: production
-  name: mongodb
-  group: frontend
-  image: "mongo"
-  imagePullSecret: gcr
-  version: "4.2.0"
-  db: cms
-  cookieSecret: tmp
-  ports:
-    main:
-      port: 8080
-      protocol: mongo
-      name: main
