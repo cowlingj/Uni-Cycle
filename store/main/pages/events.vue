@@ -5,13 +5,18 @@
         Sorry, there's a problem getting events, please try later
       </p>
     </section>
+    <section v-else-if="data.events.length == 0">
+      <p class="text-center">
+        There are no events yet, check back later
+      </p>
+    </section>
     <section v-else id="events-list" class="w-4/5">
       <div
         v-for="(event, index) in data.events"
         :key="index"
         class="shadow-lg overflow-hidden p-4 event"
       >
-        <h1 class="text-xl leading-loose">{{ event.title }}</h1>
+        <h1 class="text-3xl leading-loose">{{ event.title }}</h1>
         <p class="text-base">{{ event.description }}</p>
       </div>
     </section>
