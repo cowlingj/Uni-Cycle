@@ -35,17 +35,21 @@ resource "helm_release" "backend" {
   namespace  = var.namespaces.main
 
   dynamic set {
+    for_each = length(var.image_pull_secret_names) > 0 ? slice(var.image_pull_secret_names, 0, 1) : []
+    iterator = each
+    content {
+      name = "cms.imagePullSecret"
+      value = each.value
+    }
+  }
+
+  dynamic set {
     for_each = var.image_pull_secret_names
     iterator = each
     content {
       name = "mongodb.image.pullSecrets[${each.key}]"
       value = each.value
     }
-  }
-
-  set_sensitive { # TODO: integrate into backend (use an override host flag)
-    name = "cms.mongodbHost"
-    value = "mongodb.${var.namespaces.main}.svc.cluster.local:8080"
   }
 
   set {
@@ -83,7 +87,12 @@ resource "helm_release" "backend" {
     value = "0.0.1"
   }
 
-  set {
+  set_sensitive { # TODO: integrate into backend (use an override host flag)
+    name = "cms.mongodbHost"
+    value = "mongodb.${var.namespaces.main}.svc.cluster.local:8080"
+  }
+
+  set { # TODO: make variable
     name = "cms.users.list[0].email"
     value = "admin@test.com"
   }
