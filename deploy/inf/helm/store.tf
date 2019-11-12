@@ -8,7 +8,7 @@ resource "helm_release" "store" {
   namespace  = var.namespaces.main
 
   dynamic set {
-    for_each = slice(var.image_pull_secret_names, 0, 0)
+    for_each = length(var.image_pull_secret_names) > 0 ? slice(var.image_pull_secret_names, 0, 1) : []
     iterator = each
     content {
       name = "imagePullSecret"
