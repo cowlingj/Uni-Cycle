@@ -1,5 +1,4 @@
 resource "helm_release" "gateway" {
-  force_update = true
 
   depends_on = [ var._depends_on, helm_release.istio ]
 
@@ -31,5 +30,10 @@ resource "helm_release" "gateway" {
   set {
     name = "domainName"
     value = ""
+  }
+
+  set {
+    name = "useHttps"
+    value = false
   }
 }

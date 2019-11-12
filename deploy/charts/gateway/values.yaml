@@ -1,3 +1,4 @@
+useHtttps: true
 domainName: null
 certIssuer: letsencrypt
 cms:
