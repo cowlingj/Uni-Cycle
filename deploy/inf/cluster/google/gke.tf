@@ -68,7 +68,7 @@ resource "null_resource" "wait" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 300"
+    command = "sleep 180"
   }
 }
 
