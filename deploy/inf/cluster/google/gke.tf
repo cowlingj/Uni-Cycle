@@ -29,8 +29,7 @@ resource "google_container_node_pool" "primary_nodes" {
   provider   = "google-beta"
   name       = "my-node-pool"
   cluster    = google_container_cluster.main[count.index].name
-  # node_count = 1
-  initial_node_count = 1
+  initial_node_count = 3
 
   autoscaling {
     min_node_count = 0
@@ -68,7 +67,7 @@ resource "null_resource" "wait" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 180"
+    command = "sleep 60"
   }
 }
 
