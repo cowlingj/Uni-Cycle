@@ -1,7 +1,6 @@
 resource "random_password" "cms_db_password" {
   length = 32
-  special = true
-  override_special = "$-_.+!*'()" # don't include things to confuse uris
+  special = false
   keepers = {
     storage_id = var.pvc_name
   }
@@ -9,8 +8,7 @@ resource "random_password" "cms_db_password" {
 
 resource "random_password" "root_db_password" {
   length = 32
-  special = true
-  override_special = "$-_.+!*'()" # don't include things to confuse uris
+  special = false
   keepers = {
     storage_id = var.pvc_name
   }
@@ -78,7 +76,7 @@ resource "helm_release" "backend" {
 
   set {
     name = "mongodb.volumePermissions.enabled"
-    value = true
+    value = var.cluster == "google"
   }
 
   set_sensitive { # TODO: integrate into backend (use an override host flag)
