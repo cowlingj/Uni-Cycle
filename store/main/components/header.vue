@@ -1,8 +1,10 @@
 <template>
   <div>
-    <header class="flex items-center justify-between flex-no-wrap p-6">
+    <header
+      class="flex items-center justify-between flex-no-wrap p-6 bg-primary"
+    >
       <!-- prettier-ignore -->
-      <img class="mr-6 lg:hidden" id="menu" src="~assets/img/menu.svg" alt="menu icon">
+      <img id="menu" class="mr-6 lg:hidden" src="~assets/img/menu.svg" alt="menu icon">
       <h1 class="text-xl">Uni-Cycle</h1>
       <div class="flex-grow" />
       <nav
@@ -40,18 +42,10 @@ export default {
 
 <style scoped>
 nav * {
-  @apply text-gray-600;
+  @apply text-dark;
 }
 
-nav .nuxt-link-exact-active {
-  @apply text-black;
-}
-
-nav *:hover {
-  @apply text-gray-800;
-}
-
-nav *:active {
-  @apply text-black;
+h1 {
+  font-family: 'Caviar Dreams';
 }
 </style>

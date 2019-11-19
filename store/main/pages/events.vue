@@ -49,7 +49,8 @@ export default {
         }
       }
     } catch (err) {
-      // todo: only in dev mode
+      // TODO: only in dev mode
+      // eslint-disable-next-line
       console.log(err)
       return { err }
     }

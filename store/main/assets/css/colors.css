@@ -1,0 +1,46 @@
+:root {
+  --color-primary__hue: 101;
+  --color-primary__saturation: 100%;
+  --color-primary__lightness: 59%;
+  --color-primary: hsl(
+      var(--color-primary__hue),
+      var(--color-primary__saturation),
+      var(--color-primary__lightness)
+  );
+
+  --color-secodary__hue: 145;
+  --color-secodary__saturation: 97%;
+  --color-secodary__lightness: 46%;
+  --color-secondary: hsl(
+      var(--color-secondary__hue),
+      var(--color-secondary__saturation),
+      var(--color-secondary__lightness)
+  );
+
+  --color-accent__hue: 59;
+  --color-accent__saturation: 100%;
+  --color-accent__lightness: 60%;
+  --color-accent: hsl(
+      var(--color-accent__hue),
+      var(--color-accent__saturation),
+      var(--color-accent__lightness)
+  );
+
+  --color-dark__hue: 222;
+  --color-dark__saturation: 10%;
+  --color-dark__lightness: 20%;
+  --color-dark: hsl(
+      var(--color-dark__hue),
+      var(--color-dark__saturation),
+      var(--color-dark__lightness)
+  );
+
+  --color-light__hue: 100;
+  --color-light__saturation: 100%;
+  --color-light__lightness: 99%;
+  --color-light: hsl(
+      var(--color-light__hue),
+      var(--color-light__saturation),
+      var(--color-light__lightness)
+  );
+}
