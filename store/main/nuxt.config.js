@@ -24,9 +24,9 @@ export default {
    ** Global CSS
    */
   css: [
-    "~assets/css/browser-settings.css",
-    "~assets/css/colors.css",
-    "~assets/css/fonts.css"
+    '~assets/css/browser-settings.css',
+    '~assets/css/colors.css',
+    '~assets/css/fonts.css'
   ],
   /*
    ** Plugins to load before mounting the App
