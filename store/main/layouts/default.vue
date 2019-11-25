@@ -1,7 +1,7 @@
 <template>
-  <div class="w-screen h-screen root block bg-light">
+  <div class="w-screen h-screen root bg-light">
     <Header active-page="home" class="z-10" />
-    <nuxt />
+    <nuxt class="bg-bg" />
   </div>
 </template>
 
@@ -14,3 +14,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.root {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+}
+</style>
