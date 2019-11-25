@@ -78,40 +78,11 @@ export default {
         }
       }
     } catch (err) {
-      // TODO: only in dev mode
-      // eslint-disable-next-line
-      console.log(err)
-      return {
-        err: null,
-        data: {
-          events: [
-            {
-              title: 'this is  a test',
-              description: 'this is a description'
-            },
-            {
-              title: 'this is  a test',
-              description: 'this is a description'
-            },
-            {
-              title: 'this is  a test',
-              description: 'this is a description'
-            },
-            {
-              title: 'this is  a test',
-              description: 'this is a description'
-            },
-            {
-              title: 'this is  a test',
-              description: 'this is a description'
-            },
-            {
-              title: 'this is  a test',
-              description: 'this is a description'
-            }
-          ]
-        }
+      if (process.server || context.app.$env.NODE_ENV === 'development') {
+        // eslint-disable-next-line
+        console.log(err)
       }
+      return { err }
     }
   }
 }
