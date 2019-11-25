@@ -5,10 +5,10 @@
       id="error-message"
       class="h-full w-full flex flex-col items-center justify-center"
     >
-      <p class="text-center font-brand text-3xl">
+      <p class="text-center font-brand text-3xl text-fg">
         Sorry, there's a problem getting events
       </p>
-      <p class="text-center font-brand text-3xl">
+      <p class="text-center font-brand text-3xl text-fg">
         please try later
       </p>
       <!-- TODO: Go Back -->
