@@ -3,8 +3,12 @@
     <header
       class="flex items-center justify-between flex-no-wrap p-6 bg-primary"
     >
-      <!-- prettier-ignore -->
-      <img id="menu" class="mr-6 lg:hidden" src="~assets/img/menu.svg" alt="menu icon">
+      <img
+        id="menu"
+        class="mr-6 lg:hidden"
+        src="~assets/img/menu.svg"
+        alt="menu icon"
+      />
       <h1 class="text-xl">Uni-Cycle</h1>
       <div class="flex-grow" />
       <nav
@@ -15,7 +19,7 @@
         <nuxt-link exact replace to="/events" class="mr-6">Events</nuxt-link>
       </nav>
     </header>
-    <nav id="nav" class="hidden p-3">
+    <nav id="nav" class="hidden p-3 bg-bg">
       <nuxt-link exact replace to="/" class="block py-1">Home</nuxt-link>
       <nuxt-link exact replace to="/events" class="block py-1">
         Events
@@ -42,10 +46,20 @@ export default {
 
 <style scoped>
 nav * {
-  @apply text-dark;
+  @apply text-fg;
 }
 
 h1 {
   font-family: 'Caviar Dreams';
+}
+
+@media (prefers-color-scheme: dark) {
+  header {
+    background-color: var(--color-bg);
+  }
+
+  h1 {
+    color: var(--color-primary);
+  }
 }
 </style>

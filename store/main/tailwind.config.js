@@ -7,11 +7,11 @@
 module.exports = {
   theme: {
     colors: {
-      primary: "#70ff2d",
-      secondary: "#04e762",
-      accent: "#fffc31",
-      dark: "#2e3138",
-      light: "#fdfffc" 
+      primary: 'var(--color-primary)',
+      secondary: 'var(--color-secondary)',
+      accent: 'var(--color-accent)',
+      fg: 'var(--color-fg)',
+      bg: 'var(--color-bg)'
     },
     inset: {
       '0': 0,
