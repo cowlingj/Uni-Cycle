@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen root bg-light">
+  <div class="w-screen h-screen max-w-full root bg-bg">
     <Header active-page="home" class="z-10" />
     <nuxt class="bg-bg" />
   </div>
