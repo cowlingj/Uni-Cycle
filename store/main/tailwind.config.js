@@ -13,11 +13,13 @@ module.exports = {
       fg: 'var(--color-fg)',
       bg: 'var(--color-bg)'
     },
-    inset: {
-      '0': 0,
-      auto: 'auto',
-      '1/2': '50%',
-      '1/3': '33%'
+    extend: {
+      inset: {
+        '1/3': '33%'
+      },
+      fontFamily: {
+        brand: [ 'Caviar Dreams', 'Open Sans', 'Helvetica', 'Arial', 'sans-serif' ]
+      }
     }
   },
   variants: {},
