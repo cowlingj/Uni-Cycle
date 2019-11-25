@@ -1,16 +1,26 @@
 <template>
   <article class="h-full w-full">
-    <section v-if="err" id="error-message" class="w-4/5">
-      <p class="text-center">
-        Sorry, there's a problem getting events, please try later
+    <section
+      v-if="err"
+      id="error-message"
+      class="h-full w-full flex flex-col items-center justify-center"
+    >
+      <p class="text-center font-brand text-3xl">
+        Sorry, there's a problem getting events
       </p>
+      <p class="text-center font-brand text-3xl">
+        please try later
+      </p>
+      <!-- TODO: Go Back -->
     </section>
     <section
       v-else-if="data.events.length == 0"
       class="overflow-hidden h-full w-full flex flex-col items-center"
     >
       <div class="flex-1" aria-hidden="true"></div>
-      <h1 class="text-3xl text-center text-fg">Nothing to see here...</h1>
+      <h1 class="text-3xl text-center text-fg text-brand">
+        Nothing to see here...
+      </h1>
       <div class="flex-1" aria-hidden="true"></div>
       <p class="text-center text-fg">There are no events right now</p>
       <p class="text-center text-fg">please check back later</p>
@@ -19,24 +29,24 @@
         class="object-contain object-right-bottom self-end flex-3"
       />
     </section>
-    <section v-else id="events-list" class="w-4/5 overflow-y-scroll">
+    <section
+      v-else
+      id="events-list"
+      class="overflow-y-auto overflow-x-hidden h-full w-full flex flex-col items-center"
+    >
       <div
         v-for="(event, index) in data.events"
         :key="index"
-        class="shadow-lg overflow-hidden p-4 event"
+        class="shadow-lg overflow-hidden p-4 m-6 w-4/5 "
       >
-        <h1 class="text-3xl leading-loose">{{ event.title }}</h1>
-        <p class="text-base">{{ event.description }}</p>
+        <h1 class="text-3xl leading-loose text-fg">{{ event.title }}</h1>
+        <p class="text-base text-fg">{{ event.description }}</p>
       </div>
     </section>
   </article>
 </template>
 
 <style scoped>
-h1 {
-  font-family: 'Caviar Dreams';
-}
-
 .flex-3 {
   flex: 3 0.3 0;
 }
@@ -71,7 +81,37 @@ export default {
       // TODO: only in dev mode
       // eslint-disable-next-line
       console.log(err)
-      return { err }
+      return {
+        err: null,
+        data: {
+          events: [
+            {
+              title: 'this is  a test',
+              description: 'this is a description'
+            },
+            {
+              title: 'this is  a test',
+              description: 'this is a description'
+            },
+            {
+              title: 'this is  a test',
+              description: 'this is a description'
+            },
+            {
+              title: 'this is  a test',
+              description: 'this is a description'
+            },
+            {
+              title: 'this is  a test',
+              description: 'this is a description'
+            },
+            {
+              title: 'this is  a test',
+              description: 'this is a description'
+            }
+          ]
+        }
+      }
     }
   }
 }

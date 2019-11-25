@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shadow-lg">
     <header
       class="flex items-center justify-between flex-no-wrap p-6 bg-primary"
     >
@@ -9,7 +9,7 @@
         src="~assets/img/menu.svg"
         alt="menu icon"
       />
-      <h1 class="text-xl">Uni-Cycle</h1>
+      <h1 class="text-xl font-brand">Uni-Cycle</h1>
       <div class="flex-grow" />
       <nav
         id="nav--lg"
@@ -19,9 +19,16 @@
         <nuxt-link exact replace to="/events" class="mr-6">Events</nuxt-link>
       </nav>
     </header>
-    <nav id="nav" class="hidden p-3 bg-bg">
-      <nuxt-link exact replace to="/" class="block py-1">Home</nuxt-link>
-      <nuxt-link exact replace to="/events" class="block py-1">
+    <nav id="nav" class="hidden p-3 bg-secondary">
+      <nuxt-link exact replace to="/" class="block py-1 text-center text-lg">
+        Home
+      </nuxt-link>
+      <nuxt-link
+        exact
+        replace
+        to="/events"
+        class="block py-1 text-center text-lg"
+      >
         Events
       </nuxt-link>
     </nav>
@@ -49,17 +56,18 @@ nav * {
   @apply text-fg;
 }
 
-h1 {
-  font-family: 'Caviar Dreams';
-}
-
 @media (prefers-color-scheme: dark) {
-  header {
+  header,
+  nav {
     background-color: var(--color-bg);
   }
 
   h1 {
     color: var(--color-primary);
+  }
+
+  nav * {
+    @apply text-secondary;
   }
 }
 </style>
