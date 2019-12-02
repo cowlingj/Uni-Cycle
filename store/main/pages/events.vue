@@ -34,6 +34,7 @@
       id="events-list"
       class="overflow-y-auto overflow-x-hidden h-full w-full flex flex-col items-center"
     >
+      <!-- TODO: make more card like? -->
       <div
         v-for="(event, index) in data.events"
         :key="index"
@@ -68,7 +69,7 @@ export default {
 
     try {
       const res = await axios.get(`${url}/graphql`, {
-        params: { query: '{ events { title, description } }' }
+        params: { query: '{ allEvents { title, description } }' }
       })
 
       return {
