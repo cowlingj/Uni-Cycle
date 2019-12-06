@@ -18,7 +18,13 @@ module.exports = {
         '1/3': '33%'
       },
       fontFamily: {
-        brand: [ 'Caviar Dreams', 'Open Sans', 'Helvetica', 'Arial', 'sans-serif' ]
+        brand: [
+          'Caviar Dreams',
+          'Open Sans',
+          'Helvetica',
+          'Arial',
+          'sans-serif'
+        ]
       }
     }
   },

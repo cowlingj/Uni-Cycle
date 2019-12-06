@@ -7,8 +7,8 @@ describe('Event', () => {
     const wrapper = shallowMount(Event, {
       data: () => ({ err: null, data: { events: [] } })
     })
-    expect(wrapper.element.querySelector('#error-message')).toBeNull()
-    expect(wrapper.element.querySelectorAll('.event').length).toBe(0)
+    expect(wrapper.find('#error-message').exists()).toBe(false)
+    expect(wrapper.findAll('.event').length).toBe(0)
   })
 
   it('renders a non empty list of events', () => {
@@ -23,27 +23,34 @@ describe('Event', () => {
     }
 
     const wrapper = shallowMount(Event, { data: () => data })
-    expect(wrapper.element.querySelector('#error-message')).toBeNull()
-    expect(wrapper.element.querySelectorAll('.event').length).toBe(
+
+    expect(wrapper.find('#error-message').exists()).toBe(false)
+    expect(wrapper.findAll('#events-list>*').length).toBe(
       data.data.events.length
     )
-
-    Array.from(wrapper.element.children).forEach((child, index) => {
-      expect(child.innerHTML).toContain(data.data.events[index].title)
-      expect(child.innerHTML).toContain(data.data.events[index].description)
-    })
+    Array.from(wrapper.findAll('#events-list>*').wrappers).forEach(
+      (item, index) => {
+        expect(item.html()).toContain(data.data.events[index].title)
+        expect(item.html()).toContain(data.data.events[index].description)
+      }
+    )
   })
 
   it('renders error message', () => {
     const err = { err: 'err messsage' }
     const wrapper = shallowMount(Event, { data: () => err })
 
-    expect(wrapper.element.querySelectorAll('.event').length).toBe(0)
-    expect(wrapper.element.querySelector('#error-message')).not.toBeNull()
+    expect(wrapper.find('#events-list').exists()).toBe(false)
+    expect(wrapper.find('#error-message').exists()).toBe(true)
   })
 
   it('asyncData handles error', async (done) => {
-    const context = { app: { $getCmsUrl: () => 'URL' } }
+    const context = {
+      app: {
+        $getCmsUrl: () => 'URL',
+        $env: { NODE_ENV: 'production' }
+      }
+    }
 
     axios.get = jest.fn(() => {
       throw new Error('test error')
@@ -52,24 +59,28 @@ describe('Event', () => {
     const res = await Event.asyncData(context)
 
     expect(res.err).not.toBeNull()
-
+    expect(axios.get.mock.calls.length).toBe(1)
+    expect(axios.get.mock.calls[0][0]).toBe(context.app.$getCmsUrl())
     done()
   })
 
   it('asyncData returns a list of events', async (done) => {
-    const context = { app: { $getCmsUrl: () => 'URL' } }
-    const mock = { err: null, data: { data: { events: [] } } }
+    const context = {
+      app: {
+        $getCmsUrl: () => 'URL',
+        $env: { NODE_ENV: 'production' }
+      }
+    }
+    const mock = { err: null, data: { data: { allEvents: [] } } }
 
     axios.get = jest.fn(() => mock)
 
     const res = await Event.asyncData(context)
 
     expect(res.err).toBeNull()
-    expect(res.data.events).toBe(mock.data.data.events)
+    expect(res.data.events).toBe(mock.data.data.allEvents)
     expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(
-      `${context.app.$getCmsUrl()}/graphql`
-    )
+    expect(axios.get.mock.calls[0][0]).toBe(context.app.$getCmsUrl())
 
     done()
   })

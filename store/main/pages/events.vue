@@ -75,12 +75,13 @@ export default {
       return {
         err: null,
         data: {
-          events: res.data.data.events
+          events: res.data.data.allEvents
         }
       }
     } catch (err) {
+      /* istanbul ignore next */
       if (process.server || context.app.$env.NODE_ENV === 'development') {
-        // eslint-disable-next-line
+        /* eslint-disable-next-line */
         console.log(err)
       }
       return { err }

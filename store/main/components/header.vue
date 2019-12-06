@@ -8,6 +8,7 @@
         class="mr-6 lg:hidden"
         src="~assets/img/menu.svg"
         alt="menu icon"
+        @click="toggleMenu"
       />
       <h1 class="text-xl font-brand">Uni-Cycle</h1>
       <div class="flex-grow" />
@@ -37,9 +38,9 @@
 
 <script>
 export default {
-  mounted() {
-    const hiddenClass = 'hidden'
-    document.getElementById('menu').onclick = (event) => {
+  methods: {
+    toggleMenu(event) {
+      const hiddenClass = 'hidden'
       const classes = document.getElementById('nav').classList
       if (classes.contains(hiddenClass)) {
         classes.remove(hiddenClass)
