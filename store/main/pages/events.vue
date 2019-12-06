@@ -68,7 +68,7 @@ export default {
     const url = context.app.$getCmsUrl()
 
     try {
-      const res = await axios.get(`${url}/graphql`, {
+      const res = await axios.get(`${url}`, {
         params: { query: '{ allEvents { title, description } }' }
       })
 

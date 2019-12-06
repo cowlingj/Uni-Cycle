@@ -51,7 +51,10 @@ export default {
     [
       'nuxt-env',
       {
-        keys: [{ key: 'CMS_CLUSTER_URL' }]
+        keys: [
+          { key: 'CMS_INTERNAL_ENDPOINT' },
+          { key: 'CMS_BASE_PATH' }
+        ]
       }
     ]
   ],
