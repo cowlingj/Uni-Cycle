@@ -35,14 +35,17 @@
       class="overflow-y-auto overflow-x-hidden h-full w-full flex flex-col items-center"
     >
       <!-- TODO: make more card like? -->
-      <div
+
+      <Event
         v-for="(event, index) in data.events"
         :key="index"
-        class="shadow-lg overflow-hidden p-4 m-6 w-4/5 "
-      >
-        <h1 class="text-3xl leading-loose text-fg">{{ event.title }}</h1>
-        <p class="text-base text-fg">{{ event.description }}</p>
-      </div>
+        :title="event.title"
+        :description="event.description"
+        :location="event.location"
+        :start="event.start"
+        :end="event.end"
+        :ical="event.ical"
+      />
     </section>
   </article>
 </template>
@@ -55,8 +58,12 @@
 
 <script>
 import axios from 'axios'
+import Event from '@/components/event-card'
 
 export default {
+  components: {
+    Event
+  },
   data() {
     return {
       data: {

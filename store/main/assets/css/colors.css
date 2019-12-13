@@ -1,17 +1,21 @@
 :root {
   --color-primary: #70fe2d;
-  --color-secondary: #03e762;
   --color-accent: #fffb32;
-  --color-bg: #fbfff9;
+  --color-bg_bot: #fbfbfd;
+  --color-bg_mid: #fbfff9;
+  --color-bg_top: #fbfff9;
+  --color-bg_highlight: #f2f5f8;
   --color-fg: #2d3038;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --color-primary: #70fe2d;
-        --color-secondary: #03e762;
         --color-accent: #fffb32;
-        --color-bg: #2d3038;
+        --color-bg_bot: #2d3038;
+        --color-bg_mid: #3a3b44;
+        --color-bg_top: #404450;
+        --color-bg_highlight: #525766;
         --color-fg: #fbfff9;
     }
 }

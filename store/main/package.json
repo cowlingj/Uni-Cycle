@@ -26,6 +26,7 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/svg": "^0.1.6",
+    "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "nuxt-env": "^0.1.0"
   },
@@ -44,6 +45,7 @@
     "graphql": "^14.5.8",
     "husky": "^2.6.0",
     "jest": "^24.1.0",
+    "jest-transform-stub": "^2.0.0",
     "jsdom": "^15.1.1",
     "lint-staged": "^8.2.1",
     "prettier": "^1.16.4",

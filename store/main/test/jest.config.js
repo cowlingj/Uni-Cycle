@@ -1,8 +1,9 @@
 module.exports = {
   rootDir: '../',
-  testMatch: ['<rootDir>/test/**/*.spec.js', '<rootDir>/**/*.unit.js'],
-  testPathIgnorePatterns: ['<rootDir>/node_modules'],
+  testMatch: ['<rootDir>/test/**/*.spec.js', '<rootDir>/**/*.spec.js'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/integration-test'],
   moduleNameMapper: {
+    '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)(\\?.*)$': 'jest-transform-stub',
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
     '^vue$': 'vue/dist/vue.common.js'

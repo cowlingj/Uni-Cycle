@@ -8,10 +8,12 @@ module.exports = {
   theme: {
     colors: {
       primary: 'var(--color-primary)',
-      secondary: 'var(--color-secondary)',
       accent: 'var(--color-accent)',
       fg: 'var(--color-fg)',
-      bg: 'var(--color-bg)'
+      bg_bot: 'var(--color-bg_bot)',
+      bg_mid: 'var(--color-bg_mid)',
+      bg_top: 'var(--color-bg_top)',
+      bg_highlight: 'var(--color-bg_highlight)'
     },
     extend: {
       inset: {
@@ -25,6 +27,10 @@ module.exports = {
           'Arial',
           'sans-serif'
         ]
+      },
+      screens: {
+        'dark': {
+          'raw': 'screen and (prefers-color-scheme: dark)'},
       }
     }
   },

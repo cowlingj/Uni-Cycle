@@ -1,34 +1,45 @@
 <template>
-  <div class="shadow-lg">
+  <div class="shadow-md">
     <header
-      class="flex items-center justify-between flex-no-wrap p-6 bg-primary"
+      class="flex items-center justify-between flex-no-wrap p-6 bg-primary dark:bg-bg_mid"
     >
-      <img
+      <div
         id="menu"
-        class="mr-6 lg:hidden"
-        src="~assets/img/menu.svg"
-        alt="menu icon"
+        class="mr-6 lg:hidden h-6 w-6 flex-none"
         @click="toggleMenu"
-      />
-      <h1 class="text-xl font-brand">Uni-Cycle</h1>
+      >
+        <MenuIcon
+          class="h-full w-full fill-current text-fg dark:text-primary"
+          alt="menu icon"
+        />
+      </div>
+      <h1 class="text-xl font-brand text-fg dark:text-primary">Uni-Cycle</h1>
       <div class="flex-grow" />
       <nav
-        id="nav--lg"
-        class="hidden lg:flex items-center justify-between flex-wrap"
+        class="hidden lg:flex items-center justify-between flex-wrap text-fg dark:text-primary"
       >
         <nuxt-link exact replace to="/" class="mr-6">Home</nuxt-link>
         <nuxt-link exact replace to="/events" class="mr-6">Events</nuxt-link>
       </nav>
     </header>
-    <nav id="nav" class="hidden p-3 bg-secondary">
-      <nuxt-link exact replace to="/" class="block py-1 text-center text-lg">
+    <nav
+      id="nav"
+      class="hidden lg:hidden p-3 bg-primary dark:bg-bg_mid dark:bg-bg text-fg dark:text-primary"
+      @click="toggleMenu"
+    >
+      <nuxt-link
+        exact
+        replace
+        to="/"
+        class="block py-1 text-center text-lg hover:bg-bg_highlight"
+      >
         Home
       </nuxt-link>
       <nuxt-link
         exact
         replace
         to="/events"
-        class="block py-1 text-center text-lg"
+        class="block py-1 text-center text-lg  hover:bg-bg_highlight"
       >
         Events
       </nuxt-link>
@@ -37,11 +48,16 @@
 </template>
 
 <script>
+import MenuIcon from '@/assets/img/menu.svg?inline'
+
 export default {
+  components: {
+    MenuIcon
+  },
   methods: {
     toggleMenu(event) {
       const hiddenClass = 'hidden'
-      const classes = document.getElementById('nav').classList
+      const classes = this.$el.querySelector('#nav').classList
       if (classes.contains(hiddenClass)) {
         classes.remove(hiddenClass)
       } else {
@@ -51,24 +67,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-nav * {
-  @apply text-fg;
-}
-
-@media (prefers-color-scheme: dark) {
-  header,
-  nav {
-    background-color: var(--color-bg);
-  }
-
-  h1 {
-    color: var(--color-primary);
-  }
-
-  nav * {
-    @apply text-secondary;
-  }
-}
-</style>

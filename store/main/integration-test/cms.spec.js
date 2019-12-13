@@ -12,21 +12,36 @@ describe('Cms route', () => {
   let nuxt
   let server
 
-  const mockStrings = () => [{ name: 'name-1', value: 'value-1' }]
+  const events = [
+    {
+      title: 'title',
+      description: 'desc',
+      start: 'start',
+      end: 'end',
+      location: 'location',
+      locationUrl: 'locationUrl',
+      ical: 'ical'
+    }
+  ]
 
   beforeAll(async (done) => {
     server = (await new ApolloServer({
       typeDefs: gql`
-        type StringRes {
-          name: String!
-          value: String!
+        type Event {
+          title: String!
+          description: String!
+          start: String!
+          end: String!
+          location: String!
+          locationUrl: String!
+          ical: String!
         }
         type Query {
-          strings: [StringRes]
+          allEvents: [Event]
         }
       `,
       resolvers: {
-        Query: { strings: mockStrings }
+        Query: { allEvents: () => events }
       }
     }).listen({
       host: 'localhost',
@@ -36,23 +51,37 @@ describe('Cms route', () => {
     nuxt = new Nuxt(
       Object.assign({}, config, {
         rootDir: path.join(__dirname, '..'),
-        dev: false
+        dev: false,
+        server: {
+          host: 'localhost',
+          port: 8081
+        }
       })
     )
 
-    process.env.CMS_URL = 'http://localhost:8000'
+    process.env.CMS_INTERNAL_ENDPOINT = 'http://localhost:8000'
+    process.env.CMS_BASE_PATH = '/'
 
     await new Builder(nuxt).build()
+
     done()
   }, 25000)
 
-  afterAll((done) => {
+  afterAll(async (done) => {
     nuxt.close()
     server.close()
+    done()
   })
 
   it('displays strings from service', async (done) => {
-    const { html, error, redirected } = await nuxt.renderRoute('/cms')
+    const { html, error, redirected } = await nuxt.renderRoute('/events', {
+      req: {
+        protocol: 'http',
+        headers: {
+          host: `http://localhost:8000`
+        }
+      }
+    })
 
     expect(error).toBeNull()
     expect(redirected).toBe(false)
@@ -64,8 +93,9 @@ describe('Cms route', () => {
     Array.from(
       dom.window.document.querySelector('#string-resource-list').children
     ).forEach((item, index) => {
-      expect(item.innerHTML).toContain(mockStrings()[index].name)
-      expect(item.innerHTML).toContain(mockStrings()[index].value)
+      Object.keys(events[index]).forEach((key) => {
+        expect(item.innerHTML).toContain(events[index][key])
+      })
     })
     done()
   })

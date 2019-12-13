@@ -2,7 +2,6 @@ module.exports = {
   rootDir: '..',
   testMatch: [
     '<rootDir>/integration-test/**/*.spec.js',
-    '<rootDir>/**/*.integration.js'
   ],
   testPathIgnorePatterns: ['<rootDir>/node_modules'],
   moduleNameMapper: {
