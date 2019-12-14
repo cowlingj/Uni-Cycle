@@ -76,7 +76,10 @@ export default {
 
     try {
       const res = await axios.get(`${url}`, {
-        params: { query: '{ allEvents { start, end, title, description, location, ical } }' }
+        params: {
+          query:
+            '{ allEvents { start, end, title, description, location, ical } }'
+        }
       })
 
       return {

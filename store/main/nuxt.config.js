@@ -31,7 +31,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: './plugins/cms-path.js' }],
+  plugins: [
+    { src: './plugins/cms-path.js' },
+    { src: './plugins/update-locale.js' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -52,7 +55,11 @@ export default {
     [
       'nuxt-env',
       {
-        keys: [{ key: 'CMS_INTERNAL_ENDPOINT' }, { key: 'CMS_BASE_PATH' }]
+        keys: [
+          { key: 'CMS_INTERNAL_ENDPOINT' },
+          { key: 'CMS_BASE_PATH' },
+          { key: 'DEFAULT_LOCALE', default: 'en-gb' }
+        ]
       }
     ]
   ],
@@ -76,6 +83,9 @@ export default {
   },
   router: {
     base: '/store/',
-    middleware: ['cms-path']
+    middleware: [
+      'cms-path',
+      'auto-locale'
+    ]
   }
 }

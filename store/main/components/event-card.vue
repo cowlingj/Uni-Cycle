@@ -12,7 +12,7 @@
             {{ relativeStart }}
           </h2>
         </div>
-        <h2 v-if="location" class="location text-sm lg:text-base text-fg">
+        <h2 class="location text-sm lg:text-base text-fg">
           {{ location }}
         </h2>
       </div>
@@ -28,7 +28,7 @@
           class="description text-base text-fg font-sans whitespace-pre-wrap break-words"
           >{{ description }}</pre
         >
-        <a v-if="ical" class="ical text-sm lg:text-base text-fg" :href="ical">
+        <a class="ical text-sm lg:text-base text-fg" :href="ical">
           add to calendar
         </a>
       </div>

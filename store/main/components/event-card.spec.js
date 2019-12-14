@@ -1,14 +1,13 @@
 import { shallowMount } from '@vue/test-utils'
-import Event from './event-card.vue'
 import Vue from 'vue'
 import moment from 'moment'
+import Event from './event-card.vue'
 
 jest.mock('moment')
 
 // TODO: moment return values and mocking
 
 describe('Event Card', () => {
-
   afterEach(() => {
     moment.mockClear()
   })
@@ -28,33 +27,35 @@ describe('Event Card', () => {
     const relativeStart = jest.fn(() => relativeStartText)
 
     const format = jest.fn()
-    format
-      .mockReturnValueOnce(startText)
-      .mockReturnValueOnce(endText)
+    format.mockReturnValueOnce(startText).mockReturnValueOnce(endText)
 
-
-    moment
-      .mockReturnValue({ fromNow: relativeStart, format })
+    moment.mockReturnValue({ fromNow: relativeStart, format })
 
     const wrapper = shallowMount(Event, {
       propsData: {
-        title, location, locationLink, start, end, description, ical
+        title,
+        location,
+        locationLink,
+        start,
+        end,
+        description,
+        ical
       }
     })
 
-    expect(wrapper.find(".title").html()).toContain(title)
-    expect(wrapper.find(".start-string").html()).toContain(relativeStartText)
-    expect(wrapper.find(".location").html()).toContain(location)
-    expect(wrapper.find(".start").html()).toContain(startText)
-    expect(wrapper.find(".end").html()).toContain(endText)
-    expect(wrapper.find(".description").html()).toContain(description)
-    expect(wrapper.find(".ical").attributes('href')).toContain(ical)
+    expect(wrapper.find('.title').html()).toContain(title)
+    expect(wrapper.find('.start-string').html()).toContain(relativeStartText)
+    expect(wrapper.find('.location').html()).toContain(location)
+    expect(wrapper.find('.start').html()).toContain(startText)
+    expect(wrapper.find('.end').html()).toContain(endText)
+    expect(wrapper.find('.description').html()).toContain(description)
+    expect(wrapper.find('.ical').attributes('href')).toContain(ical)
 
     expect(moment.mock.calls.length).toBe(3)
     expect(moment.mock.calls[0][0]).toBe(start)
   })
 
-  it('Must expand on click if not expanded', async(done) => {
+  it('Must expand on click if not expanded', async (done) => {
     const title = 'title'
     const location = 'Somewhere'
     const locationLink = 'Somewhere'
@@ -69,17 +70,19 @@ describe('Event Card', () => {
     const relativeStart = jest.fn(() => relativeStartText)
 
     const format = jest.fn()
-    format
-      .mockReturnValueOnce(startText)
-      .mockReturnValueOnce(endText)
+    format.mockReturnValueOnce(startText).mockReturnValueOnce(endText)
 
-
-    moment
-      .mockReturnValue({ fromNow: relativeStart, format })
+    moment.mockReturnValue({ fromNow: relativeStart, format })
 
     const wrapper = shallowMount(Event, {
       propsData: {
-        title, location, locationLink, start, end, description, ical
+        title,
+        location,
+        locationLink,
+        start,
+        end,
+        description,
+        ical
       }
     })
 
@@ -92,7 +95,7 @@ describe('Event Card', () => {
     done()
   })
 
-  it('Must contract on click if expanded', async(done) => {
+  it('Must contract on click if expanded', async (done) => {
     const title = 'title'
     const location = 'Somewhere'
     const locationLink = 'Somewhere'
@@ -107,17 +110,19 @@ describe('Event Card', () => {
     const relativeStart = jest.fn(() => relativeStartText)
 
     const format = jest.fn()
-    format
-      .mockReturnValueOnce(startText)
-      .mockReturnValueOnce(endText)
+    format.mockReturnValueOnce(startText).mockReturnValueOnce(endText)
 
-
-    moment
-      .mockReturnValue({ fromNow: relativeStart, format })
+    moment.mockReturnValue({ fromNow: relativeStart, format })
 
     const wrapper = shallowMount(Event, {
       propsData: {
-        title, location, locationLink, start, end, description, ical
+        title,
+        location,
+        locationLink,
+        start,
+        end,
+        description,
+        ical
       }
     })
 

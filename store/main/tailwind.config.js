@@ -29,8 +29,9 @@ module.exports = {
         ]
       },
       screens: {
-        'dark': {
-          'raw': 'screen and (prefers-color-scheme: dark)'},
+        dark: {
+          raw: 'screen and (prefers-color-scheme: dark)'
+        }
       }
     }
   },

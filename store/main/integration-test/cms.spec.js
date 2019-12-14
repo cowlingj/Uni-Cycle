@@ -6,7 +6,11 @@ import path from 'path'
 import { ApolloServer, gql } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
+import axios from 'axios'
 import config from '@/nuxt.config.js'
+
+process.env.CMS_INTERNAL_ENDPOINT = 'http://localhost:8081'
+process.env.CMS_BASE_PATH = '/'
 
 describe('Cms route', () => {
   let nuxt
@@ -16,10 +20,20 @@ describe('Cms route', () => {
     {
       title: 'title',
       description: 'desc',
-      start: 'start',
-      end: 'end',
+      start: '2020-01-01 00:00',
+      end: '2020-01-02 00:00',
       location: 'location',
-      locationUrl: 'locationUrl',
+      ical: 'ical'
+    }
+  ]
+
+  const expected = [
+    {
+      title: 'title',
+      description: 'desc',
+      start: '1/1/2020',
+      end: '2/1/2020',
+      location: 'location',
       ical: 'ical'
     }
   ]
@@ -33,7 +47,6 @@ describe('Cms route', () => {
           start: String!
           end: String!
           location: String!
-          locationUrl: String!
           ical: String!
         }
         type Query {
@@ -45,7 +58,7 @@ describe('Cms route', () => {
       }
     }).listen({
       host: 'localhost',
-      port: 8080
+      port: 8081
     })).server
 
     nuxt = new Nuxt(
@@ -54,47 +67,38 @@ describe('Cms route', () => {
         dev: false,
         server: {
           host: 'localhost',
-          port: 8081
+          port: 8080
         }
       })
     )
 
-    process.env.CMS_INTERNAL_ENDPOINT = 'http://localhost:8000'
-    process.env.CMS_BASE_PATH = '/'
-
     await new Builder(nuxt).build()
+    await nuxt.listen(8080)
 
     done()
   }, 25000)
 
-  afterAll(async (done) => {
+  afterAll((done) => {
     nuxt.close()
     server.close()
-    done()
   })
 
   it('displays strings from service', async (done) => {
-    const { html, error, redirected } = await nuxt.renderRoute('/events', {
-      req: {
-        protocol: 'http',
-        headers: {
-          host: `http://localhost:8000`
-        }
-      }
-    })
+    const { data, status } = await axios.get(
+      'http://localhost:8080/store/events'
+    )
 
-    expect(error).toBeNull()
-    expect(redirected).toBe(false)
+    expect(status).toBe(200)
 
-    const dom = new JSDOM(html)
+    const dom = new JSDOM(data)
 
     expect(dom.window.document.querySelector('#error-message')).toBeNull()
 
     Array.from(
-      dom.window.document.querySelector('#string-resource-list').children
+      dom.window.document.querySelector('#events-list').children
     ).forEach((item, index) => {
-      Object.keys(events[index]).forEach((key) => {
-        expect(item.innerHTML).toContain(events[index][key])
+      Object.keys(expected[index]).forEach((key) => {
+        expect(item.innerHTML).toContain(expected[index][key])
       })
     })
     done()
