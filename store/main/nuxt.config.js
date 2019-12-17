@@ -83,9 +83,6 @@ export default {
   },
   router: {
     base: '/store/',
-    middleware: [
-      'cms-path',
-      'auto-locale'
-    ]
+    middleware: ['cms-path', 'auto-locale']
   }
 }

@@ -41,12 +41,12 @@ import moment from 'moment'
 
 export default {
   props: {
-    title: String,
-    start: [String, Date],
-    end: [String, Date],
-    location: String,
-    description: String,
-    ical: String
+    title: { type: String, required: true },
+    start: { type: [String, Date], required: true },
+    end: { type: [String, Date], required: true },
+    location: { type: String, required: true },
+    description: { type: String, required: true },
+    ical: { type: String, required: true }
   },
   computed: {
     relativeStart() {
