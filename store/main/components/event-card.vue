@@ -28,9 +28,9 @@
           class="description text-base text-fg font-sans whitespace-pre-wrap break-words"
           >{{ description }}</pre
         >
-        <a class="ical text-sm lg:text-base text-fg" :href="ical">
+        <nuxt-link :prefetch="false" class="ical text-sm lg:text-base text-fg" :to="ical">
           add to calendar
-        </a>
+        </nuxt-link>
       </div>
     </div>
   </div>

@@ -95,27 +95,8 @@ export default {
         console.log(err)
       }
       return {
-        err: null,
-        data: {
-          events: [
-            {
-              title: 'christmas market',
-              description: 'come to the market were running',
-              location: 'picadilly gardens',
-              start: '2020-01-01 12:24:24',
-              end: '2020-01-02 12:24:24',
-              ical: 'http://www.example.com'
-            },
-            {
-              title: 'christmas market',
-              description: 'come to the market were running',
-              location: 'picadilly gardens',
-              start: '2020-01-01 12:24:24',
-              end: '2020-01-02 12:24:24',
-              ical: 'http://www.example.com'
-            }
-          ]
-        }
+        err: err,
+        data: null
       }
     }
   }

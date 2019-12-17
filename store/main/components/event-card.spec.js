@@ -49,7 +49,7 @@ describe('Event Card', () => {
     expect(wrapper.find('.start').html()).toContain(startText)
     expect(wrapper.find('.end').html()).toContain(endText)
     expect(wrapper.find('.description').html()).toContain(description)
-    expect(wrapper.find('.ical').attributes('href')).toContain(ical)
+    expect(wrapper.find('.ical').attributes('to')).toContain(ical)
 
     expect(moment.mock.calls.length).toBe(3)
     expect(moment.mock.calls[0][0]).toBe(start)
