@@ -46,8 +46,8 @@ module.exports = ({ config, mode: _mode }) => {
     resolve: {
       extensions: [ '.svg', 'png.', '.jpg', '.ttf' ],
       alias: {
-        '@': path.resolve(__dirname, '../'),
-        'assets': path.resolve(__dirname, '../assets') // hack for url('~assets/...')
+        '@': path.resolve(__dirname, '..', 'src'),
+        'assets': path.resolve(__dirname, '..', 'src', 'assets') // hack for url('~assets/...')
       }
     }
   }

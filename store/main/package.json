@@ -9,8 +9,9 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "lighthouse": "./scripts/lighthouse.sh",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "storybook": "start-storybook --static-dir ./static",
+    "storybook": "start-storybook --static-dir ./src/static",
     "test": "jest --config test/jest.config.js",
     "integration-test": "jest --config integration-test/jest.config.js"
   },
@@ -54,6 +55,7 @@
     "jest": "^24.1.0",
     "jest-transform-stub": "^2.0.0",
     "jsdom": "^15.1.1",
+    "lighthouse-ci": "^1.10.0",
     "lint-staged": "^8.2.1",
     "lorem-ipsum": "^2.0.3",
     "prettier": "^1.16.4",

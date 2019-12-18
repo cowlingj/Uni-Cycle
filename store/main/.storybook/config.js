@@ -1,7 +1,7 @@
 import { configure, addDecorator, addParameters } from '@storybook/vue'
-import '../assets/css/tailwind.css'
-import '../assets/css/colors.css'
-import '../assets/css/fonts.css'
+import '../src/assets/css/tailwind.css'
+import '../src/assets/css/colors.css'
+import '../src/assets/css/fonts.css'
 import { withA11y } from '@storybook/addon-a11y'
 import { withKnobs } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
@@ -62,7 +62,7 @@ addParameters({
 // https://medium.com/js-dojo/a-guide-on-using-storybook-with-nuxt-js-1e0018ec51c9
 // https://dev.to/jerriclynsjohn/svelte-tailwind-storybook-starter-template-2nih
 function loadStories() {
-  const req = require.context('../', true, /\.\/components\/.*\.stories\.js$/)
+  const req = require.context('../src', true, /\.\/components\/.*\.stories\.js$/)
   req.keys().forEach(filename => req(filename))
 }
 configure(loadStories, module)

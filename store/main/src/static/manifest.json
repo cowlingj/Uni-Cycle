@@ -1,0 +1,15 @@
+{
+  "short_name": "Uni-Cycle",
+  "name": "Uni-Cycle",
+  "icons": [
+    {
+      "src": "/assets/logo.svg",
+      "sizes": "48x48 192x192 256x256 512x512"
+    }
+  ],
+  "start_url": "/store/",
+  "background_color": "var(--color_bg)",
+  "display": "standalone",
+  "scope": "/store/",
+  "theme_color": "var(--color_primary)"
+}
