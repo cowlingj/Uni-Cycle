@@ -36,14 +36,10 @@
             >{{ description }}</pre
           >
         </div>
-        <nuxt-link
-          :prefetch="false"
-          class="ical flex flex-row items-start"
-          :to="ical"
-        >
+        <a class="ical flex flex-row items-start" :href="ical">
           <CalendarIcon class="flex-0 mr-4" />
           <p class="flex-1 text-base text-fg underline">add to calendar</p>
-        </nuxt-link>
+        </a>
       </div>
     </div>
   </div>

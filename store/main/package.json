@@ -12,8 +12,8 @@
     "lighthouse": "./scripts/lighthouse.sh",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "storybook": "start-storybook --static-dir ./src/static",
-    "test": "jest --config test/jest.config.js",
-    "integration-test": "jest --config integration-test/jest.config.js"
+    "test": "jest --config src/test/jest.config.js",
+    "integration-test": "jest --config src/integration-test/jest.config.js"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"

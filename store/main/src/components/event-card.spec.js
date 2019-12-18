@@ -47,7 +47,7 @@ describe('Event Card', () => {
     expect(wrapper.find('.location').html()).toContain(location)
     expect(wrapper.find('.date').html()).toContain(`${startText} - ${endText}`)
     expect(wrapper.find('.description').html()).toContain(description)
-    expect(wrapper.find('.ical').attributes('to')).toContain(ical)
+    expect(wrapper.find('.ical').html()).toContain(`href="${ical}"`)
 
     expect(moment.mock.calls.length).toBe(3)
     expect(moment.mock.calls[0][0]).toBe(start)
