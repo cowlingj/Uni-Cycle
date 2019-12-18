@@ -11,7 +11,7 @@ describe('header', () => {
 
   it('Must Add "hidden" on #nav if not already there', async (done) => {
     const wrapper = shallowMount(Header, {
-      stubs: ['nuxt-link', 'MenuIcon']
+      stubs: { 'nuxt-link': true, MenuIcon: true }
     })
     wrapper.find('#nav').element.classList.remove('hidden')
     wrapper.find('#menu').trigger('click')
@@ -22,7 +22,7 @@ describe('header', () => {
 
   it('Must Remove "hidden" from #nav classes if already there', async (done) => {
     const wrapper = shallowMount(Header, {
-      stubs: ['nuxt-link', 'MenuIcon']
+      stubs: { 'nuxt-link': true, MenuIcon: true }
     })
     wrapper.find('#nav').element.classList.add('hidden')
     wrapper.find('#menu').trigger('click')

@@ -15,7 +15,6 @@ describe('Event Card', () => {
   it('Must contain the event data', () => {
     const title = 'title'
     const location = 'Somewhere'
-    const locationLink = 'Somewhere'
     const start = 'some date or string'
     const startText = 'start text'
     const relativeStartText = 'tomorrow'
@@ -35,19 +34,18 @@ describe('Event Card', () => {
       propsData: {
         title,
         location,
-        locationLink,
         start,
         end,
         description,
         ical
-      }
+      },
+      stubs: { 'nuxt-link': true }
     })
 
     expect(wrapper.find('.title').html()).toContain(title)
     expect(wrapper.find('.start-string').html()).toContain(relativeStartText)
     expect(wrapper.find('.location').html()).toContain(location)
-    expect(wrapper.find('.start').html()).toContain(startText)
-    expect(wrapper.find('.end').html()).toContain(endText)
+    expect(wrapper.find('.date').html()).toContain(`${startText} - ${endText}`)
     expect(wrapper.find('.description').html()).toContain(description)
     expect(wrapper.find('.ical').attributes('to')).toContain(ical)
 
@@ -58,7 +56,6 @@ describe('Event Card', () => {
   it('Must expand on click if not expanded', async (done) => {
     const title = 'title'
     const location = 'Somewhere'
-    const locationLink = 'Somewhere'
     const start = 'some date or string'
     const startText = 'start text'
     const relativeStartText = 'tomorrow'
@@ -78,12 +75,12 @@ describe('Event Card', () => {
       propsData: {
         title,
         location,
-        locationLink,
         start,
         end,
         description,
         ical
-      }
+      },
+      stubs: { 'nuxt-link': true }
     })
 
     wrapper.find('.more').element.classList.add('hidden')
@@ -98,7 +95,6 @@ describe('Event Card', () => {
   it('Must contract on click if expanded', async (done) => {
     const title = 'title'
     const location = 'Somewhere'
-    const locationLink = 'Somewhere'
     const start = 'some date or string'
     const startText = 'start text'
     const relativeStartText = 'tomorrow'
@@ -118,12 +114,12 @@ describe('Event Card', () => {
       propsData: {
         title,
         location,
-        locationLink,
         start,
         end,
         description,
         ical
-      }
+      },
+      stubs: { 'nuxt-link': true }
     })
 
     wrapper.find('.more').element.classList.remove('hidden')

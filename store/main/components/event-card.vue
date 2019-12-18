@@ -12,24 +12,37 @@
             {{ relativeStart }}
           </h2>
         </div>
-        <h2 class="location text-sm lg:text-base text-fg">
-          {{ location }}
-        </h2>
+        <div class="flex flex-row items-start">
+          <LocationIcon class="flex-0 mr-4" />
+          <h2 class="location text-base text-fg flex-1">
+            {{ location }}
+          </h2>
+        </div>
       </div>
     </div>
     <div class="more hidden">
-      <hr class="border border-bg_highlight" />
+      <hr class="border-t border-bg_highlight" />
       <div class="m-4">
-        <p class="start text-sm lg:text-base text-fg">
-          start: {{ shortStart }}
-        </p>
-        <p class="end text-sm lg:text-base text-fg">end: {{ shortEnd }}</p>
-        <pre
-          class="description text-base text-fg font-sans whitespace-pre-wrap break-words"
-          >{{ description }}</pre
+        <div class="flex flex-row items-start">
+          <ClockIcon class="flex-0 mr-4" />
+          <p class="date text-base text-fg flex-1">
+            {{ shortStart }} - {{ shortEnd }}
+          </p>
+        </div>
+        <div class="flex flex-row items-start py-4">
+          <DescriptionIcon class="flex-0 mr-4" />
+          <pre
+            class="description text-base text-fg font-sans whitespace-pre-wrap break-words flex-1"
+            >{{ description }}</pre
+          >
+        </div>
+        <nuxt-link
+          :prefetch="false"
+          class="ical flex flex-row items-start"
+          :to="ical"
         >
-        <nuxt-link :prefetch="false" class="ical text-sm lg:text-base text-fg" :to="ical">
-          add to calendar
+          <CalendarIcon class="flex-0 mr-4" />
+          <p class="flex-1 text-base text-fg underline">add to calendar</p>
         </nuxt-link>
       </div>
     </div>
@@ -38,8 +51,18 @@
 
 <script>
 import moment from 'moment'
+import ClockIcon from '@/assets/img/ic_clock.svg?inline'
+import DescriptionIcon from '@/assets/img/ic_description.svg?inline'
+import LocationIcon from '@/assets/img/ic_map-pin.svg?inline'
+import CalendarIcon from '@/assets/img/ic_calendar.svg?inline'
 
 export default {
+  components: {
+    ClockIcon,
+    DescriptionIcon,
+    LocationIcon,
+    CalendarIcon
+  },
   props: {
     title: { type: String, required: true },
     start: { type: [String, Date], required: true },

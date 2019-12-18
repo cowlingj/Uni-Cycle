@@ -13,7 +13,9 @@
           alt="menu icon"
         />
       </div>
-      <h1 class="text-xl font-brand text-fg dark:text-primary">Uni-Cycle</h1>
+      <h1 class="text-xl font-brand text-fg dark:text-primary font-swap">
+        Uni-Cycle
+      </h1>
       <div class="flex-grow" />
       <nav
         class="hidden lg:flex items-center justify-between flex-wrap text-fg dark:text-primary"
@@ -48,7 +50,7 @@
 </template>
 
 <script>
-import MenuIcon from '@/assets/img/menu.svg?inline'
+import MenuIcon from '@/assets/img/ic_menu.svg?inline'
 
 export default {
   components: {

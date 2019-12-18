@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/vue'
-import Card from './event-card'
 import { text, date } from '@storybook/addon-knobs'
 import { LoremIpsum } from 'lorem-ipsum'
+import Card from './event-card'
 
 const ipsum = new LoremIpsum()
 
@@ -16,9 +16,9 @@ storiesOf('Event', module).add('Default', () => ({
     title: { default: text('Title', ipsum.generateWords(3)) },
     description: { default: text('Description', ipsum.generateParagraphs(1)) },
     location: { default: text('Location', ipsum.generateWords(1)) },
-    start: { default: _date("Start Date", new Date('1/1/2020')) },
-    end: { default: _date("End Date", new Date('2/1/2020')) },
-    ical: { default: text('Ical', "#") }
+    start: { default: _date('Start Date', new Date('1/1/2020')) },
+    end: { default: _date('End Date', new Date('2/1/2020')) },
+    ical: { default: text('Ical', '#') }
   },
   template: `<Card
         :title="title"
