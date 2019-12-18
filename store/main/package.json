@@ -10,7 +10,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "storybook": "start-storybook --port 3000 --static-dir ./static",
+    "storybook": "start-storybook --static-dir ./static",
     "test": "jest --config test/jest.config.js",
     "integration-test": "jest --config integration-test/jest.config.js"
   },
