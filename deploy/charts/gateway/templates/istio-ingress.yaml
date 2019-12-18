@@ -1,3 +1,4 @@
+{{- if .Values.useIstio }}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -46,4 +47,5 @@ spec:
       domains:
       - {{ .Values.domainName }}
   secretName: gateway-cert-0
+{{- end }}
 {{- end }}

@@ -29,7 +29,7 @@ resource "helm_release" "backend" {
   depends_on = [ var._depends_on ]
 
   timeout = 900
-  
+
   name       = "ecommerce-backend"
   repository = data.helm_repository.github_master.name
   chart      = "ecommerce-backend"
@@ -69,33 +69,56 @@ resource "helm_release" "backend" {
     value = false
   }
 
-  set_sensitive {
-    name = "mongodb-config.rootPassword"
-    value = random_password.root_db_password.result
-  }
-
+  # TODO: check things still work without this
   set {
     name = "mongodb.volumePermissions.enabled"
     value = var.cluster == "google"
   }
 
-  set_sensitive { # TODO: integrate into backend (use an override host flag)
-    name = "cms.mongodbHost"
-    value = "mongodb.${var.namespaces.main}.svc.cluster.local:8080"
+  set_string {
+    name = "mongodb.podAnnotations.readiness\\.status\\.sidecar\\.istio\\.io/initialDelaySeconds"
+    value = "900"
   }
 
-  set { # TODO: make variable
-    name = "cms.users.list[0].email"
-    value = "admin@test.com"
+  set_sensitive {
+    name = "mongodb-config.rootPassword"
+    value = random_password.root_db_password.result
+  }
+
+  set_sensitive { # TODO: integrate into backend (use a host template flag)
+    name = "cms.mongodb.host"
+    value = "mongodb.${var.namespaces.main}.svc.cluster.local"
+  }
+
+  dynamic set_sensitive {
+    for_each = var.users
+    iterator = user
+    content {
+      name = "cms.users.data.users[${user.key}].username"
+      value = user.value.username
+    }
+  }
+
+  dynamic set_sensitive {
+    for_each = var.users
+    iterator = user
+    content {
+      name = "cms.users.data.users[${user.key}].password"
+      value = user.value.password
+    }
+  }
+
+  dynamic set_sensitive {
+    for_each = var.users
+    iterator = user
+    content {
+      name = "cms.users.data.users[${user.key}].isAdmin"
+      value = user.value.is_admin
+    }
   }
 
   set {
-    name = "cms.users.list[0].password"
-    value = "admin1"
-  }
-
-  set {
-    name = "cms.init.mongodb.cms.mongodbPassword"
+    name = "cms.mongodb.cms.password"
     value = random_password.cms_db_password.result
   }
 }

@@ -2,14 +2,30 @@ resource "helm_release" "istio_init" {
   count = var.cluster == "minikube" ? 1 : 0
 
   name       = "istio_init"
-  repository = data.helm_repository.istio.name
   chart      = "istio-init"
   namespace  = var.namespaces.istio
+  repository = data.helm_repository.istio.name
+
+  timeout = 600
 }
+
+resource "null_resource" "wait_for_crds" {
+
+  count = var.cluster == "minikube" ? 1 : 0
+
+  triggers = {
+    init = helm_release.istio_init[0].id
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl -n '${var.namespaces.istio}' wait --for=condition=complete job --all --timeout 10m"
+  }
+}
+
 
 resource "helm_release" "istio" {
 
-  depends_on = [ helm_release.istio_init ]
+  depends_on = [ helm_release.istio_init, null_resource.wait_for_crds ]
 
   count = var.cluster == "minikube" ? 1 : 0
 

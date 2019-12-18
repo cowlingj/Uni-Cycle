@@ -8,7 +8,7 @@ resource "google_container_cluster" "main" {
 
   addons_config {
     istio_config {
-      # disabled = true
+      disabled = !var.use_istio
     }
   }
 
@@ -17,6 +17,8 @@ resource "google_container_cluster" "main" {
       start_time = "03:00"
     }
   }
+
+  min_master_version = "1.14.8-gke.12"
 
   master_auth {
     username = "testtesttesttest"
@@ -60,14 +62,14 @@ resource "google_container_node_pool" "primary_nodes" {
 
 resource "null_resource" "wait" {
   count = var.enabled ? 1: 0
-  
+
   triggers = {
     cluster = google_container_cluster.main[count.index].id
     node_pool = google_container_node_pool.primary_nodes[count.index].id
   }
 
   provisioner "local-exec" {
-    command = "sleep 60"
+    command = "sleep 120"
   }
 }
 

@@ -1,12 +1,12 @@
+useIstio: true
 useHtttps: true
 domainName: null
 certIssuer: letsencrypt
 cms:
+  name: cms
   host: cms.admin.cluster
   port: 80
-  graphql:
-    host: cms.admin.cluster
-    port: 8080
 store:
+  name: store
   host: store.frontend.cluster
   port: 80

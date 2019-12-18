@@ -1,6 +1,7 @@
 module "google" {
   source = "./google"
   enabled = var.cluster == "google"
+  use_istio = var.use_istio
 }
 
 module "minikube" {

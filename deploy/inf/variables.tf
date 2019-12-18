@@ -23,3 +23,17 @@ variable image_pull_secrets {
     }))
   default = []
 }
+
+variable use_istio {
+  type = bool
+  default = true
+}
+
+variable "users" {
+  type = list(object({
+    username = string
+    password = string
+    is_admin = bool
+  }))
+  default = []
+}

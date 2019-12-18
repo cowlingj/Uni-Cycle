@@ -15,4 +15,9 @@ resource "helm_release" "store" {
       value = each.value
     }
   }
+
+  set_string {
+    name = "cms.api.basePath"
+    value = "/cms/graphql"
+  }
 }

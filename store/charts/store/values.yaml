@@ -12,16 +12,9 @@ ports:
     protocol: http
 
 cms:
-  env: production
-  name: cms
-  group: frontend
-  image: "gcr.io/gke-test-253221/cms.admin"
-  imagePullSecret: gcr
-  version: "0.0.1"
-  db: cms
-  cookieSecret: tmp
-  ports:
-    api:
-      port: 8080
-      protocol: http
-      name: api
+  api:
+    hostname: cms
+    domain: null
+    basePath: /
+    port: 80
+    protocol: http

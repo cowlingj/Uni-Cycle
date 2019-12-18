@@ -35,8 +35,10 @@ spec:
               cpu: 100m
               memory: 64Mi
           env:
-            - name: CMS_CLUSTER_URL
-              value: {{ printf "\"%s://%s.%s.svc.cluster.local:%s\"" .Values.cms.ports.api.protocol .Values.cms.name ( default .Release.Namespace .Values.cms.ports.api.namespace ) ( toString .Values.cms.ports.api.port ) }}
+            - name: CMS_INTERNAL_ENDPOINT
+              value: {{ printf "\"%s://%s.%s:%s\"" .Values.cms.api.protocol .Values.cms.api.hostname ( default ( printf "%s.svc.cluster.local" .Release.Namespace ) .Values.cms.api.domain ) ( toString .Values.cms.api.port ) }}
+            - name: CMS_BASE_PATH
+              value: {{ .Values.cms.api.basePath | quote }}
             - name: PORT
               value: "80"
             - name: HOST

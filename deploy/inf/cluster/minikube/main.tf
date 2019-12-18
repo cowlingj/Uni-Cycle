@@ -5,9 +5,11 @@ resource null_resource "minikube_cluster" {
     profile = var.profile
   }
 
+  count = var.enabled ? 1 : 0
+
   provisioner "local-exec" {
     when = "create"
-    command = "minikube start --kubernetes-version=1.15.4 --profile=${var.profile}"
+    command = "minikube start --kubernetes-version=1.14.8 --profile=${var.profile}"
     interpreter = [ "bash", "-c" ]
   }
 

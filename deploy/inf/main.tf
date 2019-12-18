@@ -16,6 +16,7 @@ provider "google-beta" {
 module "cluster" {
   source = "./cluster"
   cluster = var.cluster
+  use_istio = var.use_istio
 }
 
 provider "kubernetes" {
@@ -66,4 +67,6 @@ module "helm" {
   image_pull_secret_names = module.kubernetes.image_pull_secret_names
   pvc_name = module.kubernetes.pvc_name
   cluster = var.cluster
+  use_istio = var.use_istio
+  users = var.users
 }
