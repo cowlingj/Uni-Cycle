@@ -7,7 +7,7 @@ import { ApolloServer, gql } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
 import axios from 'axios'
-import config from '@/nuxt.config.js'
+import config from '../../nuxt.config.js'
 
 process.env.CMS_INTERNAL_ENDPOINT = 'http://localhost:8081'
 process.env.CMS_BASE_PATH = '/'
@@ -63,7 +63,7 @@ describe('Cms route', () => {
 
     nuxt = new Nuxt(
       Object.assign({}, config, {
-        rootDir: path.join(__dirname, '..'),
+        srcDir: path.join(__dirname, '..'),
         dev: false,
         server: {
           host: 'localhost',

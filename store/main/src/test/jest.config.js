@@ -1,5 +1,5 @@
 module.exports = {
-  rootDir: '../',
+  rootDir: '..',
   testMatch: ['<rootDir>/test/**/*.spec.js', '<rootDir>/**/*.spec.js'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules',
@@ -22,5 +22,5 @@ module.exports = {
     '<rootDir>/components/**/*.vue',
     '<rootDir>/pages/**/*.vue'
   ],
-  coverageDirectory: '<rootDir>/coverage'
+  coverageDirectory: '<rootDir>/../coverage'
 }
