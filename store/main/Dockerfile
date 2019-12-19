@@ -1,4 +1,4 @@
-FROM node:13.2.0-buster-slim 
+FROM node:13.2.0-alpine
 
 LABEL version 0.0.1
 
