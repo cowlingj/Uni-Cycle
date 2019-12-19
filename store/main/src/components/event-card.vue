@@ -2,19 +2,17 @@
   <div class="shadow overflow-hidden m-6 w-4/5 bg-bg_mid">
     <div class="event-heading" @click="toggleDescHidden">
       <div class="m-4">
-        <div class="flex flex-row items-center">
-          <h2
-            class="title flex-1 text-lg lg:text-3xl leading-loose text-fg mr-4"
-          >
+        <div class="flex flex-row items-baseline">
+          <h2 class="title flex-1 text-lg lg:text-3xl text-fg mr-4">
             {{ title }}
           </h2>
-          <h2 class="start-string flex-0 text-sm lg:text-xl text-base text-fg">
+          <h2 class="start-string flex-0 text-base lg:text-lg text-fg">
             {{ relativeStart }}
           </h2>
         </div>
         <div class="flex flex-row items-start">
           <LocationIcon class="flex-0 mr-4" />
-          <h2 class="location text-base text-fg flex-1">
+          <h2 class="location text-base lg:text-lg text-fg flex-1 self-center">
             {{ location }}
           </h2>
         </div>
@@ -25,7 +23,7 @@
       <div class="m-4">
         <div class="flex flex-row items-start">
           <ClockIcon class="flex-0 mr-4" />
-          <p class="date text-base text-fg flex-1">
+          <p class="date text-base text-fg flex-1 self-center">
             {{ shortStart }} - {{ shortEnd }}
           </p>
         </div>
@@ -38,7 +36,9 @@
         </div>
         <a class="ical flex flex-row items-start" :href="ical">
           <CalendarIcon class="flex-0 mr-4" />
-          <p class="flex-1 text-base text-fg underline">add to calendar</p>
+          <p class="flex-1 text-base text-fg underline self-center">
+            add to calendar
+          </p>
         </a>
       </div>
     </div>

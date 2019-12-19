@@ -9,7 +9,7 @@
         @click="toggleMenu"
       >
         <MenuIcon
-          class="h-full w-full fill-current text-fg dark:text-primary"
+          class="h-full w-full fill-current text-fg dark:text-primary cursor-pointer"
           alt="menu icon"
         />
       </div>
@@ -33,7 +33,7 @@
         exact
         replace
         to="/"
-        class="block py-1 text-center text-lg hover:bg-bg_highlight"
+        class="block py-1 text-center text-lg hover:underline"
       >
         Home
       </nuxt-link>
@@ -41,7 +41,7 @@
         exact
         replace
         to="/events"
-        class="block py-1 text-center text-lg  hover:bg-bg_highlight"
+        class="block py-1 text-center text-lg  hover:underline"
       >
         Events
       </nuxt-link>
