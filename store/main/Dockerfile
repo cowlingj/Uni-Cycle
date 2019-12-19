@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:13.2.0-buster-slim 
 
 LABEL version 0.0.1
 
