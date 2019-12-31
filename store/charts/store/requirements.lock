@@ -1,9 +1,0 @@
-dependencies:
-- name: helpers
-  repository: https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/
-  version: 0.0.1
-- name: cms
-  repository: https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/
-  version: 0.0.1
-digest: sha256:89ed9ee9b94f63aeb9f980388fa718cb9ff31b0ed9bac6342b41fc58acf47ff6
-generated: "2019-10-02T18:07:15.259268045+01:00"
