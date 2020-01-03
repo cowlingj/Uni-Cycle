@@ -18,8 +18,15 @@ output "kubernetes_config" {
     client_key = var.enabled ? base64decode(google_container_cluster.main.0.master_auth.0.client_key) : null
     cluster_ca_certificate = var.enabled ? base64decode(google_container_cluster.main.0.master_auth.0.cluster_ca_certificate) : null
     insecure = var.enabled ? false : null
-    
+
     token = null
     exec = null
+  }
+}
+
+output lb_ip_address {
+  value = {
+    name = google_compute_address.ip_address[0].name
+    address = google_compute_address.ip_address[0].address
   }
 }

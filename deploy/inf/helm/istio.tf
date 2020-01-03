@@ -1,5 +1,5 @@
 resource "helm_release" "istio_init" {
-  count = var.cluster == "minikube" ? 1 : 0
+  count = (var.cluster == "minikube" && var.use_istio) ? 1 : 0
 
   name       = "istio_init"
   chart      = "istio-init"
@@ -11,7 +11,7 @@ resource "helm_release" "istio_init" {
 
 resource "null_resource" "wait_for_crds" {
 
-  count = var.cluster == "minikube" ? 1 : 0
+  count = (var.cluster == "minikube" && var.use_istio) ? 1 : 0
 
   triggers = {
     init = helm_release.istio_init[0].id
@@ -27,7 +27,7 @@ resource "helm_release" "istio" {
 
   depends_on = [ helm_release.istio_init, null_resource.wait_for_crds ]
 
-  count = var.cluster == "minikube" ? 1 : 0
+  count = (var.cluster == "minikube" && var.use_istio) ? 1 : 0
 
   name       = "istio"
   repository = data.helm_repository.istio.name

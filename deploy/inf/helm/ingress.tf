@@ -36,10 +36,17 @@ resource "helm_release" "gateway" {
     name = "useIstio"
     value = var.use_istio
   }
+
+  set {
+    name = "ipAddressName"
+    value = var.lb_ip_address.name != null ? var.lb_ip_address.name : "null"
+  }
 }
 
 resource "helm_release" "ingress_controller" {
   depends_on = [ var._depends_on ]
+
+  wait = var.cluster == "minikube" ? false : true
 
   count = var.use_istio ? 0 : 1
 
@@ -55,5 +62,10 @@ resource "helm_release" "ingress_controller" {
   set {
     name = "rbac.create"
     value = true
+  }
+
+  set {
+    name = "controller.service.loadBalancerIP"
+    value = var.lb_ip_address.address != null ? var.lb_ip_address.address : "null"
   }
 }

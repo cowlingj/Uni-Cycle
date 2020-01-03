@@ -18,8 +18,15 @@ output "kubernetes_config" {
     client_key = null
     cluster_ca_certificate = null
     insecure = var.enabled ? false : null
-    
+
     token = null
     exec = null
+  }
+}
+
+output "lb_ip_address" {
+  value = {
+    name = null
+    address = data.null_data_source.lb_ip_address[0].outputs["address"]
   }
 }

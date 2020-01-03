@@ -37,3 +37,7 @@ variable "users" {
   }))
   default = []
 }
+
+variable lb_ip_address {
+  type = object({ name = string, address = string})
+}

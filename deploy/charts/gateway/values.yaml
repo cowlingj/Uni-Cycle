@@ -2,6 +2,7 @@ useIstio: true
 useHtttps: true
 domainName: null
 certIssuer: letsencrypt
+ipAddressName: ""
 cms:
   name: cms
   host: cms.admin.cluster

@@ -73,6 +73,12 @@ resource "null_resource" "wait" {
   }
 }
 
+resource "google_compute_address" "ip_address" {
+  count = var.enabled ? 1: 0
+  name = "lb-ap-address"
+  network_tier = "STANDARD"
+}
+
 # resource "google_compute_disk" "default" {
 #   count = var.enabled ? 1: 0
 #   project = var.google_project

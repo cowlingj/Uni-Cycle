@@ -46,6 +46,15 @@ resource "helm_release" "backend" {
   }
 
   dynamic set {
+    for_each = length(var.image_pull_secret_names) > 0 ? slice(var.image_pull_secret_names, 0, 1) : []
+    iterator = each
+    content {
+      name = "izettle-products.imagePullSecret"
+      value = each.value
+    }
+  }
+
+  dynamic set {
     for_each = var.image_pull_secret_names
     iterator = each
     content {
@@ -83,6 +92,26 @@ resource "helm_release" "backend" {
   set_sensitive {
     name = "mongodb-config.rootPassword"
     value = random_password.root_db_password.result
+  }
+
+  set {
+    name = "izettle-products.izettleCredentials.username"
+    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).username
+  }
+
+  set_sensitive {
+    name = "izettle-products.izettleCredentials.password"
+    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).password
+  }
+
+  set {
+    name = "izettle-products.izettleCredentials.client_id"
+    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).client_id
+  }
+
+  set_sensitive {
+    name = "izettle-products.izettleCredentials.client_secret"
+    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).client_secret
   }
 
   set_sensitive { # TODO: integrate into backend (use a host template flag)
