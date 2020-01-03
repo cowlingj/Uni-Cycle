@@ -1,5 +1,4 @@
 import { shallowMount } from '@vue/test-utils'
-import axios from 'axios'
 import Event from '@/pages/events.vue'
 
 describe('Event', () => {
@@ -48,8 +47,8 @@ describe('Event', () => {
     )
     Array.from(wrapper.findAll('#events-list>*').wrappers).forEach(
       (item, index) => {
-        expect(item.attributes('title')).toBe(data.data.events[index].title)
-        expect(item.attributes('description')).toBe(
+        expect(item.attributes().title).toBe(data.data.events[index].title)
+        expect(item.attributes().description).toBe(
           data.data.events[index].description
         )
       }
@@ -68,16 +67,18 @@ describe('Event', () => {
   })
 
   it('asyncData handles error', async (done) => {
+    const axios = jest.fn()
+    axios.get = jest.fn(() => {
+      throw new Error('test error')
+    })
+
     const context = {
       app: {
         $getCmsUrl: () => 'URL',
         $env: { NODE_ENV: 'production' }
-      }
+      },
+      $axios: axios
     }
-
-    axios.get = jest.fn(() => {
-      throw new Error('test error')
-    })
 
     const res = await Event.asyncData(context)
 
@@ -88,15 +89,17 @@ describe('Event', () => {
   })
 
   it('asyncData returns a list of events', async (done) => {
+    const mock = { err: null, data: { data: { allEvents: [] } } }
+    const axios = jest.fn()
+    axios.get = jest.fn(() => mock)
+
     const context = {
       app: {
         $getCmsUrl: () => 'URL',
         $env: { NODE_ENV: 'production' }
-      }
+      },
+      $axios: axios
     }
-    const mock = { err: null, data: { data: { allEvents: [] } } }
-
-    axios.get = jest.fn(() => mock)
 
     const res = await Event.asyncData(context)
 

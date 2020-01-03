@@ -34,8 +34,6 @@
       id="events-list"
       class="overflow-y-auto overflow-x-hidden h-full w-full flex flex-col items-center"
     >
-      <!-- TODO: make more card like? -->
-
       <Event
         v-for="(event, index) in data.events"
         :key="index"
@@ -57,7 +55,6 @@
 </style>
 
 <script>
-import axios from 'axios'
 import Event from '@/components/event-card'
 
 export default {
@@ -75,7 +72,7 @@ export default {
     const url = context.app.$getCmsUrl()
 
     try {
-      const res = await axios.get(`${url}`, {
+      const res = await context.$axios.get(`${url}`, {
         params: {
           query:
             '{ allEvents { start, end, title, description, location, ical } }'
