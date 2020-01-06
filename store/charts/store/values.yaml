@@ -23,7 +23,7 @@ cms:
     protocol: http
 products:
   api:
-    hostname: cms
+    hostname: products
     basePath: /
     port: 80
     protocol: http

@@ -39,8 +39,10 @@ spec:
               value: {{ printf "\"%s://%s:%s\"" .Values.cms.api.protocol .Values.cms.api.hostname ( toString .Values.cms.api.port ) }}
             - name: CMS_BASE_PATH
               value: {{ .Values.cms.api.basePath | quote }}
+            {{- if ( or .Values.backend.ip .Values.backend.hostname ) }}
             - name: PRODUCTS_EXTERNAL_ENDPOINT
               value: {{ printf "\"%s://%s:%s\"" .Values.products.api.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.api.port ) }}
+            {{- end }}
             - name: PRODUCTS_INTERNAL_ENDPOINT
               value: {{ printf "\"%s://%s:%s\"" .Values.products.api.protocol .Values.products.api.hostname ( toString .Values.products.api.port ) }}
             - name: PRODUCTS_BASE_PATH
