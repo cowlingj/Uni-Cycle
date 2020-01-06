@@ -11,10 +11,19 @@ ports:
     port: 80
     protocol: http
 
+backend:
+  ip: null
+  hostname: null
+
 cms:
   api:
     hostname: cms
-    domain: null
+    basePath: /
+    port: 80
+    protocol: http
+products:
+  api:
+    hostname: cms
     basePath: /
     port: 80
     protocol: http

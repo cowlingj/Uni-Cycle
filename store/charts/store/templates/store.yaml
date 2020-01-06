@@ -36,9 +36,15 @@ spec:
               memory: 64Mi
           env:
             - name: CMS_INTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s.%s:%s\"" .Values.cms.api.protocol .Values.cms.api.hostname ( default ( printf "%s.svc.cluster.local" .Release.Namespace ) .Values.cms.api.domain ) ( toString .Values.cms.api.port ) }}
+              value: {{ printf "\"%s://%s:%s\"" .Values.cms.api.protocol .Values.cms.api.hostname ( toString .Values.cms.api.port ) }}
             - name: CMS_BASE_PATH
               value: {{ .Values.cms.api.basePath | quote }}
+            - name: PRODUCTS_EXTERNAL_ENDPOINT
+              value: {{ printf "\"%s://%s:%s\"" .Values.products.api.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.api.port ) }}
+            - name: PRODUCTS_INTERNAL_ENDPOINT
+              value: {{ printf "\"%s://%s:%s\"" .Values.products.api.protocol .Values.products.api.hostname ( toString .Values.products.api.port ) }}
+            - name: PRODUCTS_BASE_PATH
+              value: {{ .Values.products.api.basePath | quote }}
             - name: PORT
               value: "80"
             - name: HOST

@@ -5,7 +5,7 @@
   "author": "Jonathan Cowling",
   "private": true,
   "scripts": {
-    "dev": "PORT=3000 nuxt",
+    "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -24,9 +24,12 @@
     }
   },
   "dependencies": {
+    "@nuxtjs/apollo": "^4.0.0-rc19",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/svg": "^0.1.6",
+    "dotenv": "^8.2.0",
+    "graphql-tag": "^2.10.1",
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "nuxt-env": "^0.1.0"

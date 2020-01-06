@@ -22,6 +22,9 @@
       >
         <nuxt-link exact replace to="/" class="mr-6">Home</nuxt-link>
         <nuxt-link exact replace to="/events" class="mr-6">Events</nuxt-link>
+        <nuxt-link exact replace to="/products" class="mr-6">
+          Products
+        </nuxt-link>
       </nav>
     </header>
     <nav
@@ -44,6 +47,14 @@
         class="block py-1 text-center text-lg  hover:underline"
       >
         Events
+      </nuxt-link>
+      <nuxt-link
+        exact
+        replace
+        to="/products"
+        class="block py-1 text-center text-lg  hover:underline"
+      >
+        Products
       </nuxt-link>
     </nav>
   </div>

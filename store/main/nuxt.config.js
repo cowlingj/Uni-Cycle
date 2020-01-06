@@ -1,3 +1,6 @@
+import { config } from 'dotenv'
+const env = config()
+
 export default {
   srcDir: './src',
   mode: 'universal',
@@ -34,6 +37,7 @@ export default {
    */
   plugins: [
     { src: './plugins/cms-path.js' },
+    { src: './plugins/products-path.js' },
     { src: './plugins/update-locale.js' }
   ],
   /*
@@ -51,6 +55,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/apollo',
     '@nuxtjs/pwa',
     '@nuxtjs/svg',
     [
@@ -59,8 +64,11 @@ export default {
         keys: [
           { key: 'CMS_INTERNAL_ENDPOINT' },
           { key: 'CMS_BASE_PATH' },
+          { key: 'PRODUCTS_INTERNAL_ENDPOINT' },
+          { key: 'PRODUCTS_EXTERNAL_ENDPOINT' },
+          { key: 'PRODUCTS_BASE_PATH' },
           { key: 'DEFAULT_LOCALE', default: 'en-gb' }
-        ]
+        ].map((item) => Object.assign({}, item, env[item.key]))
       }
     ]
   ],
@@ -69,6 +77,14 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: `${process.env.PRODUCTS_INTERNAL_ENDPOINT}${process.env.PRODUCTS_BASE_PATH}`,
+        browserHttpEndpoint: `${process.env.PRODUCTS_EXTERNAL_ENDPOINT}${process.env.PRODUCTS_BASE_PATH}`
+      }
+    }
+  },
   /*
    ** Build configuration
    */
@@ -84,6 +100,6 @@ export default {
   },
   router: {
     base: '/store/',
-    middleware: ['cms-path', 'auto-locale']
+    middleware: ['cms-path', 'products-path', 'auto-locale']
   }
 }

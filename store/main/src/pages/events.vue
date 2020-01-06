@@ -63,6 +63,7 @@ export default {
   },
   data() {
     return {
+      err: null,
       data: {
         events: []
       }

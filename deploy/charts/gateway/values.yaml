@@ -11,3 +11,7 @@ store:
   name: store
   host: store.frontend.cluster
   port: 80
+products:
+  name: products
+  host: products.backend.cluster
+  port: 80
