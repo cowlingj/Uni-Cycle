@@ -35,18 +35,22 @@ spec:
               cpu: 100m
               memory: 64Mi
           env:
+            - name: CMS_EXTERNAL_ENDPOINT
+              value: {{ printf "\"%s://%s:%s\"" .Values.cms.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.cms.external.port ) }}
             - name: CMS_INTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s:%s\"" .Values.cms.api.protocol .Values.cms.api.hostname ( toString .Values.cms.api.port ) }}
-            - name: CMS_BASE_PATH
-              value: {{ .Values.cms.api.basePath | quote }}
-            {{- if ( or .Values.backend.ip .Values.backend.hostname ) }}
+              value: {{ printf "\"%s://%s:%s\"" .Values.cms.internal.protocol .Values.cms.internal.hostname ( toString .Values.cms.internal.port ) }}
+            - name: CMS_EXTERNAL_PATH
+              value: {{ .Values.cms.external.path | quote }}
+            - name: CMS_INTERNAL_PATH
+              value: {{ .Values.cms.internal.path | quote }}
             - name: PRODUCTS_EXTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s:%s\"" .Values.products.api.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.api.port ) }}
-            {{- end }}
+              value: {{ printf "\"%s://%s:%s\"" .Values.products.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.external.port ) }}
             - name: PRODUCTS_INTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s:%s\"" .Values.products.api.protocol .Values.products.api.hostname ( toString .Values.products.api.port ) }}
-            - name: PRODUCTS_BASE_PATH
-              value: {{ .Values.products.api.basePath | quote }}
+              value: {{ printf "\"%s://%s:%s\"" .Values.products.internal.protocol .Values.products.internal.hostname ( toString .Values.products.internal.port ) }}
+            - name: PRODUCTS_EXTERNAL_PATH
+              value: {{ .Values.products.external.path | quote }}
+            - name: PRODUCTS_INTERNAL_PATH
+              value: {{ .Values.products.internal.path | quote }}
             - name: PORT
               value: "80"
             - name: HOST

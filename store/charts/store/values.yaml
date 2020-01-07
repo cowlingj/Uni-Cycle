@@ -16,14 +16,25 @@ backend:
   hostname: null
 
 cms:
-  api:
+  internal:
     hostname: cms
-    basePath: /
+    ip: null
+    path: /
+    protocol: http
+    host: 80
+  external:
+    path: /cms/graphql
+    protocol: http
+    host: 80
+
+products:
+  internal:
+    hostname: products
+    ip: null
+    path: /
     port: 80
     protocol: http
-products:
-  api:
-    hostname: products
-    basePath: /
+  external:
+    path: /products
     port: 80
     protocol: http
