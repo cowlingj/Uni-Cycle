@@ -36,6 +36,6 @@ data null_data_source "lb_ip_address" {
   count = var.enabled && var.tunnel ? 1 : 0
 
   inputs = {
-    address = jsondecode(data.local_file.profile.content).KubernetesConfig.ServiceCIDR
+    address = jsondecode(data.local_file.profile.content).KubernetesConfig.NodeIP
   }
 }
