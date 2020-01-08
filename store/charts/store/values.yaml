@@ -21,11 +21,11 @@ cms:
     ip: null
     path: /
     protocol: http
-    host: 80
+    port: 80
   external:
     path: /cms/graphql
     protocol: http
-    host: 80
+    port: 80
 
 products:
   internal:

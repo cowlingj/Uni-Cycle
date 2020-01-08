@@ -39,9 +39,9 @@ spec:
               value: {{ printf "\"%s://%s:%s%s\"" .Values.cms.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.cms.external.port ) .Values.cms.external.path }}
             - name: CMS_INTERNAL_URI
               value: {{ printf "\"%s://%s:%s%s\"" .Values.cms.internal.protocol .Values.cms.internal.hostname ( toString .Values.cms.internal.port ) .Values.cms.internal.path }}
-            - name: PRODUCTS_EXTERNAL_ENDPOINT
+            - name: PRODUCTS_EXTERNAL_URI
               value: {{ printf "\"%s://%s:%s%s\"" .Values.products.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.external.port ) .Values.products.external.path }}
-            - name: PRODUCTS_INTERNAL_ENDPOINT
+            - name: PRODUCTS_INTERNAL_URI
               value: {{ printf "\"%s://%s:%s%s\"" .Values.products.internal.protocol .Values.products.internal.hostname ( toString .Values.products.internal.port ) .Values.products.internal.path }}
             - name: PORT
               value: "80"
