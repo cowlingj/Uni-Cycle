@@ -62,11 +62,10 @@ export default {
       'nuxt-env',
       {
         keys: [
-          { key: 'CMS_INTERNAL_ENDPOINT' },
-          { key: 'CMS_BASE_PATH' },
-          { key: 'PRODUCTS_INTERNAL_ENDPOINT' },
-          { key: 'PRODUCTS_EXTERNAL_ENDPOINT' },
-          { key: 'PRODUCTS_BASE_PATH' },
+          { key: 'CMS_INTERNAL_URI' },
+          { key: 'CMS_EXTERNAL_URI' },
+          { key: 'PRODUCTS_INTERNAL_URI' },
+          { key: 'PRODUCTS_EXTERNAL_URI' },
           { key: 'DEFAULT_LOCALE', default: 'en-gb' }
         ].map((item) => Object.assign({}, item, env[item.key]))
       }

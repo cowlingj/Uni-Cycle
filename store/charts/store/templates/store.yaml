@@ -35,22 +35,14 @@ spec:
               cpu: 100m
               memory: 64Mi
           env:
-            - name: CMS_EXTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s:%s\"" .Values.cms.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.cms.external.port ) }}
-            - name: CMS_INTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s:%s\"" .Values.cms.internal.protocol .Values.cms.internal.hostname ( toString .Values.cms.internal.port ) }}
-            - name: CMS_EXTERNAL_PATH
-              value: {{ .Values.cms.external.path | quote }}
-            - name: CMS_INTERNAL_PATH
-              value: {{ .Values.cms.internal.path | quote }}
+            - name: CMS_EXTERNAL_URI
+              value: {{ printf "\"%s://%s:%s%s\"" .Values.cms.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.cms.external.port ) .Values.cms.external.path }}
+            - name: CMS_INTERNAL_URI
+              value: {{ printf "\"%s://%s:%s%s\"" .Values.cms.internal.protocol .Values.cms.internal.hostname ( toString .Values.cms.internal.port ) .Values.cms.internal.path }}
             - name: PRODUCTS_EXTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s:%s\"" .Values.products.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.external.port ) }}
+              value: {{ printf "\"%s://%s:%s%s\"" .Values.products.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.external.port ) .Values.products.external.path }}
             - name: PRODUCTS_INTERNAL_ENDPOINT
-              value: {{ printf "\"%s://%s:%s\"" .Values.products.internal.protocol .Values.products.internal.hostname ( toString .Values.products.internal.port ) }}
-            - name: PRODUCTS_EXTERNAL_PATH
-              value: {{ .Values.products.external.path | quote }}
-            - name: PRODUCTS_INTERNAL_PATH
-              value: {{ .Values.products.internal.path | quote }}
+              value: {{ printf "\"%s://%s:%s%s\"" .Values.products.internal.protocol .Values.products.internal.hostname ( toString .Values.products.internal.port ) .Values.products.internal.path }}
             - name: PORT
               value: "80"
             - name: HOST
