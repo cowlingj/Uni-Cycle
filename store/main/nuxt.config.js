@@ -67,7 +67,7 @@ export default {
           { key: 'PRODUCTS_INTERNAL_URI' },
           { key: 'PRODUCTS_EXTERNAL_URI' },
           { key: 'DEFAULT_LOCALE', default: 'en-gb' }
-        ].map((item) => Object.assign({}, item, env[item.key]))
+        ].map((item) => Object.assign({}, item, { default: env[item.key] ? env[item.key] : item.default }))
       }
     ]
   ],
