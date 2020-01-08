@@ -51,6 +51,10 @@ export default {
         }
       })
 
+      if (res.data.errors != null && res.data.errors.length > 0) {
+        throw new Error('failed to get products')
+      }
+
       return {
         err: null,
         data: {
