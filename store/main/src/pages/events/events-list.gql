@@ -1,0 +1,5 @@
+query {
+  allEvents {
+    start, end, title, description, location, ical
+  }
+}

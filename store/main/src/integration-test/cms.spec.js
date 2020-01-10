@@ -9,10 +9,9 @@ import { JSDOM } from 'jsdom'
 import axios from 'axios'
 import config from '../../nuxt.config.js'
 
-process.env.CMS_INTERNAL_ENDPOINT = 'http://localhost:8081'
-process.env.CMS_BASE_PATH = '/'
+process.env.CMS_INTERNAL_URI = 'http://localhost:8081'
 
-describe('Cms route', () => {
+describe.skip('Cms route', () => {
   let nuxt
   let server
 
@@ -83,7 +82,7 @@ describe('Cms route', () => {
     server.close()
   })
 
-  it('displays strings from service', async (done) => {
+  it('displays events from cms', async (done) => {
     const { data, status } = await axios.get(
       'http://localhost:8080/store/events'
     )

@@ -1,5 +1,10 @@
 import { shallowMount } from '@vue/test-utils'
-import Event from '@/pages/events.vue'
+import { graphql } from 'graphql'
+import { GraphQLURL, GraphQLDateTime } from 'graphql-custom-types'
+import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools'
+import Event from './index.vue'
+import rootSchema from '@/lib/cms-api/schema.gql'
+import eventSchema from '@/lib/cms-api/event.gql'
 
 describe('Event', () => {
   it('renders an empty list of events', () => {
@@ -66,48 +71,67 @@ describe('Event', () => {
     expect(wrapper.find('#error-message').exists()).toBe(true)
   })
 
-  it('asyncData handles error', async (done) => {
-    const axios = jest.fn()
-    axios.get = jest.fn(() => {
-      throw new Error('test error')
+  it('must fetch products', async () => {
+    const mock = [
+      {
+        title: 'title-1',
+        description: 'body-1',
+        start: 'start-1',
+        end: 'end-1',
+        location: 'location-1',
+        ical: 'ical-1'
+      },
+      {
+        title: 'title-2',
+        description: 'body-2',
+        start: 'start-2',
+        end: 'end-2',
+        location: 'location-2',
+        ical: 'ical-2'
+      }
+    ]
+
+    const schema = makeExecutableSchema({
+      typeDefs: [rootSchema, eventSchema],
+      resolvers: {
+        Url: GraphQLURL,
+        DateTime: GraphQLDateTime,
+        Query: {
+          allEvents: () => mock
+        }
+      }
     })
 
-    const context = {
-      app: {
-        $getCmsUrl: () => 'URL',
-        $env: { NODE_ENV: 'production' }
-      },
-      $axios: axios
-    }
+    addMockFunctionsToSchema({
+      schema,
+      preserveResolvers: true
+    })
 
-    const res = await Event.asyncData(context)
+    const res = await graphql(
+      schema,
+      Event.apollo.events.query.loc.source.body,
+      null,
+      null,
+      {},
+      null
+    )
 
-    expect(res.err).not.toBeNull()
-    expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(context.app.$getCmsUrl())
-    done()
+    expect(res.errors).toBeUndefined()
+    expect(res.data.allEvents).toEqual(mock)
   })
 
-  it('asyncData returns a list of events', async (done) => {
-    const mock = { err: null, data: { data: { allEvents: [] } } }
-    const axios = jest.fn()
-    axios.get = jest.fn(() => mock)
+  it('must update products data from allProducts query', () => {
+    const res = {}
+    expect(Event.apollo.events.update({ allEvents: res })).toBe(res)
+  })
 
-    const context = {
-      app: {
-        $getCmsUrl: () => 'URL',
-        $env: { NODE_ENV: 'production' }
-      },
-      $axios: axios
-    }
+  it('must handle fetch products errors', () => {
+    const vm = {}
+    Event.apollo.events.error(new Error('test'), vm)
 
-    const res = await Event.asyncData(context)
-
-    expect(res.err).toBeNull()
-    expect(res.data.events).toBe(mock.data.data.allEvents)
-    expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(context.app.$getCmsUrl())
-
-    done()
+    expect(vm).toEqual({
+      err: true,
+      events: []
+    })
   })
 })

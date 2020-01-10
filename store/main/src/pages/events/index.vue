@@ -55,6 +55,7 @@
 </style>
 
 <script>
+import eventsList from './events-list.gql'
 import Event from '@/components/event-card'
 
 export default {
@@ -69,33 +70,15 @@ export default {
       }
     }
   },
-  async asyncData(context) {
-    const url = context.app.$getCmsUrl()
-
-    try {
-      const res = await context.$axios.get(`${url}`, {
-        params: {
-          query:
-            '{ allEvents { start, end, title, description, location, ical } }'
-        }
-      })
-
-      return {
-        err: null,
-        data: {
-          events: res.data.data.allEvents
-        }
-      }
-    } catch (err) {
-      /* istanbul ignore next */
-      if (process.server || context.app.$env.NODE_ENV === 'development') {
-        /* eslint-disable-next-line */
-        console.log(err)
-      }
-      return {
-        err,
-        data: null
-      }
+  apollo: {
+    events: {
+      query: eventsList,
+      update: (data) => data.allEvents,
+      error(_err, vm) {
+        vm.err = true
+        vm.events = []
+      },
+      client: 'cms'
     }
   }
 }

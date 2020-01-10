@@ -67,7 +67,11 @@ export default {
           { key: 'PRODUCTS_INTERNAL_URI' },
           { key: 'PRODUCTS_EXTERNAL_URI' },
           { key: 'DEFAULT_LOCALE', default: 'en-gb' }
-        ].map((item) => Object.assign({}, item, { default: env[item.key] ? env[item.key] : item.default }))
+        ].map((item) =>
+          Object.assign({}, item, {
+            default: env[item.key] ? env[item.key] : item.default
+          })
+        )
       }
     ]
   ],
@@ -77,10 +81,15 @@ export default {
    */
   axios: {},
   apollo: {
+    includeNodeModules: true,
     clientConfigs: {
-      default: {
-        httpEndpoint: `${process.env.PRODUCTS_INTERNAL_ENDPOINT}${process.env.PRODUCTS_BASE_PATH}`,
-        browserHttpEndpoint: `${process.env.PRODUCTS_EXTERNAL_ENDPOINT}${process.env.PRODUCTS_BASE_PATH}`
+      products: {
+        httpEndpoint: process.env.PRODUCTS_INTERNAL_URI,
+        browserHttpEndpoint: process.env.PRODUCTS_EXTERNAL_URI
+      },
+      cms: {
+        httpEndpoint: process.env.CMS_INTERNAL_URI,
+        browserHttpEndpoint: process.env.CMS_EXTERNAL_URI
       }
     }
   },

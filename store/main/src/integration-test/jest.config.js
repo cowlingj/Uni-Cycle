@@ -9,6 +9,7 @@ module.exports = {
   },
   moduleFileExtensions: ['js', 'vue', 'json'],
   transform: {
+    '\\.(gql|graphql)$': 'jest-transform-graphql',
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest'
   },

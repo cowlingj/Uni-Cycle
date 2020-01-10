@@ -1,5 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
-import Products from './products.vue'
+import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools'
+import { graphql } from 'graphql'
+import Products from './index.vue'
+import rootSchema from '@/lib/products-api/schema.gql'
+import productSchema from '@/lib/products-api/product.gql'
 
 describe('products page', () => {
   it('must render a list of products', () => {
@@ -89,44 +93,56 @@ describe('products page', () => {
   })
 
   it('must fetch products', async () => {
-    const mock = { err: null, data: { data: { allProducts: [] } } }
-    const axios = jest.fn()
-    axios.get = jest.fn(() => mock)
-
-    const context = {
-      app: {
-        $getProductsUrl: () => 'URL',
-        $env: { NODE_ENV: 'production' }
+    const mock = [
+      {
+        id: 'id-1',
+        name: 'name-1'
       },
-      $axios: axios
-    }
+      {
+        id: 'id-2',
+        name: 'name-2'
+      }
+    ]
 
-    const res = await Products.asyncData(context)
-
-    expect(res.err).toBeNull()
-    expect(res.data.products).toBe(mock.data.data.allProducts)
-    expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(context.app.$getProductsUrl())
-  })
-
-  it('must handle fetch product errors', async () => {
-    const axios = jest.fn()
-    axios.get = jest.fn(() => {
-      throw new Error('test error')
+    const schema = makeExecutableSchema({
+      typeDefs: [rootSchema, productSchema],
+      resolvers: {
+        Query: {
+          allProducts: () => mock
+        }
+      }
     })
 
-    const context = {
-      app: {
-        $getProductsUrl: () => 'URL',
-        $env: { NODE_ENV: 'production' }
-      },
-      $axios: axios
-    }
+    addMockFunctionsToSchema({
+      schema,
+      preserveResolvers: true
+    })
 
-    const res = await Products.asyncData(context)
+    const res = await graphql(
+      schema,
+      Products.apollo.products.query.loc.source.body,
+      null,
+      null,
+      {},
+      null
+    )
 
-    expect(res.err).not.toBeNull()
-    expect(axios.get.mock.calls.length).toBe(1)
-    expect(axios.get.mock.calls[0][0]).toBe(context.app.$getProductsUrl())
+    expect(res.errors).toBeUndefined()
+    expect(res.data.allProducts).toEqual(mock)
+  })
+
+  it('must update products data from allProducts query', () => {
+    const res = {}
+    expect(Products.apollo.products.update({ allProducts: res })).toBe(res)
+  })
+
+  it('must handle fetch products errors', () => {
+    const vm = {}
+    Products.apollo.products.error(new Error('test'), vm)
+
+    expect(vm).toEqual({
+      err: true,
+      products: []
+    })
   })
 })
