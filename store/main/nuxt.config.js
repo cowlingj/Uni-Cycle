@@ -83,14 +83,8 @@ export default {
   apollo: {
     includeNodeModules: true,
     clientConfigs: {
-      products: {
-        httpEndpoint: process.env.PRODUCTS_INTERNAL_URI,
-        browserHttpEndpoint: process.env.PRODUCTS_EXTERNAL_URI
-      },
-      cms: {
-        httpEndpoint: process.env.CMS_INTERNAL_URI,
-        browserHttpEndpoint: process.env.CMS_EXTERNAL_URI
-      }
+      products: "@/config/apollo/products-client.js",
+      cms: "@/config/apollo/cms-client.js"
     }
   },
   /*
