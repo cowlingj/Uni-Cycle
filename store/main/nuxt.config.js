@@ -83,8 +83,8 @@ export default {
   apollo: {
     includeNodeModules: true,
     clientConfigs: {
-      products: "@/config/apollo/products-client.js",
-      cms: "@/config/apollo/cms-client.js"
+      products: '@/config/apollo/products-client.js',
+      cms: '@/config/apollo/cms-client.js'
     }
   },
   /*

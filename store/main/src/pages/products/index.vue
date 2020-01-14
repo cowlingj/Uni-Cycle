@@ -1,8 +1,8 @@
 <template>
   <div>
     <section
-      v-if="err"
       id="products-error"
+      v-if="err"
       class="h-full w-full flex flex-col items-center justify-center"
     >
       <p class="text-center font-brand font-swap text-3xl text-fg">
@@ -13,18 +13,18 @@
       </p>
       <!-- TODO: Go Back -->
     </section>
-    <section v-else-if="data.products.length === 0" id="no-products">
+    <section id="no-products" v-else-if="data.products.length === 0">
       <p>no products :(</p>
     </section>
-    <section v-else id="product-list" class="w-1/2 m-auto">
+    <section id="product-list" v-else class="w-1/2 m-auto">
       <ul>
         <li
           v-for="(product, index) in data.products"
           :key="product.id"
-          class="relative"
           :style="{
             'padding-top': index === 0 ? '0' : '1px'
           }"
+          class="relative"
         >
           <hr
             v-if="index !== 0"
@@ -53,15 +53,20 @@ export default {
       }
     }
   },
-  apollo: {
-    products: {
-      query: productList,
-      update: (data) => data.allProducts,
-      error(_err, vm) {
-        vm.err = true
-        vm.products = []
-      },
-      client: 'products'
+  async asyncData(context) {
+    try {
+      const res = await context.app.apolloProvider.clients.products.query({
+        query: productList
+      })
+      return {
+        data: {
+          products: res.data.allProducts
+        }
+      }
+    } catch (err) {
+      return {
+        err
+      }
     }
   }
 }

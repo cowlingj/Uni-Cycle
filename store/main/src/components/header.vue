@@ -5,8 +5,8 @@
     >
       <div
         id="menu"
-        class="mr-6 lg:hidden h-6 w-6 flex-none"
         @click="toggleMenu"
+        class="mr-6 lg:hidden h-6 w-6 flex-none"
       >
         <MenuIcon
           class="h-full w-full fill-current text-fg dark:text-primary cursor-pointer"
@@ -29,8 +29,8 @@
     </header>
     <nav
       id="nav"
-      class="hidden lg:hidden p-3 bg-primary dark:bg-bg_mid dark:bg-bg text-fg dark:text-primary"
       @click="toggleMenu"
+      class="hidden lg:hidden p-3 bg-primary dark:bg-bg_mid dark:bg-bg text-fg dark:text-primary"
     >
       <nuxt-link
         exact

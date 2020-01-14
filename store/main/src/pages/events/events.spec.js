@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils'
-import { graphql } from 'graphql'
 import { GraphQLURL, GraphQLDateTime } from 'graphql-custom-types'
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools'
 import Event from './index.vue'
+import eventQuery from './events-list.gql'
 import rootSchema from '@/lib/cms-api/schema.gql'
 import eventSchema from '@/lib/cms-api/event.gql'
 
@@ -71,7 +71,7 @@ describe('Event', () => {
     expect(wrapper.find('#error-message').exists()).toBe(true)
   })
 
-  it('must fetch products', async () => {
+  it('must fetch events', async () => {
     const mock = [
       {
         title: 'title-1',
@@ -107,31 +107,45 @@ describe('Event', () => {
       preserveResolvers: true
     })
 
-    const res = await graphql(
-      schema,
-      Event.apollo.events.query.loc.source.body,
-      null,
-      null,
-      {},
-      null
-    )
-
-    expect(res.errors).toBeUndefined()
-    expect(res.data.allEvents).toEqual(mock)
-  })
-
-  it('must update products data from allProducts query', () => {
-    const res = {}
-    expect(Event.apollo.events.update({ allEvents: res })).toBe(res)
-  })
-
-  it('must handle fetch products errors', () => {
-    const vm = {}
-    Event.apollo.events.error(new Error('test'), vm)
-
-    expect(vm).toEqual({
-      err: true,
-      events: []
+    const mockQuery = jest.fn(() => ({ data: { allEvents: mock } }))
+    const res = await Event.asyncData({
+      app: {
+        apolloProvider: {
+          clients: {
+            cms: {
+              query: mockQuery
+            }
+          }
+        }
+      }
     })
+
+    expect(res.err).toBeUndefined()
+    expect(res.data.events).toEqual(mock)
+    expect(mockQuery.mock.calls).toEqual([
+      [
+        {
+          query: eventQuery
+        }
+      ]
+    ])
+  })
+
+  it('must handle fetch products errors', async () => {
+    const mockQuery = jest.fn(() => ({ errors: [new Error()] }))
+    const res = await Event.asyncData({
+      app: {
+        apolloProvider: {
+          clients: {
+            cms: {
+              query: mockQuery
+            }
+          }
+        }
+      }
+    })
+
+    expect(res.err).toBeTruthy()
+    expect(res.events).toBeUndefined()
   })
 })

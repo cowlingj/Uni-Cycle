@@ -1,6 +1,6 @@
 <template>
   <div class="shadow overflow-hidden m-6 w-4/5 bg-bg_mid">
-    <div class="event-heading" @click="toggleDescHidden">
+    <div @click="toggleDescHidden" class="event-heading">
       <div class="m-4">
         <div class="flex flex-row items-baseline">
           <h2 class="title flex-1 text-lg lg:text-3xl text-fg mr-4">
@@ -34,7 +34,7 @@
             >{{ description }}</pre
           >
         </div>
-        <a class="ical flex flex-row items-start" :href="ical">
+        <a :href="ical" class="ical flex flex-row items-start">
           <CalendarIcon class="flex-0 mr-4" />
           <p class="flex-1 text-base text-fg underline self-center">
             add to calendar

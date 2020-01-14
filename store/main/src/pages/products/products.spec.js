@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools'
-import { graphql } from 'graphql'
 import Products from './index.vue'
+import productQuery from './product-list.gql'
 import rootSchema from '@/lib/products-api/schema.gql'
 import productSchema from '@/lib/products-api/product.gql'
 
@@ -118,31 +118,45 @@ describe('products page', () => {
       preserveResolvers: true
     })
 
-    const res = await graphql(
-      schema,
-      Products.apollo.products.query.loc.source.body,
-      null,
-      null,
-      {},
-      null
-    )
-
-    expect(res.errors).toBeUndefined()
-    expect(res.data.allProducts).toEqual(mock)
-  })
-
-  it('must update products data from allProducts query', () => {
-    const res = {}
-    expect(Products.apollo.products.update({ allProducts: res })).toBe(res)
-  })
-
-  it('must handle fetch products errors', () => {
-    const vm = {}
-    Products.apollo.products.error(new Error('test'), vm)
-
-    expect(vm).toEqual({
-      err: true,
-      products: []
+    const mockQuery = jest.fn(() => ({ data: { allProducts: mock } }))
+    const res = await Products.asyncData({
+      app: {
+        apolloProvider: {
+          clients: {
+            products: {
+              query: mockQuery
+            }
+          }
+        }
+      }
     })
+
+    expect(res.err).toBeUndefined()
+    expect(res.data.products).toEqual(mock)
+    expect(mockQuery.mock.calls).toEqual([
+      [
+        {
+          query: productQuery
+        }
+      ]
+    ])
+  })
+
+  it('must handle fetch products errors', async () => {
+    const mockQuery = jest.fn(() => ({ errors: [new Error()] }))
+    const res = await Products.asyncData({
+      app: {
+        apolloProvider: {
+          clients: {
+            products: {
+              query: mockQuery
+            }
+          }
+        }
+      }
+    })
+
+    expect(res.err).toBeTruthy()
+    expect(res.products).toBeUndefined()
   })
 })

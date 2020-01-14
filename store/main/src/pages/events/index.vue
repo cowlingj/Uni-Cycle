@@ -1,8 +1,8 @@
 <template>
   <article class="h-full w-full">
     <section
-      v-if="err"
       id="error-message"
+      v-if="err"
       class="h-full w-full flex flex-col items-center justify-center"
     >
       <p class="text-center font-brand font-swap text-3xl text-fg">
@@ -14,6 +14,7 @@
       <!-- TODO: Go Back -->
     </section>
     <section
+      id="no-events"
       v-else-if="data.events.length == 0"
       class="overflow-hidden h-full w-full flex flex-col items-center"
     >
@@ -30,8 +31,8 @@
       />
     </section>
     <section
-      v-else
       id="events-list"
+      v-else
       class="overflow-y-auto overflow-x-hidden h-full w-full flex flex-col items-center"
     >
       <Event
@@ -70,15 +71,21 @@ export default {
       }
     }
   },
-  apollo: {
-    events: {
-      query: eventsList,
-      update: (data) => data.allEvents,
-      error(_err, vm) {
-        vm.err = true
-        vm.events = []
-      },
-      client: 'cms'
+  async asyncData(context) {
+    try {
+      const res = await context.app.apolloProvider.clients.cms.query({
+        query: eventsList
+      })
+
+      return {
+        data: {
+          events: res.data.allEvents
+        }
+      }
+    } catch (err) {
+      return {
+        err
+      }
     }
   }
 }

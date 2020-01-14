@@ -3,15 +3,18 @@
  */
 
 import path from 'path'
-import { ApolloServer, gql } from 'apollo-server'
+import { ApolloServer } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
 import axios from 'axios'
 import config from '../../nuxt.config.js'
+import rootSchema from '../lib/cms-api/schema.gql'
+import eventSchema from '../lib/cms-api/event.gql'
 
 process.env.CMS_INTERNAL_URI = 'http://localhost:8081'
+process.env.CMS_EXTERNAL_URI = 'http://localhost:8081'
 
-describe.skip('Cms route', () => {
+describe('Cms route', () => {
   let nuxt
   let server
 
@@ -37,28 +40,24 @@ describe.skip('Cms route', () => {
     }
   ]
 
-  beforeAll(async (done) => {
-    server = (await new ApolloServer({
-      typeDefs: gql`
-        type Event {
-          title: String!
-          description: String!
-          start: String!
-          end: String!
-          location: String!
-          ical: String!
-        }
-        type Query {
-          allEvents: [Event]
-        }
-      `,
+  beforeAll(async () => {
+    const apolloServer = new ApolloServer({
+      typeDefs: [rootSchema, eventSchema],
       resolvers: {
-        Query: { allEvents: () => events }
+        Query: {
+          allEvents: () => {
+            return events
+          }
+        }
       }
-    }).listen({
-      host: 'localhost',
-      port: 8081
-    })).server
+    })
+
+    server = (
+      await apolloServer.listen({
+        host: 'localhost',
+        port: 8081
+      })
+    ).server
 
     nuxt = new Nuxt(
       Object.assign({}, config, {
@@ -73,33 +72,34 @@ describe.skip('Cms route', () => {
 
     await new Builder(nuxt).build()
     await nuxt.listen(8080)
+  }, 60000)
 
-    done()
-  }, 25000)
-
-  afterAll((done) => {
+  afterAll(async () => {
     nuxt.close()
-    server.close()
+    await new Promise((res) => server.close(res))
   })
 
-  it('displays events from cms', async (done) => {
+  it('displays events from cms', async () => {
     const { data, status } = await axios.get(
       'http://localhost:8080/store/events'
     )
 
     expect(status).toBe(200)
 
-    const dom = new JSDOM(data)
+    const { window } = new JSDOM(data)
 
-    expect(dom.window.document.querySelector('#error-message')).toBeNull()
+    expect(window.document.querySelector('#error-message')).toBeNull()
+    expect(window.document.querySelector('#no-events')).toBeNull()
+    expect(window.document.querySelector('#events-list')).toBeTruthy()
 
-    Array.from(
-      dom.window.document.querySelector('#events-list').children
-    ).forEach((item, index) => {
-      Object.keys(expected[index]).forEach((key) => {
-        expect(item.innerHTML).toContain(expected[index][key])
+    const eventsHTML = window.document.querySelector('#events-list').innerHTML
+
+    expected.forEach((item) => {
+      Object.keys(item).forEach((key) => {
+        expect(eventsHTML).toContain(item[key])
       })
     })
-    done()
-  })
+
+    window.close()
+  }, 10000)
 })
