@@ -1,9 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
-import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools'
 import Products from './index.vue'
 import productQuery from './product-list.gql'
-import rootSchema from '@/lib/products-api/schema.gql'
-import productSchema from '@/lib/products-api/product.gql'
 
 describe('products page', () => {
   it('must render a list of products', () => {
@@ -103,20 +100,6 @@ describe('products page', () => {
         name: 'name-2'
       }
     ]
-
-    const schema = makeExecutableSchema({
-      typeDefs: [rootSchema, productSchema],
-      resolvers: {
-        Query: {
-          allProducts: () => mock
-        }
-      }
-    })
-
-    addMockFunctionsToSchema({
-      schema,
-      preserveResolvers: true
-    })
 
     const mockQuery = jest.fn(() => ({ data: { allProducts: mock } }))
     const res = await Products.asyncData({

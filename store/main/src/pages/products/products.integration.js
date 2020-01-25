@@ -2,15 +2,15 @@
  * @jest-environment node
  */
 
-import path from 'path'
+import { promisify } from 'util'
 import { ApolloServer } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
 import axios from 'axios'
-import config from '../../nuxt.config.js'
 
-import rootSchema from '../lib/products-api/schema.gql'
-import productSchema from '../lib/products-api/product.gql'
+import rootSchema from '@cowlingj/products-api/schema.gql'
+import productSchema from '@cowlingj/products-api/product.gql'
+import config from '@/../nuxt.config.js'
 
 process.env.PRODUCTS_INTERNAL_URI = 'http://localhost:8081'
 process.env.PRODUCTS_EXTERNAL_URI = 'http://localhost:8081'
@@ -43,7 +43,6 @@ describe('Products route', () => {
 
     nuxt = new Nuxt(
       Object.assign({}, config, {
-        srcDir: path.join(__dirname, '..'),
         dev: false,
         server: {
           host: 'localhost',
@@ -58,7 +57,7 @@ describe('Products route', () => {
 
   afterAll(async () => {
     nuxt.close()
-    await new Promise((res) => server.close(res))
+    await promisify(server.close.bind(server))()
   })
 
   it('displays products from service', async () => {

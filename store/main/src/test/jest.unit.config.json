@@ -1,0 +1,27 @@
+{
+  "rootDir":"..",
+  "testRegex": "(?:\\.|\\/)spec\\.js$",
+  "moduleNameMapper":{
+    ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)(\\?.*)$":"jest-transform-stub",
+    "^@/(.*)$":"<rootDir>/$1",
+    "^~/(.*)$":"<rootDir>/$1",
+    "^vue$":"vue/dist/vue.common.js"
+  },
+  "moduleFileExtensions":["js","vue","json"],
+  "transformIgnorePatterns":["<rootDir>/node_modules/(?!@cowlingj/products-api)"],
+  "transform":{
+    "\\.(gql|graphql)$":"jest-transform-graphql",
+    "^.+\\.js$":"babel-jest",
+    ".*\\.(vue)$":"vue-jest"
+  },
+  "collectCoverage":true,
+  "collectCoverageFrom":[
+    "<rootDir>/components/**/*.vue",
+    "<rootDir>/pages/**/*.vue",
+    "<rootDir>/plugins/**/*.js",
+    "<rootDir>/middleware/**/*.js",
+    "<rootDir>/layouts/**/*.vue",
+    "!<rootDir>/**/*.integration.js"
+  ],
+  "coverageDirectory":"<rootDir>/../coverage"
+}

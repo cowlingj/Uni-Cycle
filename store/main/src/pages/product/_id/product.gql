@@ -1,0 +1,5 @@
+query q($id: ID!){
+  productById(id: $id) {
+    name
+  }
+}

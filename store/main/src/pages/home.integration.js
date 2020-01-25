@@ -2,7 +2,6 @@
  * @jest-environment node
  */
 
-import path from 'path'
 import { Nuxt, Builder } from 'nuxt'
 import config from '../../nuxt.config.js'
 
@@ -15,7 +14,6 @@ describe('Home route', () => {
   beforeAll(async () => {
     nuxt = new Nuxt(
       Object.assign({}, config, {
-        srcDir: path.join(__dirname, '..'),
         dev: false,
         server: {
           host: 'localhost',

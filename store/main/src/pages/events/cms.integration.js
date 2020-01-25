@@ -2,14 +2,14 @@
  * @jest-environment node
  */
 
-import path from 'path'
+import { promisify } from 'util'
 import { ApolloServer } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
 import axios from 'axios'
-import config from '../../nuxt.config.js'
-import rootSchema from '../lib/cms-api/schema.gql'
-import eventSchema from '../lib/cms-api/event.gql'
+import config from '@/../nuxt.config.js'
+import rootSchema from '@/lib/cms-api/schema.gql'
+import eventSchema from '@/lib/cms-api/event.gql'
 
 process.env.CMS_INTERNAL_URI = 'http://localhost:8081'
 process.env.CMS_EXTERNAL_URI = 'http://localhost:8081'
@@ -61,7 +61,6 @@ describe('Cms route', () => {
 
     nuxt = new Nuxt(
       Object.assign({}, config, {
-        srcDir: path.join(__dirname, '..'),
         dev: false,
         server: {
           host: 'localhost',
@@ -76,7 +75,7 @@ describe('Cms route', () => {
 
   afterAll(async () => {
     nuxt.close()
-    await new Promise((res) => server.close(res))
+    await promisify(server.close.bind(server))()
   })
 
   it('displays events from cms', async () => {

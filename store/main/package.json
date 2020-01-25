@@ -12,8 +12,8 @@
     "lighthouse": "./scripts/lighthouse.sh",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "storybook": "start-storybook --static-dir ./src/static",
-    "test": "jest --config src/test/jest.config.js",
-    "integration-test": "jest --runInBand --config src/integration-test/jest.config.js"
+    "test:unit": "jest --config src/test/jest.unit.config.json",
+    "test:integration": "jest --runInBand --config src/test/jest.integration.config.json"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"
@@ -35,6 +35,7 @@
     "nuxt-env": "^0.1.0"
   },
   "devDependencies": {
+    "@cowlingj/products-api": "https://github.com/cowlingj/ecommerce-backend/raw/master/packages/node/cowlingj-products-api-0.0.1.tgz",
     "@nuxtjs/eslint-config": "^1.0.1",
     "@nuxtjs/eslint-module": "^1.1.0",
     "@nuxtjs/tailwindcss": "^1.3.0",
