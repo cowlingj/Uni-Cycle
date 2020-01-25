@@ -12,8 +12,3 @@ variable "profile" {
   type = string
   default = "minikube"
 }
-
-variable "tunnel" {
-  type = bool
-  default = false
-}

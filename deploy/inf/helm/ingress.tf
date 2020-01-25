@@ -64,8 +64,8 @@ resource "helm_release" "ingress_controller" {
     value = true
   }
 
-  set {
-    name = "controller.service.loadBalancerIP"
-    value = var.lb_ip_address.address != null ? var.lb_ip_address.address : "null"
-  }
+  # set {
+  #   name = "controller.service.loadBalancerIP"
+  #   value = var.lb_ip_address.address != null ? var.lb_ip_address.address : "null"
+  # }
 }
