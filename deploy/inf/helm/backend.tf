@@ -150,4 +150,14 @@ resource "helm_release" "backend" {
     name = "cms.mongodb.cms.password"
     value = random_password.cms_db_password.result
   }
+
+  set {
+    name = "nginx-ingress.enabled"
+    value = false
+  }
+
+  set {
+    name = "istio-ingress.enabled"
+    value = false
+  }
 }
