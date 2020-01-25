@@ -16,6 +16,16 @@ resource "helm_release" "store" {
     }
   }
 
+  set {
+    name = "cms.internal.path"
+    value = "/cms/graphql"
+  }
+
+  set {
+    name = "cms.external.path"
+    value = "/cms/graphql"
+  }
+
   dynamic set {
     for_each = var.lb_ip_address.address != null ? [ null ] : []
     content {
