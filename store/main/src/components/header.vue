@@ -21,7 +21,6 @@
         class="hidden lg:flex items-center justify-between flex-wrap text-fg dark:text-primary"
       >
         <nuxt-link exact replace to="/" class="mr-6">Home</nuxt-link>
-        <nuxt-link exact replace to="/events" class="mr-6">Events</nuxt-link>
         <nuxt-link exact replace to="/products" class="mr-6">
           Products
         </nuxt-link>
@@ -39,14 +38,6 @@
         class="block py-1 text-center text-lg hover:underline"
       >
         Home
-      </nuxt-link>
-      <nuxt-link
-        exact
-        replace
-        to="/events"
-        class="block py-1 text-center text-lg  hover:underline"
-      >
-        Events
       </nuxt-link>
       <nuxt-link
         exact

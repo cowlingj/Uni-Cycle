@@ -16,7 +16,7 @@ import eventSchema from '@/lib/cms-api/event.gql'
 process.env.CMS_INTERNAL_URI = 'http://localhost:8081'
 process.env.CMS_EXTERNAL_URI = 'http://localhost:8081'
 
-describe('Cms route', () => {
+describe.skip('Cms route', () => {
   let nuxt
   let server
 
