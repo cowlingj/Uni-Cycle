@@ -18,8 +18,9 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  min_master_version = "1.14.8-gke.12"
+  min_master_version = "1.14.8-gke.33"
 
+  # FIXME
   master_auth {
     username = "testtesttesttest"
     password = "testtesttesttest"
@@ -74,20 +75,11 @@ resource "null_resource" "wait" {
 }
 
 resource "google_compute_address" "ip_address" {
+  provider = "google-beta"
+
+  region = "europe-west1"
   count = var.enabled ? 1: 0
-  name = "lb-ap-address"
-  network_tier = "STANDARD"
+  name = "lb-ip-address"
+  network_tier = "PREMIUM"
 }
 
-# resource "google_compute_disk" "default" {
-#   count = var.enabled ? 1: 0
-#   project = var.google_project
-#   name  = "mongodb-disk"
-#   type  = "pd-ssd"
-#   zone  = "europe-west2-a"
-#   # image = "debian-8-jessie-v20170523"
-#   # labels = {
-#   #   environment = "dev"
-#   # }
-#   # physical_block_size_bytes = 4096
-# }

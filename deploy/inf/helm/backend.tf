@@ -114,7 +114,12 @@ resource "helm_release" "backend" {
     value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).client_secret
   }
 
-  set_sensitive { # TODO: integrate into backend (use a host template flag)
+  set {
+    name = "izettle-products.service.type"
+    value = "NodePort"
+  }
+
+  set_sensitive { # TODO: integrate into backend (use anchor)
     name = "cms.mongodb.host"
     value = "mongodb.${var.namespaces.main}.svc.cluster.local"
   }
@@ -152,12 +157,32 @@ resource "helm_release" "backend" {
   }
 
   set {
-    name = "nginx-ingress.enabled"
-    value = false
+    name = "cms.service.type"
+    value = "NodePort"
   }
 
   set {
-    name = "istio-ingress.enabled"
+    name = "nginx-ingress.cms.host"
+    value = "cms.${var.namespaces.main}.svc.cluster.local"
+  }
+
+  set {
+    name = "nginx-ingress.store.host"
+    value = "store.${var.namespaces.main}.svc.cluster.local"
+  }
+
+  set {
+    name = "nginx-ingress.certIssuer"
+    value = "letsencrypt-staging" # TODO: use prod
+  }
+
+  set {
+    name = "nginx-ingress.domainName"
+    value = ""
+  }
+
+  set {
+    name = "nginx-ingress.useHttps"
     value = false
   }
 }

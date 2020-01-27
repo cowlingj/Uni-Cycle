@@ -24,6 +24,9 @@ data local_file "profile" {
   depends_on = [
     null_resource.minikube_cluster
   ]
+
+  count = var.enabled ? 1 : 0
+
   filename = pathexpand("~/.minikube/profiles/${var.profile}/config.json")
 }
 
@@ -36,6 +39,6 @@ data null_data_source "lb_ip_address" {
   count = var.enabled ? 1 : 0
 
   inputs = {
-    address = jsondecode(data.local_file.profile.content).KubernetesConfig.NodeIP
+    address = jsondecode(data.local_file.profile[0].content).KubernetesConfig.NodeIP
   }
 }

@@ -62,7 +62,7 @@ metadata:
     group: {{ .Values.group }}
     version: {{ .Values.version }}
 spec:
-  type: {{ template "helpers.service.type" .Values.env }}
+  type: {{ .Values.service.type | default "ClusterIP" }}
   selector:
     app: {{ .Values.name }}
     group: {{ .Values.group }}

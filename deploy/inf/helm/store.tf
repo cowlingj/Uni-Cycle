@@ -17,6 +17,11 @@ resource "helm_release" "store" {
   }
 
   set {
+    name = "service.type"
+    value = "NodePort"
+  }
+
+  set {
     name = "cms.internal.path"
     value = "/cms/graphql"
   }
