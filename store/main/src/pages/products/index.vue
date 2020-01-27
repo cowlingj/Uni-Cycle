@@ -17,26 +17,38 @@
       <p>no products :(</p>
     </section>
     <section id="product-list" v-else class="w-1/2 m-auto">
-      <ul>
-        <li
-          v-for="(product, index) in data.products"
-          :key="product.id"
-          :style="{
-            'padding-top': index === 0 ? '0' : '1px'
-          }"
-          class="relative"
-        >
-          <hr
-            v-if="index !== 0"
-            class="absolute w-full top-0 border-t border-bg_highlight"
+      <ul class="grid">
+        <li v-for="product in data.products" :key="product.id">
+          <Product
+            :id="product.id"
+            :name="product.name"
+            :imageUrl="product.imageUrl"
           />
-          <Product :id="product.id" :name="product.name" />
         </li>
       </ul>
     </section>
   </div>
 </template>
+<style scoped>
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+  justify-content: center;
+}
 
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(1fr, 800px));
+  }
+}
+</style>
 <script>
 import productList from './product-list.gql'
 import Product from '@/components/product'

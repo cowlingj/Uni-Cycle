@@ -10,7 +10,8 @@ describe('products page', () => {
         products: [
           {
             id: 'id-0',
-            name: 'name-0'
+            name: 'name-0',
+            imageUrl: 'url-0'
           },
           {
             id: 'id-1',
@@ -36,6 +37,9 @@ describe('products page', () => {
     products.wrappers.forEach((productView, i) => {
       expect(productView.attributes().id).toBe(data.data.products[i].id)
       expect(productView.attributes().name).toBe(data.data.products[i].name)
+      expect(productView.attributes().imageurl).toBe(
+        data.data.products[i].imageUrl
+      )
     })
 
     expect(wrapper.find('#no-products').exists()).toBe(false)

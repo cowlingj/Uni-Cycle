@@ -7,6 +7,8 @@ import { ApolloServer } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
 import axios from 'axios'
+import { URLResolver, URLTypeDefinition } from 'graphql-scalars'
+
 import config from '@/../nuxt.config.js'
 import rootSchema from '@/lib/cms-api/schema.gql'
 import eventSchema from '@/lib/cms-api/event.gql'
@@ -42,13 +44,10 @@ describe('Cms route', () => {
 
   beforeAll(async () => {
     const apolloServer = new ApolloServer({
-      typeDefs: [rootSchema, eventSchema],
+      typeDefs: [rootSchema, eventSchema, URLTypeDefinition],
       resolvers: {
-        Query: {
-          allEvents: () => {
-            return events
-          }
-        }
+        Query: { allEvents: () => events },
+        URL: URLResolver
       }
     })
 

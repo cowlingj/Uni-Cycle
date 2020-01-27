@@ -7,6 +7,7 @@ import { ApolloServer } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
 import axios from 'axios'
+import { URLTypeDefinition, URLResolver } from 'graphql-scalars'
 
 import rootSchema from '@cowlingj/products-api/schema.gql'
 import productSchema from '@cowlingj/products-api/product.gql'
@@ -28,9 +29,10 @@ describe('Products route', () => {
 
   beforeAll(async () => {
     const apolloServer = new ApolloServer({
-      typeDefs: [rootSchema, productSchema],
+      typeDefs: [rootSchema, productSchema, URLTypeDefinition],
       resolvers: {
-        Query: { allProducts: () => products }
+        Query: { allProducts: () => products },
+        URL: URLResolver
       }
     })
 
