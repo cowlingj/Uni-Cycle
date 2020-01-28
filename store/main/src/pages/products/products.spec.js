@@ -11,11 +11,19 @@ describe('products page', () => {
           {
             id: 'id-0',
             name: 'name-0',
-            imageUrl: 'url-0'
+            imageUrl: 'url-0',
+            price: {
+              value: 0,
+              currency: 'gbp'
+            }
           },
           {
             id: 'id-1',
-            name: 'name-1'
+            name: 'name-1',
+            price: {
+              value: 0,
+              currency: 'gbp'
+            }
           }
         ]
       }
@@ -37,10 +45,13 @@ describe('products page', () => {
     products.wrappers.forEach((productView, i) => {
       expect(productView.attributes().id).toBe(data.data.products[i].id)
       expect(productView.attributes().name).toBe(data.data.products[i].name)
-      expect(productView.attributes().imageurl).toBe(
-        data.data.products[i].imageUrl
-      )
+      expect(productView.attributes().price).toBeDefined()
     })
+
+    expect(products.wrappers[0].attributes().imageurl).toBe(
+      data.data.products[0].imageUrl
+    )
+    expect(products.wrappers[1].attributes().imageurl).toBe('')
 
     expect(wrapper.find('#no-products').exists()).toBe(false)
 
@@ -97,11 +108,19 @@ describe('products page', () => {
     const mock = [
       {
         id: 'id-1',
-        name: 'name-1'
+        name: 'name-1',
+        price: {
+          value: 1,
+          currency: 'currency-1'
+        }
       },
       {
         id: 'id-2',
-        name: 'name-2'
+        name: 'name-2',
+        price: {
+          value: 2,
+          currency: 'currency-2'
+        }
       }
     ]
 

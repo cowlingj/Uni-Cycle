@@ -23,7 +23,11 @@ describe('Products route', () => {
   const products = [
     {
       id: 'id-1',
-      name: 'name-1'
+      name: 'name-1',
+      price: {
+        value: 1050,
+        currency: 'GBP'
+      }
     }
   ]
 
@@ -80,7 +84,15 @@ describe('Products route', () => {
 
     products.forEach((product) => {
       Object.keys(product).forEach((key) => {
-        expect(productsHTML).toContain(product[key])
+        switch (key) {
+          case 'price':
+            expect(productsHTML).toContain('£10.50')
+            break
+          default:
+            expect(productsHTML).toContain(product[key])
+            break
+        }
+
       })
     })
 

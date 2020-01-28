@@ -6,10 +6,17 @@ module.exports = ({ config, mode: _mode }) => {
     module: {
       rules: [
         {
-          test: /\.(svg)(\?.*)?$/,
+          test: /\.svg$/,
+          loaders: [
+            'url-loader'
+          ]
+        },
+        {
+          test: /\.svg$/,
+          resourceQuery: /inline/,
           loaders: [
             'babel-loader',
-            'vue-svg-loader',
+            'vue-svg-loader'
           ]
         },
         {

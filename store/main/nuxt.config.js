@@ -96,11 +96,7 @@ export default {
      */
     extend(config, ctx) {}
   },
-  ignore: [
-    '**/*.spec.js',
-    '**/*.integration.js',
-    'pages/events/**/*'
-  ],
+  ignore: ['**/*.spec.js', '**/*.integration.js', 'pages/events/**/*'],
   server: {
     port: process.env.PORT || 80,
     host: process.env.HOST || 'localhost'

@@ -1,5 +1,5 @@
 query {
   allProducts {
-    id, name, imageUrl
+    id, name, imageUrl, price { currency, value }
   }
 }

@@ -1,13 +1,18 @@
 import { shallowMount } from '@vue/test-utils'
 import Product from '@/components/product.vue'
 
-describe('header', () => {
+describe('Product Card', () => {
   it('Must render', () => {
     expect(
       shallowMount(Product, {
-        props: {
+        propsData: {
           id: 'id',
-          name: 'name'
+          name: 'name',
+          imageUrl: 'url',
+          price: {
+            value: 10.5,
+            currency: 'gbp'
+          }
         },
         stubs: ['nuxt-link']
       }).html()
