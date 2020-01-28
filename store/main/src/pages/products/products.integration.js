@@ -24,6 +24,7 @@ describe('Products route', () => {
     {
       id: 'id-1',
       name: 'name-1',
+      imageUrl: null,
       price: {
         value: 1050,
         currency: 'GBP'
@@ -92,7 +93,6 @@ describe('Products route', () => {
             expect(productsHTML).toContain(product[key])
             break
         }
-
       })
     })
 

@@ -20,6 +20,7 @@ describe('products page', () => {
           {
             id: 'id-1',
             name: 'name-1',
+            imageUrl: null,
             price: {
               value: 0,
               currency: 'gbp'
@@ -51,7 +52,7 @@ describe('products page', () => {
     expect(products.wrappers[0].attributes().imageurl).toBe(
       data.data.products[0].imageUrl
     )
-    expect(products.wrappers[1].attributes().imageurl).toBe('')
+    expect(products.wrappers[1].attributes().imageurl).toBe(undefined)
 
     expect(wrapper.find('#no-products').exists()).toBe(false)
 
@@ -109,6 +110,7 @@ describe('products page', () => {
       {
         id: 'id-1',
         name: 'name-1',
+        imageUrl: null,
         price: {
           value: 1,
           currency: 'currency-1'
@@ -117,6 +119,28 @@ describe('products page', () => {
       {
         id: 'id-2',
         name: 'name-2',
+        imageUrl: null,
+        price: {
+          value: 2,
+          currency: 'currency-2'
+        }
+      }
+    ]
+
+    const expected = [
+      {
+        id: 'id-1',
+        name: 'name-1',
+        imageUrl: undefined,
+        price: {
+          value: 1,
+          currency: 'currency-1'
+        }
+      },
+      {
+        id: 'id-2',
+        name: 'name-2',
+        imageUrl: undefined,
         price: {
           value: 2,
           currency: 'currency-2'
@@ -138,7 +162,7 @@ describe('products page', () => {
     })
 
     expect(res.err).toBeUndefined()
-    expect(res.data.products).toEqual(mock)
+    expect(res.data.products).toEqual(expected)
     expect(mockQuery.mock.calls).toEqual([
       [
         {

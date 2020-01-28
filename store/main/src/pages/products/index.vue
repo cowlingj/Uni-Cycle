@@ -16,8 +16,8 @@
     <section id="no-products" v-else-if="data.products.length === 0">
       <p>no products :(</p>
     </section>
-    <section id="product-list" v-else class="w-1/2 m-auto">
-      <ul class="grid">
+    <section id="product-list" v-else class="w-4/5 m-auto">
+      <ul class="grid w-full my-20">
         <li v-for="product in data.products" :key="product.id">
           <Product
             :id="product.id"
@@ -33,21 +33,10 @@
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 14rem));
   grid-gap: 1rem;
   justify-content: center;
-}
-
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(4, minmax(1fr, 800px));
-  }
+  grid-auto-rows: 1fr;
 }
 </style>
 <script>
@@ -73,7 +62,14 @@ export default {
       })
       return {
         data: {
-          products: res.data.allProducts
+          products: res.data.allProducts.map((product) => {
+            return {
+              id: product.id,
+              name: product.name,
+              imageUrl: product.imageUrl ? product.imageUrl : undefined,
+              price: product.price
+            }
+          })
         }
       }
     } catch (err) {
