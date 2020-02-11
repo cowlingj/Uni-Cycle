@@ -14,7 +14,10 @@ describe('Product Card', () => {
             currency: 'gbp'
           }
         },
-        stubs: ['nuxt-link']
+        stubs: ['nuxt-link'],
+        mocks: {
+          $priceString: jest.fn()
+        }
       }).html()
     ).not.toBeUndefined()
   })

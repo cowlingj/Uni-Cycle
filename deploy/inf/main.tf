@@ -70,4 +70,5 @@ module "helm" {
   use_istio = var.use_istio
   users = var.users
   lb_ip_address = module.cluster.lb_ip_address
+  contact_email = var.contact_email
 }

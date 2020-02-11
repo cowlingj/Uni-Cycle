@@ -1,6 +1,7 @@
 import { config } from 'dotenv'
-const env = config()
+config()
 
+const base = '/store/'
 export default {
   srcDir: './src',
   mode: 'universal',
@@ -18,7 +19,7 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: `${base}/favicon.ico` }]
   },
   /*
    ** Customize the progress-bar color
@@ -36,6 +37,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    { src: './plugins/price-string.js' },
     { src: './plugins/cms-path.js' },
     { src: './plugins/products-path.js' },
     { src: './plugins/update-locale.js' }
@@ -58,6 +60,7 @@ export default {
     '@nuxtjs/apollo',
     '@nuxtjs/pwa',
     '@nuxtjs/svg',
+    '~/modules/dotenv',
     [
       'nuxt-env',
       {
@@ -66,12 +69,9 @@ export default {
           { key: 'CMS_EXTERNAL_URI' },
           { key: 'PRODUCTS_INTERNAL_URI' },
           { key: 'PRODUCTS_EXTERNAL_URI' },
+          { key: 'CONTACT_EMAIL' },
           { key: 'DEFAULT_LOCALE', default: 'en-gb' }
-        ].map((item) =>
-          Object.assign({}, item, {
-            default: env[item.key] ? env[item.key] : item.default
-          })
-        )
+        ]
       }
     ]
   ],
@@ -102,7 +102,7 @@ export default {
     host: process.env.HOST || 'localhost'
   },
   router: {
-    base: '/store/',
+    base,
     middleware: ['cms-path', 'products-path', 'auto-locale']
   }
 }

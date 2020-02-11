@@ -5,6 +5,7 @@ group: frontend
 version: "0.0.1"
 image: gcr.io/gke-test-253221/store.frontend
 imagePullSecret: gcr
+eamil: null
 ports:
   main:
     name: main

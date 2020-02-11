@@ -1,0 +1,5 @@
+query nextEvent($isoDate: DateTime) {
+  allEvents(where: { end_gt: $isoDate }, first: 1) {
+    start, end, title, description, location, ical
+  }
+}

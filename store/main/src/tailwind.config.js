@@ -1,9 +1,3 @@
-/*
- ** TailwindCSS Configuration File
- **
- ** Docs: https://tailwindcss.com/docs/configuration
- ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
- */
 module.exports = {
   theme: {
     colors: {
@@ -13,11 +7,20 @@ module.exports = {
       bg_bot: 'var(--color-bg_bot)',
       bg_mid: 'var(--color-bg_mid)',
       bg_top: 'var(--color-bg_top)',
-      bg_highlight: 'var(--color-bg_highlight)'
+      bg_highlight: 'var(--color-bg_highlight)',
+      action_secondary: 'var(--color-action_secondary)',
+      none: 'transparent'
     },
     extend: {
-      inset: {
-        '1/3': '33%'
+      spacing: {
+        '1/3': '33%',
+        '1/2': '50%'
+      },
+      maxWidth: {
+        '1/2': '50%'
+      },
+      maxHeight: {
+        'screen/2': '50vh'
       },
       fontFamily: {
         brand: [
@@ -36,5 +39,40 @@ module.exports = {
     }
   },
   variants: {},
-  plugins: []
+  plugins: [
+    require('tailwindcss-grid')({
+      grids: [2, 3, 5, 6, 8, 10, 12],
+      gaps: {
+        0: '0',
+        4: '1rem',
+        8: '2rem',
+        '4-x': '1rem',
+        '4-y': '1rem'
+      },
+      autoMinWidths: {
+        '16': '4rem',
+        '24': '6rem',
+        '300px': '300px'
+      },
+      variants: ['responsive']
+    }),
+    function({ addVariant, e }) {
+      addVariant('after', ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          return `.${e(`after${separator}${className}`)}::after`
+        })
+      })
+    },
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.empty': {
+          content: "'\\200B'"
+        }
+      }
+
+      addUtilities(newUtilities, {
+        variants: ['after']
+      })
+    }
+  ]
 }

@@ -37,3 +37,7 @@ variable "users" {
   }))
   default = []
 }
+
+variable "contact_email" {
+  type = string
+}

@@ -41,3 +41,7 @@ variable "users" {
 variable lb_ip_address {
   type = object({ name = string, address = string})
 }
+
+variable "contact_email" {
+  type = string
+}

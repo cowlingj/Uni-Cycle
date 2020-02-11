@@ -17,11 +17,13 @@
   },
   "collectCoverage":true,
   "collectCoverageFrom":[
-    "<rootDir>/components/**/*.vue",
-    "<rootDir>/pages/**/*.vue",
-    "<rootDir>/plugins/**/*.js",
-    "<rootDir>/middleware/**/*.js",
-    "<rootDir>/layouts/**/*.vue",
+    "<rootDir>/**/*.vue",
+    "<rootDir>/**/*.js",
+    "!<rootDir>/config/**/*",
+    "!<rootDir>/static/**/*",
+    "!<rootDir>/assets/**/*",
+    "!<rootDir>/**/*.stories.js",
+    "!<rootDir>/**/*.config.js",
     "!<rootDir>/**/*.integration.js"
   ],
   "coverageDirectory":"<rootDir>/../coverage"

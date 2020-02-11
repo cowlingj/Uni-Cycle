@@ -32,3 +32,4 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 | DEFAULT_LOCALE | locale to use if no other is found |
 | HOST | ip address to bind to |
 | PORT | port to listen on |
+| CONTACT_EMAIL | email at which to make product reservations and enquiries |

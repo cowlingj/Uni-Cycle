@@ -38,4 +38,9 @@ resource "helm_release" "store" {
       value = var.lb_ip_address.address
     }
   }
+
+  set {
+    name = "email"
+    value = var.contact_email
+  }
 }

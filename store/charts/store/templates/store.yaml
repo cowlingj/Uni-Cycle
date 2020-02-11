@@ -43,6 +43,8 @@ spec:
               value: {{ printf "\"%s://%s:%s%s\"" .Values.products.external.protocol ( default .Values.backend.ip .Values.backend.hostname ) ( toString .Values.products.external.port ) .Values.products.external.path }}
             - name: PRODUCTS_INTERNAL_URI
               value: {{ printf "\"%s://%s:%s%s\"" .Values.products.internal.protocol .Values.products.internal.hostname ( toString .Values.products.internal.port ) .Values.products.internal.path }}
+            - name: CONTACT_EMAIL
+              value: {{ .Values.email | quote }}
             - name: PORT
               value: "80"
             - name: HOST

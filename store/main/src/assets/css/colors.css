@@ -6,6 +6,7 @@
   --color-bg_top: #fbfff9;
   --color-bg_highlight: #f2f5f8;
   --color-fg: #2d3038;
+  --color-action_secondary: #bbb;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +18,6 @@
         --color-bg_top: #404450;
         --color-bg_highlight: #525766;
         --color-fg: #fbfff9;
+        --color-action_secondary: #fbfff9;
     }
 }

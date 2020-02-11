@@ -32,7 +32,8 @@
     "graphql-tag": "^2.10.1",
     "moment": "^2.24.0",
     "nuxt": "^2.11.0",
-    "nuxt-env": "^0.1.0"
+    "nuxt-env": "^0.1.0",
+    "tailwindcss-grid": "^1.2.1"
   },
   "devDependencies": {
     "@cowlingj/products-api": "https://github.com/cowlingj/ecommerce-backend/raw/master/packages/node/cowlingj-products-api-0.0.3.tgz",
