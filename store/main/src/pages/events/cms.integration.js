@@ -10,8 +10,7 @@ import axios from 'axios'
 import { URLResolver, URLTypeDefinition } from 'graphql-scalars'
 
 import config from '@/../nuxt.config.js'
-import rootSchema from '@/lib/cms-api/schema.gql'
-import eventSchema from '@/lib/cms-api/event.gql'
+import cmsSchema from '@cowlingj/cms-api'
 
 process.env.CMS_INTERNAL_URI = 'http://localhost:8081'
 process.env.CMS_EXTERNAL_URI = 'http://localhost:8081'
@@ -44,7 +43,7 @@ describe.skip('Cms route', () => {
 
   beforeAll(async () => {
     const apolloServer = new ApolloServer({
-      typeDefs: [rootSchema, eventSchema, URLTypeDefinition],
+      typeDefs: [cmsSchema, URLTypeDefinition],
       resolvers: {
         Query: { allEvents: () => events },
         URL: URLResolver

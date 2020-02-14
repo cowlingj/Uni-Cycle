@@ -24,7 +24,7 @@ describe('Products route', () => {
     {
       id: 'id-1',
       name: 'name-1',
-      imageUrl: null,
+      imageUrl: 'http://example.jpg/',
       price: {
         value: 1050,
         currency: 'GBP'

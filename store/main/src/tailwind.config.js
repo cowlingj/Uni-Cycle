@@ -12,12 +12,16 @@ module.exports = {
       none: 'transparent'
     },
     extend: {
+      zIndex: {
+        '-10': '-10'
+      },
       spacing: {
         '1/3': '33%',
         '1/2': '50%'
       },
       maxWidth: {
-        '1/2': '50%'
+        '1/2': '50%',
+        '4/5': '80%'
       },
       maxHeight: {
         'screen/2': '50vh'

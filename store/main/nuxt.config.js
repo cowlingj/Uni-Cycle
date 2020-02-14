@@ -31,7 +31,9 @@ export default {
   css: [
     '~assets/css/browser-settings.css',
     '~assets/css/colors.css',
-    '~assets/css/fonts.css'
+    '~assets/css/fonts.css',
+    '~assets/css/utilities.css',
+    '~assets/css/defaults.css'
   ],
   /*
    ** Plugins to load before mounting the App
