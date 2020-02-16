@@ -1,6 +1,6 @@
 <template>
   <article class="relative z-0 h-full w-full overflow-y-auto">
-    <section class="h-full">
+    <section class="h-full w-full splash">
       <div class="h-1/2 empty" />
       <div class="w-full flex justify-center">
         <h2 class="text-3xl font-brand font-swap text-center text-fg">
@@ -10,12 +10,14 @@
     </section>
     <section
       v-if="nextEvent"
-      class="h-full flex flex-col content-center items-center justify-center z-10"
+      class="min-h-full flex flex-col content-center items-center justify-center z-10"
     >
+      <h2 class="text-3xl leading-loose text-center">
+        Join us at our next event!
+      </h2>
       <div
         class="max-w-4/5 min-h-1/2 lg:max-w-1/2 bg-bg_mid rounded shadow p-2"
       >
-        <p class="text-3xl">Join us at our next event!</p>
         <p class="leading-loose text-2xl">{{ nextEvent.title }}</p>
         <div class="flex flex-row items-start">
           <DescriptionIcon fill="var(--color-fg)" class="flex-0 mr-4" />
@@ -43,14 +45,15 @@
         </div>
       </div>
     </section>
-    <section class="h-full">
-      <p>values</p>
+    <section v-if="values" class="min-h-full">
+      <h2 class="text-3xl w-full text-center leading-loose">Our Values</h2>
+      <pre class="font-sans w-4/5 m-auto whitespace-pre-wrap">{{ values }}</pre>
     </section>
   </article>
 </template>
 
 <style scoped>
-article::after {
+article::before {
   content: '';
   background: url('~assets/img/splash.svg');
   background-size: auto 100%;
@@ -65,11 +68,44 @@ article::after {
   z-index: -1;
   opacity: 0.5;
 }
+
+.splash::before {
+  content: '';
+  background: linear-gradient(
+      rgba(199, 223, 224, 0.8),
+      rgba(199, 223, 224, 0.8)
+    ),
+    url('~assets/img/img_splash.jpg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .splash::before {
+    background: linear-gradient(
+        rgba(128, 139, 139, 0.8),
+        rgba(128, 139, 139, 0.8)
+      ),
+      url('~assets/img/img_splash.jpg');
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
 </style>
 
 <script>
 import moment from 'moment'
 import eventQuery from './next-event.gql'
+import valuesQuery from './values.gql'
 import ClockIcon from '@/assets/img/ic_clock.svg?inline'
 import DescriptionIcon from '@/assets/img/ic_description.svg?inline'
 import LocationIcon from '@/assets/img/ic_map-pin.svg?inline'
@@ -82,7 +118,12 @@ export default {
     LocationIcon,
     CalendarIcon
   },
-  data: () => ({ nextEvent: null }),
+  data() {
+    return {
+      nextEvent: null,
+      values: null
+    }
+  },
   computed: {
     relativeTime() {
       if (new Date(this.nextEvent.start).getTime() < Date.now()) {
@@ -92,7 +133,6 @@ export default {
     }
   },
   apollo: {
-    $client: 'cms',
     nextEvent: {
       query: eventQuery,
       update: (data) => {
@@ -106,7 +146,21 @@ export default {
       },
       variables: {
         date: new Date().toISOString()
-      }
+      },
+      client: 'cms'
+    },
+    values: {
+      query: valuesQuery,
+      update: (data) => {
+        if (!data.allStringValues || data.allStringValues.length < 1) {
+          return null
+        }
+        return data.allStringValues[0].value
+      },
+      error(err, vm) {
+        vm.err = err
+      },
+      client: 'cms'
     }
   }
 }

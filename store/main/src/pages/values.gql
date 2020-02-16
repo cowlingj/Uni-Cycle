@@ -1,0 +1,5 @@
+query {
+  allStringValues(where: { key: "values" }, first: 1) {
+    value
+  }
+}

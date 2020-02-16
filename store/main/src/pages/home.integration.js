@@ -2,24 +2,25 @@
  * @jest-environment node
  */
 
-import { Nuxt, Builder } from 'nuxt'
 import { promisify } from 'util'
+import { Nuxt, Builder } from 'nuxt'
 import { ApolloServer } from 'apollo-server'
 import { URLResolver, URLTypeDefinition } from 'graphql-scalars'
-import gql from 'graphql-tag'
-import config from '@/../nuxt.config.js'
 import cmsSchema from '@cowlingj/cms-api'
-import {buildClientSchema} from 'graphql'
-import {addMockFunctionsToSchema} from 'graphql-tools'
+import { buildClientSchema } from 'graphql'
+import { addMockFunctionsToSchema } from 'graphql-tools'
+import config from '@/../nuxt.config.js'
 
-const events = [{
+const events = [
+  {
     title: 'title',
     description: 'desc',
     start: '2020-01-01 00:00',
     end: '2020-01-02 00:00',
     location: 'location',
     ical: 'ical'
-}]
+  }
+]
 
 process.env.CMS_INTERNAL_URI = 'http://localhost:8081/'
 process.env.CMS_EXTERNAL_URI = 'http://localhost:8081/'
@@ -31,7 +32,7 @@ describe('Home route', () => {
   addMockFunctionsToSchema({
     schema: buildClientSchema(cmsSchema),
     mocks: {},
-    preserveResolvers: false,
+    preserveResolvers: false
   })
 
   beforeAll(async () => {

@@ -1,11 +1,10 @@
 import { shallowMount } from '@vue/test-utils'
-import Index from '@/pages/index.vue'
 import moment from 'moment'
+import Index from '@/pages/index.vue'
 
 jest.mock('moment', () => jest.fn(() => jest.requireActual('moment')))
 
 describe('homepage', () => {
-
   beforeEach(() => {
     moment.mockReset()
   })
@@ -66,7 +65,9 @@ describe('homepage', () => {
       expect(html).toContain(expected.description)
       expect(html).toContain(expected.location)
       expect(wrapper.find(`a[href=${expected.ical}]`).exists()).toBe(true)
-      expect(wrapper.find('.relativeTime').html()).toContain(expected.relativeTime)
+      expect(wrapper.find('.relativeTime').html()).toContain(
+        expected.relativeTime
+      )
     })
 
     it('renders with a current next event', () => {
@@ -103,7 +104,9 @@ describe('homepage', () => {
       expect(html).toContain(expected.description)
       expect(html).toContain(expected.location)
       expect(wrapper.find(`a[href=${expected.ical}]`).exists()).toBe(true)
-      expect(wrapper.find('.relativeTime').html()).toContain(expected.relativeTime)
+      expect(wrapper.find('.relativeTime').html()).toContain(
+        expected.relativeTime
+      )
     })
   })
 
@@ -133,10 +136,38 @@ describe('homepage', () => {
       expect(Index.apollo.nextEvent.update(mock)).toEqual(mock.allEvents[0])
     })
 
-    it('handles errors correctly', () => {
+    it('handles nextEvent errors correctly', () => {
       const vm = {}
       const error = new Error()
       Index.apollo.nextEvent.error(error, vm)
+      expect(vm.err).toBeTruthy()
+    })
+
+    it('handles no "values" string', () => {
+      const mock = {
+        allStringValues: []
+      }
+
+      expect(Index.apollo.values.update(mock)).toBeNull()
+    })
+
+    it('handles one "values" string', () => {
+      const expectedValue = 'values-text'
+      const mock = {
+        allStringValues: [
+          {
+            value: expectedValue
+          }
+        ]
+      }
+
+      expect(Index.apollo.values.update(mock)).toEqual(expectedValue)
+    })
+
+    it('handles nextEvent errors correctly', () => {
+      const vm = {}
+      const error = new Error()
+      Index.apollo.values.error(error, vm)
       expect(vm.err).toBeTruthy()
     })
   })

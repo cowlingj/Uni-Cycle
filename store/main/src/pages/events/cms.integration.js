@@ -9,8 +9,8 @@ import { JSDOM } from 'jsdom'
 import axios from 'axios'
 import { URLResolver, URLTypeDefinition } from 'graphql-scalars'
 
-import config from '@/../nuxt.config.js'
 import cmsSchema from '@cowlingj/cms-api'
+import config from '@/../nuxt.config.js'
 
 process.env.CMS_INTERNAL_URI = 'http://localhost:8081'
 process.env.CMS_EXTERNAL_URI = 'http://localhost:8081'
