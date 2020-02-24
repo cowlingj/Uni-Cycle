@@ -1,6 +1,10 @@
+locals {
+  image_pull_secrets = jsondecode(file("${path.root}/config/kubernetes/${var.cluster}/image-pull-secrets.json")).image_pull_secrets
+}
+
 resource "kubernetes_secret" "image_pull_secrets" {
 
-  count = length(var.image_pull_secrets)
+  count = length(local.image_pull_secrets)
 
   metadata {
     name = "secret-regcred-${count.index}"
@@ -11,8 +15,8 @@ resource "kubernetes_secret" "image_pull_secrets" {
 
   data  = {
     ".dockerconfigjson" = templatefile("${path.module}/dockerconfig.template.json", {
-      registry = var.image_pull_secrets[count.index].registry
-      auth = base64encode("${var.image_pull_secrets[count.index].username}:${var.image_pull_secrets[count.index].password}")
+      registry = local.image_pull_secrets[count.index].registry
+      auth = base64encode("${local.image_pull_secrets[count.index].username}:${local.image_pull_secrets[count.index].password}")
     })
   }
 }

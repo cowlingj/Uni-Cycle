@@ -19,29 +19,10 @@ variable "pvc_name" {
   type = string
 }
 
-variable "cluster" {
-  type = string
-  default = "minikube"
-}
-
-variable use_istio {
-  type = bool
-  default = true
-}
-
-variable "users" {
-  type = list(object({
-    username = string
-    password = string
-    is_admin = bool
-  }))
-  default = []
-}
-
 variable lb_ip_address {
   type = object({ name = string, address = string})
 }
 
-variable "contact_email" {
+variable cluster {
   type = string
 }

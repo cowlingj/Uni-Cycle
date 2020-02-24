@@ -24,6 +24,12 @@ variable "cms_db_database" {
   default = "cms"
 }
 
+locals {
+  izettle_credentials = jsondecode(file("${path.root}/.secrets/credentials/izettle.json"))
+  users = jsondecode(file("${path.root}/.secrets/cms/default-users.json")).users
+  string_values = jsondecode(file("${path.root}/.secrets/cms/default-strings.json")).strings
+}
+
 resource "helm_release" "backend" {
 
   depends_on = [ var._depends_on ]
@@ -96,22 +102,22 @@ resource "helm_release" "backend" {
 
   set {
     name = "izettle-products.izettleCredentials.username"
-    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).username
+    value = local.izettle_credentials.username
   }
 
   set_sensitive {
     name = "izettle-products.izettleCredentials.password"
-    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).password
+    value = local.izettle_credentials.password
   }
 
   set {
     name = "izettle-products.izettleCredentials.client_id"
-    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).client_id
+    value = local.izettle_credentials.client_id
   }
 
   set_sensitive {
     name = "izettle-products.izettleCredentials.client_secret"
-    value = jsondecode(file("${path.root}/.secrets/credentials/izettle.json")).client_secret
+    value = local.izettle_credentials.client_secret
   }
 
   set {
@@ -125,7 +131,7 @@ resource "helm_release" "backend" {
   }
 
   dynamic set_sensitive {
-    for_each = var.users
+    for_each = local.users
     iterator = user
     content {
       name = "cms.users.data.users[${user.key}].username"
@@ -134,7 +140,7 @@ resource "helm_release" "backend" {
   }
 
   dynamic set_sensitive {
-    for_each = var.users
+    for_each = local.users
     iterator = user
     content {
       name = "cms.users.data.users[${user.key}].password"
@@ -143,11 +149,29 @@ resource "helm_release" "backend" {
   }
 
   dynamic set_sensitive {
-    for_each = var.users
+    for_each = local.users
     iterator = user
     content {
       name = "cms.users.data.users[${user.key}].isAdmin"
       value = user.value.is_admin
+    }
+  }
+
+  dynamic set_string {
+    for_each = local.string_values
+    iterator = string_value
+    content {
+      name = "cms.strings.data.strings[${string_value.key}].key"
+      value = string_value.value.key
+    }
+  }
+
+  dynamic set_string {
+    for_each = local.string_values
+    iterator = string_value
+    content {
+      name = "cms.strings.data.strings[${string_value.key}].value"
+      value = replace(replace(string_value.value.value, "/\n/", "\n"), ",", "\\,")
     }
   }
 

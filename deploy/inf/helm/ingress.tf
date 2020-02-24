@@ -1,7 +1,7 @@
 resource "helm_release" "ingress_controller" {
   depends_on = [ var._depends_on ]
 
-  count = var.use_istio ? 0 : 1
+  count = local.use_istio ? 0 : 1
 
   name       = "ingress"
   chart      = "stable/nginx-ingress"

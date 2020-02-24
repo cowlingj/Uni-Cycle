@@ -1,3 +1,7 @@
+locals {
+  use_istio = jsondecode(file("${path.root}/config/cluster/${var.cluster}.json")).use_istio
+}
+
 resource "kubernetes_namespace" "main" {
 
   timeouts {
@@ -24,6 +28,8 @@ resource "kubernetes_namespace" "helm" {
 }
 
 resource "kubernetes_namespace" "istio" {
+
+  count = local.use_istio ? 1 : 0
 
   timeouts {
     delete = "10m"

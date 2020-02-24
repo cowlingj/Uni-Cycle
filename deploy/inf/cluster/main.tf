@@ -1,12 +1,18 @@
+locals {
+  cluster = jsondecode(
+    file("${path.root}/config/cluster/${var.cluster}/cluster.json")
+  )
+}
+
 module "google" {
   source = "./google"
-  enabled = var.cluster == "google"
-  use_istio = var.use_istio
+  enabled = local.cluster.type == "google"
+  use_istio = local.cluster.use_istio
 }
 
 module "minikube" {
   source = "./minikube"
-  enabled = var.cluster == "minikube"
+  enabled = local.cluster.type == "minikube"
 }
 
 resource null_resource "catch_all" {

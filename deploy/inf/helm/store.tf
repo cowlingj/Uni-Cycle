@@ -41,6 +41,6 @@ resource "helm_release" "store" {
 
   set {
     name = "email"
-    value = var.contact_email
+    value = jsondecode(file("${path.root}/config/store/contact.json")).contact_email
   }
 }

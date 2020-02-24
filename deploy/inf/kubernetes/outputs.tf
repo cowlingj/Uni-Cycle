@@ -7,7 +7,7 @@ output "namespaces" {
   value = {
     main = kubernetes_namespace.main.metadata[0].name
     helm = kubernetes_namespace.helm.metadata[0].name
-    istio = kubernetes_namespace.istio.metadata[0].name
+    istio = local.use_istio ? kubernetes_namespace.istio[0].metadata[0].name : null
   }
 }
 
