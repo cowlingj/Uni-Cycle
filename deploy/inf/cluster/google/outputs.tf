@@ -26,7 +26,7 @@ output "kubernetes_config" {
 
 output lb_ip_address {
   value = {
-    name = google_compute_address.ip_address[0].name
-    address = google_compute_address.ip_address[0].address
+    name = var.enabled ? google_compute_address.ip_address[0].name : null
+    address = var.enabled ? google_compute_address.ip_address[0].address : null
   }
 }

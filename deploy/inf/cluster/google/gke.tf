@@ -1,6 +1,6 @@
 resource "google_container_cluster" "main" {
   count = var.enabled ? 1: 0
-  provider = "google-beta"
+  provider = google-beta
   name     = "tf-gke-cluster"
 
   remove_default_node_pool = true
@@ -29,7 +29,7 @@ resource "google_container_cluster" "main" {
 
 resource "google_container_node_pool" "primary_nodes" {
   count = var.enabled ? 1: 0
-  provider   = "google-beta"
+  provider   = google-beta
   name       = "my-node-pool"
   cluster    = google_container_cluster.main[count.index].name
   initial_node_count = 3
@@ -75,7 +75,7 @@ resource "null_resource" "wait" {
 }
 
 resource "google_compute_address" "ip_address" {
-  provider = "google-beta"
+  provider = google-beta
 
   region = "europe-west1"
   count = var.enabled ? 1: 0

@@ -6,7 +6,7 @@ variable "namespaces" {
 }
 
 variable "_depends_on" {
-  type = "list"
+  type = list
   default = []
 }
 

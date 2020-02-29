@@ -27,6 +27,6 @@ output "kubernetes_config" {
 output "lb_ip_address" {
   value = {
     name = null
-    address = data.null_data_source.lb_ip_address[0].outputs["address"]
+    address = var.enabled && length(data.null_data_source.lb_ip_address) >= 1 ? data.null_data_source.lb_ip_address[0].outputs["address"] : null
   }
 }

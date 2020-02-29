@@ -51,6 +51,41 @@ resource "helm_release" "backend" {
     }
   }
 
+  set {
+    name = "izettle-products.enabled"
+    value = false
+  }
+
+  set {
+    name = "json-products.enabled"
+    value = true
+  }
+
+  set {
+    name = "json-products.imagePullSecret"
+    value = ""
+  }
+
+  dynamic set {
+    for_each = length(var.image_pull_secret_names) > 0 ? var.image_pull_secret_names : []
+    iterator = each
+    content {
+      name = "json-products.imagePullSecrets[${each.key}].name"
+      value = each.value
+    }
+  }
+
+  values = [
+    <<EOT
+      json-products:
+        secrets:
+          products:
+            data:
+              products:
+                products: []
+    EOT
+  ]
+
   dynamic set {
     for_each = length(var.image_pull_secret_names) > 0 ? slice(var.image_pull_secret_names, 0, 1) : []
     iterator = each
@@ -208,5 +243,10 @@ resource "helm_release" "backend" {
   set {
     name = "nginx-ingress.useHttps"
     value = false
+  }
+
+  set {
+    name = "nginx-ingress.products.name"
+    value = "json-products"
   }
 }
