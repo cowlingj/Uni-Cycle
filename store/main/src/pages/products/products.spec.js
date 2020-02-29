@@ -148,7 +148,7 @@ describe('products page', () => {
       }
     ]
 
-    const mockQuery = jest.fn(() => ({ data: { allProducts: mock } }))
+    const mockQuery = jest.fn(() => ({ data: { products: mock } }))
     const res = await Products.asyncData({
       app: {
         apolloProvider: {

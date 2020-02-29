@@ -109,9 +109,9 @@ export default {
       })
       return {
         data: {
-          product: Object.assign({}, res.data.productById, {
-            imageUrl: res.data.productById.imageUrl
-              ? res.data.productById.imageUrl
+          product: Object.assign({}, res.data.product, {
+            imageUrl: res.data.product.imageUrl
+              ? res.data.product.imageUrl
               : defaultImageUrl
           })
         }

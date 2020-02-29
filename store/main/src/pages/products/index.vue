@@ -62,7 +62,7 @@ export default {
       })
       return {
         data: {
-          products: res.data.allProducts.map((product) => {
+          products: res.data.products.map((product) => {
             return {
               id: product.id,
               name: product.name,

@@ -3,14 +3,12 @@
  */
 
 import { promisify } from 'util'
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer, mergeSchemas } from 'apollo-server'
 import { Nuxt, Builder } from 'nuxt'
 import { JSDOM } from 'jsdom'
 import axios from 'axios'
-import { URLTypeDefinition, URLResolver } from 'graphql-scalars'
-
-import rootSchema from '@cowlingj/products-api/schema.gql'
-import productSchema from '@cowlingj/products-api/product.gql'
+import { schema } from '@cowlingj/products-api'
+import { buildClientSchema } from 'graphql'
 import config from '@/../nuxt.config.js'
 
 process.env.PRODUCTS_INTERNAL_URI = 'http://localhost:8081'
@@ -34,11 +32,12 @@ describe('Products route', () => {
 
   beforeAll(async () => {
     const apolloServer = new ApolloServer({
-      typeDefs: [rootSchema, productSchema, URLTypeDefinition],
-      resolvers: {
-        Query: { allProducts: () => products },
-        URL: URLResolver
-      }
+      schema: mergeSchemas({
+        schemas: [buildClientSchema(schema)],
+        resolvers: {
+          Query: { products: () => products }
+        }
+      })
     })
 
     server = (

@@ -85,7 +85,7 @@ describe('product page', () => {
 
     const expectedId = '00000000-0000-4000-a000-000000000000'
 
-    const mockQuery = jest.fn(() => ({ data: { productById: mock } }))
+    const mockQuery = jest.fn(() => ({ data: { product: mock } }))
     const res = await Product.asyncData({
       params: {
         id: expectedId
@@ -120,7 +120,7 @@ describe('product page', () => {
 
     const expectedId = '00000000-0000-4000-a000-000000000000'
 
-    const mockQuery = jest.fn(() => ({ data: { productById: mock } }))
+    const mockQuery = jest.fn(() => ({ data: { product: mock } }))
     const res = await Product.asyncData({
       params: {
         id: expectedId

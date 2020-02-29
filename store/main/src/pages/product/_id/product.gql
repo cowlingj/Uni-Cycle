@@ -1,5 +1,5 @@
-query q($id: ID!){
-  productById(id: $id) {
+query($id: ID!){
+  product(id: $id) {
     id, name, price { currency, value }, imageUrl
   }
 }
