@@ -144,9 +144,6 @@ export default {
       error(err, vm) {
         vm.err = err
       },
-      variables: {
-        date: new Date().toISOString()
-      },
       client: 'events'
     },
     values: {
