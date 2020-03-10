@@ -27,6 +27,7 @@ variable "cms_db_database" {
 locals {
   users = file("${path.root}/.secrets/cms/default-users.json")
   string_values = file("${path.root}/.secrets/cms/default-strings.json")
+  image_pull_secrets = [for secret in var.image_pull_secret_names: {name: secret}]
 }
 
 resource "helm_release" "backend" {
@@ -41,49 +42,16 @@ resource "helm_release" "backend" {
   version    = "0.0.1"
   namespace  = var.namespaces.main
 
-  # dynamic set {
-  #   for_each = var.image_pull_secret_names
-  #   iterator = each
-  #   content {
-  #     name = "keystone-cms.imagePullSecrets[${each.key}].name"
-  #     value = each.value
-  #   }
-  # }
-
-  # dynamic set {
-  #   for_each = var.image_pull_secret_names
-  #   iterator = each
-  #   content {
-  #     name = "keystone-events.imagePullSecrets[${each.key}].name"
-  #     value = each.value
-  #   }
-  # }
-
-  # dynamic set {
-  #   for_each = var.image_pull_secret_names
-  #   iterator = each
-  #   content {
-  #     name = "keystone-products.imagePullSecrets[${each.key}].name"
-  #     value = each.value
-  #   }
-  # }
-
-  # dynamic set {
-  #   for_each = var.image_pull_secret_names
-  #   iterator = each
-  #   content {
-  #     name = "simple-example.imagePullSecrets[${each.key}].name"
-  #     value = each.value
-  #   }
-  # }
-
   values = [
     <<EOT
       tags:
         simple-example: true
-        nginx-ingress: true
         keystone: true
       nginx-ingress:
+        enabled: true
+        certIssuer: letsencrypt-staging
+        domainName: null
+        useHttps: false
         paths:
           - path: /cms
             service:
@@ -97,28 +65,24 @@ resource "helm_release" "backend" {
             service:
               name: store
               port: 80
-          - path: /example
-            service:
-              name: simple-example
-              port: 80
           - path: /events
             service:
               name: keystone-events
               port: 80
       keystone-events:
-        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
         keystone:
           uri: http://keystone-cms/cms/graphql
         service:
           fullnameOverride: keystone-events
       keystone-products:
-        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
         keystone:
           uri: http://keystone-cms/cms/graphql
         service:
           fullnameOverride: keystone-products
       keystone-cms:
-        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
         basePath: "/cms"
         service:
           fullnameOverride: keystone-cms
@@ -146,36 +110,16 @@ resource "helm_release" "backend" {
         volumePermissions:
           enabled: true
       mongodb-config:
-        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
         rootPassword: ${random_password.root_db_password.result}
       simple-example:
-        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
         service:
           fullnameOverride: simple-example
         basePath: "/example"
         network:
           products: "http://${var.lb_ip_address.address}/products"
           events: "http://${var.lb_ip_address.address}/events"
-      nginx-ingress:
-        enabled: true
-        certIssuer: letsencrypt-staging
-        domainName: null
-        useHttps: false
     EOT
   ]
-
-  # TODO: check things still work without this
-  # set {
-  #   name = "mongodb.volumePermissions.enabled"
-  #   value = var.cluster == "google"
-  # }
-
-  # dynamic set_string {
-  #   for_each = local.string_values
-  #   iterator = string_value
-  #   content {
-  #     name = "cms.strings.data.strings[${string_value.key}].value"
-  #     value = replace(replace(string_value.value.value, "/\n/", "\n"), ",", "\\,")
-  #   }
-  # }
 }
