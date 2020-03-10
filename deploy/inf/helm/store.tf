@@ -7,27 +7,18 @@ resource "helm_release" "store" {
   version    = "0.0.1"
   namespace  = var.namespaces.main
 
-  dynamic set {
-    for_each = length(var.image_pull_secret_names) > 0 ? slice(var.image_pull_secret_names, 0, 1) : []
-    iterator = each
-    content {
-      name = "imagePullSecret"
-      value = each.value
-    }
+  set {
+    name = "imagePullSecres"
+    value = jsonencode(local.image_pull_secrets)
   }
 
   set {
-    name = "service.type"
-    value = "NodePort"
-  }
-
-  set {
-    name = "cms.internal.path"
+    name = "resources.internal.path"
     value = "/cms/graphql"
   }
 
   set {
-    name = "cms.external.path"
+    name = "resources.external.path"
     value = "/cms/graphql"
   }
 

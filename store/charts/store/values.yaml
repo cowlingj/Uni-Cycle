@@ -4,19 +4,30 @@ name: store
 group: frontend
 version: "0.0.1"
 image: gcr.io/gke-test-253221/store.frontend
-imagePullSecret: gcr
+imagePullSecres: []
 eamil: null
-ports:
-  main:
-    name: main
-    port: 80
-    protocol: http
+
+service:
+  type: ClusterIP
+  port: 80
 
 backend:
   ip: null
   hostname: null
 
-cms:
+events:
+  internal:
+    hostname: cms
+    ip: null
+    path: /
+    protocol: http
+    port: 80
+  external:
+    path: /events
+    protocol: http
+    port: 80
+
+resources:
   internal:
     hostname: cms
     ip: null
