@@ -36,6 +36,7 @@
     "tailwindcss-grid": "^1.2.1"
   },
   "devDependencies": {
+    "@cowlingj/events-api": "https://github.com/cowlingj/ecommerce-backend/raw/master/packages/node/cowlingj-events-api-0.1.0.tgz",
     "@cowlingj/cms-api": "https://github.com/cowlingj/ecommerce-backend/raw/master/packages/node/cowlingj-cms-api-0.0.7.tgz",
     "@cowlingj/products-api": "https://github.com/cowlingj/ecommerce-backend/raw/master/packages/node/cowlingj-products-api-0.0.6.tgz",
     "@nuxtjs/eslint-config": "^1.0.1",

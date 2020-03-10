@@ -1,3 +1,13 @@
+resource "random_password" "username" {
+  length = 32
+  special = false
+}
+
+resource "random_password" "password" {
+  length = 32
+  special = false
+}
+
 resource "google_container_cluster" "main" {
   count = var.enabled ? 1: 0
   provider = google-beta
@@ -18,12 +28,11 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  min_master_version = "1.14.8-gke.33"
+  min_master_version = "1.15.8-gke.3" #"1.14.8-gke.33"
 
-  # FIXME
   master_auth {
-    username = "testtesttesttest"
-    password = "testtesttesttest"
+    username = random_password.username.result
+    password = random_password.password.result
   }
 }
 

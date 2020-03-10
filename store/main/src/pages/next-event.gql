@@ -1,9 +1,10 @@
 query nextEvent($isoDate: DateTime) {
-  allEvents(
-    where: {
-      end_gt: $isoDate },
-    orderBy: "start_ASC",
-    first: 1
+  events(
+    order: {
+      field: "start"
+      reverse: true
+    },
+    count: 1
   ) {
     start, end, title, description, location, ical
   }

@@ -73,7 +73,7 @@ export default {
   },
   async asyncData(context) {
     try {
-      const res = await context.app.apolloProvider.clients.cms.query({
+      const res = await context.app.apolloProvider.clients.events.query({
         query: eventsList
       })
 

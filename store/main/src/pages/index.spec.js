@@ -113,7 +113,7 @@ describe('homepage', () => {
   describe('apollo', () => {
     it('handles no events', () => {
       const mock = {
-        allEvents: []
+        events: []
       }
 
       expect(Index.apollo.nextEvent.update(mock)).toBeNull()
@@ -121,7 +121,7 @@ describe('homepage', () => {
 
     it('handles one event', () => {
       const mock = {
-        allEvents: [
+        events: [
           {
             title: 'title',
             description: 'description',
@@ -133,7 +133,7 @@ describe('homepage', () => {
         ]
       }
 
-      expect(Index.apollo.nextEvent.update(mock)).toEqual(mock.allEvents[0])
+      expect(Index.apollo.nextEvent.update(mock)).toEqual(mock.events[0])
     })
 
     it('handles nextEvent errors correctly', () => {

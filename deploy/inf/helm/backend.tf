@@ -25,16 +25,15 @@ variable "cms_db_database" {
 }
 
 locals {
-  izettle_credentials = jsondecode(file("${path.root}/.secrets/credentials/izettle.json"))
-  users = jsondecode(file("${path.root}/.secrets/cms/default-users.json")).users
-  string_values = jsondecode(file("${path.root}/.secrets/cms/default-strings.json")).strings
+  users = file("${path.root}/.secrets/cms/default-users.json")
+  string_values = file("${path.root}/.secrets/cms/default-strings.json")
 }
 
 resource "helm_release" "backend" {
 
   depends_on = [ var._depends_on ]
 
-  timeout = 900
+  timeout = 720
 
   name       = "ecommerce-backend"
   repository = data.helm_repository.github_master.name
@@ -42,211 +41,141 @@ resource "helm_release" "backend" {
   version    = "0.0.1"
   namespace  = var.namespaces.main
 
-  dynamic set {
-    for_each = length(var.image_pull_secret_names) > 0 ? slice(var.image_pull_secret_names, 0, 1) : []
-    iterator = each
-    content {
-      name = "cms.imagePullSecret"
-      value = each.value
-    }
-  }
+  # dynamic set {
+  #   for_each = var.image_pull_secret_names
+  #   iterator = each
+  #   content {
+  #     name = "keystone-cms.imagePullSecrets[${each.key}].name"
+  #     value = each.value
+  #   }
+  # }
 
-  set {
-    name = "izettle-products.enabled"
-    value = false
-  }
+  # dynamic set {
+  #   for_each = var.image_pull_secret_names
+  #   iterator = each
+  #   content {
+  #     name = "keystone-events.imagePullSecrets[${each.key}].name"
+  #     value = each.value
+  #   }
+  # }
 
-  set {
-    name = "json-products.enabled"
-    value = true
-  }
+  # dynamic set {
+  #   for_each = var.image_pull_secret_names
+  #   iterator = each
+  #   content {
+  #     name = "keystone-products.imagePullSecrets[${each.key}].name"
+  #     value = each.value
+  #   }
+  # }
 
-  set {
-    name = "json-products.imagePullSecret"
-    value = ""
-  }
-
-  dynamic set {
-    for_each = length(var.image_pull_secret_names) > 0 ? var.image_pull_secret_names : []
-    iterator = each
-    content {
-      name = "json-products.imagePullSecrets[${each.key}].name"
-      value = each.value
-    }
-  }
+  # dynamic set {
+  #   for_each = var.image_pull_secret_names
+  #   iterator = each
+  #   content {
+  #     name = "simple-example.imagePullSecrets[${each.key}].name"
+  #     value = each.value
+  #   }
+  # }
 
   values = [
     <<EOT
-      json-products:
+      tags:
+        simple-example: true
+        nginx-ingress: true
+        keystone: true
+      nginx-ingress:
+        paths:
+          - path: /cms
+            service:
+              name: keystone-cms
+              port: 80
+          - path: /products
+            service:
+              name: keystone-products
+              port: 80
+          - path: /store
+            service:
+              name: store
+              port: 80
+          - path: /example
+            service:
+              name: simple-example
+              port: 80
+          - path: /events
+            service:
+              name: keystone-events
+              port: 80
+      keystone-events:
+        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        keystone:
+          uri: http://keystone-cms/cms/graphql
+        service:
+          fullnameOverride: keystone-events
+      keystone-products:
+        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        keystone:
+          uri: http://keystone-cms/cms/graphql
+        service:
+          fullnameOverride: keystone-products
+      keystone-cms:
+        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        basePath: "/cms"
+        service:
+          fullnameOverride: keystone-cms
         secrets:
-          products:
+          mongodbCms:
             data:
-              products:
-                products: []
+              password: ${random_password.cms_db_password.result}
+          mongodbAdmin:
+            fullnameOverride: mongodb-config
+          users:
+            data: ${local.users}
+          strings:
+            data: ${local.string_values}
+        resources:
+          main:
+            requests:
+              memory: "500Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+      mongodb:
+        persistence:
+          existingClaim: ${var.pvc_name}
+        volumePermissions:
+          enabled: true
+      mongodb-config:
+        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        rootPassword: ${random_password.root_db_password.result}
+      simple-example:
+        imagePullSecrets: ${jsonencode(var.image_pull_secret_names)}
+        service:
+          fullnameOverride: simple-example
+        basePath: "/example"
+        network:
+          products: "http://${var.lb_ip_address.address}/products"
+          events: "http://${var.lb_ip_address.address}/events"
+      nginx-ingress:
+        enabled: true
+        certIssuer: letsencrypt-staging
+        domainName: null
+        useHttps: false
     EOT
   ]
 
-  dynamic set {
-    for_each = length(var.image_pull_secret_names) > 0 ? slice(var.image_pull_secret_names, 0, 1) : []
-    iterator = each
-    content {
-      name = "izettle-products.imagePullSecret"
-      value = each.value
-    }
-  }
-
-  dynamic set {
-    for_each = var.image_pull_secret_names
-    iterator = each
-    content {
-      name = "mongodb.image.pullSecrets[${each.key}]"
-      value = each.value
-    }
-  }
-
-  set {
-    name = "mongodb.persistence.existingClaim"
-    value = var.pvc_name
-  }
-
-  set {
-    name = "mongodb.readinessProbe.enabled"
-    value = false
-  }
-
-  set {
-    name = "mongodb.livenessProbe.enabled"
-    value = false
-  }
-
   # TODO: check things still work without this
-  set {
-    name = "mongodb.volumePermissions.enabled"
-    value = var.cluster == "google"
-  }
+  # set {
+  #   name = "mongodb.volumePermissions.enabled"
+  #   value = var.cluster == "google"
+  # }
 
-  set_string {
-    name = "mongodb.podAnnotations.readiness\\.status\\.sidecar\\.istio\\.io/initialDelaySeconds"
-    value = "900"
-  }
-
-  set_sensitive {
-    name = "mongodb-config.rootPassword"
-    value = random_password.root_db_password.result
-  }
-
-  set {
-    name = "izettle-products.izettleCredentials.username"
-    value = local.izettle_credentials.username
-  }
-
-  set_sensitive {
-    name = "izettle-products.izettleCredentials.password"
-    value = local.izettle_credentials.password
-  }
-
-  set {
-    name = "izettle-products.izettleCredentials.client_id"
-    value = local.izettle_credentials.client_id
-  }
-
-  set_sensitive {
-    name = "izettle-products.izettleCredentials.client_secret"
-    value = local.izettle_credentials.client_secret
-  }
-
-  set {
-    name = "izettle-products.service.type"
-    value = "NodePort"
-  }
-
-  set_sensitive { # TODO: integrate into backend (use anchor)
-    name = "cms.mongodb.host"
-    value = "mongodb.${var.namespaces.main}.svc.cluster.local"
-  }
-
-  dynamic set_sensitive {
-    for_each = local.users
-    iterator = user
-    content {
-      name = "cms.users.data.users[${user.key}].username"
-      value = user.value.username
-    }
-  }
-
-  dynamic set_sensitive {
-    for_each = local.users
-    iterator = user
-    content {
-      name = "cms.users.data.users[${user.key}].password"
-      value = user.value.password
-    }
-  }
-
-  dynamic set_sensitive {
-    for_each = local.users
-    iterator = user
-    content {
-      name = "cms.users.data.users[${user.key}].isAdmin"
-      value = user.value.is_admin
-    }
-  }
-
-  dynamic set_string {
-    for_each = local.string_values
-    iterator = string_value
-    content {
-      name = "cms.strings.data.strings[${string_value.key}].key"
-      value = string_value.value.key
-    }
-  }
-
-  dynamic set_string {
-    for_each = local.string_values
-    iterator = string_value
-    content {
-      name = "cms.strings.data.strings[${string_value.key}].value"
-      value = replace(replace(string_value.value.value, "/\n/", "\n"), ",", "\\,")
-    }
-  }
-
-  set {
-    name = "cms.mongodb.cms.password"
-    value = random_password.cms_db_password.result
-  }
-
-  set {
-    name = "cms.service.type"
-    value = "NodePort"
-  }
-
-  set {
-    name = "nginx-ingress.cms.host"
-    value = "cms.${var.namespaces.main}.svc.cluster.local"
-  }
-
-  set {
-    name = "nginx-ingress.store.host"
-    value = "store.${var.namespaces.main}.svc.cluster.local"
-  }
-
-  set {
-    name = "nginx-ingress.certIssuer"
-    value = "letsencrypt-staging" # TODO: use prod
-  }
-
-  set {
-    name = "nginx-ingress.domainName"
-    value = ""
-  }
-
-  set {
-    name = "nginx-ingress.useHttps"
-    value = false
-  }
-
-  set {
-    name = "nginx-ingress.products.name"
-    value = "json-products"
-  }
+  # dynamic set_string {
+  #   for_each = local.string_values
+  #   iterator = string_value
+  #   content {
+  #     name = "cms.strings.data.strings[${string_value.key}].value"
+  #     value = replace(replace(string_value.value.value, "/\n/", "\n"), ",", "\\,")
+  #   }
+  # }
 }

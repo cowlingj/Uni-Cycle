@@ -136,10 +136,10 @@ export default {
     nextEvent: {
       query: eventQuery,
       update: (data) => {
-        if (!data.allEvents || data.allEvents.length < 1) {
+        if (!data.events || data.events.length < 1) {
           return null
         }
-        return data.allEvents[0]
+        return data.events[0]
       },
       error(err, vm) {
         vm.err = err
@@ -147,7 +147,7 @@ export default {
       variables: {
         date: new Date().toISOString()
       },
-      client: 'cms'
+      client: 'events'
     },
     values: {
       query: valuesQuery,
@@ -160,7 +160,7 @@ export default {
       error(err, vm) {
         vm.err = err
       },
-      client: 'cms'
+      client: 'resources'
     }
   }
 }

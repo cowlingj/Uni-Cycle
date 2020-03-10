@@ -1,10 +1,17 @@
-# TODO:
-# terraform {
-#   backend "gcs" {
-#     bucket  = "tf-state-prod"
-#     prefix  = "terraform/state"
-#   }
-# }
+terraform {
+  # backend "gcs" {
+  #   bucket  = "tf-state-prod"
+  #   prefix  = "terraform/state"
+  # }
+  required_providers {
+    google-beta = "~> 3.11.0"
+    helm = "~> 1.0.0"
+    kubernetes = "~> 1.11.1"
+    local = "~> 1.4.0"
+    null = "~> 2.1.2"
+    random = "~> 2.2.1"
+  }
+}
 
 provider "google-beta" {
   region = var.google_region
@@ -36,11 +43,7 @@ module "kubernetes" {
 }
 
 provider "helm" {
-  namespace = module.kubernetes.namespaces.helm
-  max_history = 3
-  home = var.helm_home
-  service_account = module.kubernetes.service_account_name
-
+  debug = true
   kubernetes {
     load_config_file = module.cluster.kubernetes_config.load_config_file
     config_context = module.cluster.kubernetes_config.config_context

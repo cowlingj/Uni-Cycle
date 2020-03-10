@@ -67,8 +67,10 @@ export default {
       'nuxt-env',
       {
         keys: [
-          { key: 'CMS_INTERNAL_URI' },
-          { key: 'CMS_EXTERNAL_URI' },
+          { key: 'EVENTS_INTERNAL_URI' },
+          { key: 'EVENTS_EXTERNAL_URI' },
+          { key: 'RESOURCES_INTERNAL_URI' },
+          { key: 'RESOURCES_EXTERNAL_URI' },
           { key: 'PRODUCTS_INTERNAL_URI' },
           { key: 'PRODUCTS_EXTERNAL_URI' },
           { key: 'CONTACT_EMAIL' },
@@ -86,7 +88,8 @@ export default {
     includeNodeModules: true,
     clientConfigs: {
       products: '@/config/apollo/products-client.js',
-      cms: '@/config/apollo/cms-client.js'
+      events: '@/config/apollo/events-client.js',
+      resources: '@/config/apollo/resources-client.js'
     }
   },
   /*
