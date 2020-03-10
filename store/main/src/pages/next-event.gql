@@ -1,11 +1,12 @@
-query nextEvent($isoDate: DateTime) {
-  events(
+query nextEvent {
+  events (
     order: {
       field: "start"
       reverse: true
     },
     count: 1
-  ) {
+  )
+   {
     start, end, title, description, location, ical
   }
 }
