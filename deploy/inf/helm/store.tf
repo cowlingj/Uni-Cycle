@@ -8,7 +8,7 @@ resource "helm_release" "store" {
   namespace  = var.namespaces.main
 
   set {
-    name = "imagePullSecres"
+    name = "imagePullSecrets"
     value = jsonencode(local.image_pull_secrets)
   }
 
