@@ -69,6 +69,10 @@ resource "helm_release" "backend" {
             service:
               name: keystone-events
               port: 80
+          - path: /example
+            service:
+              name: simple-example
+              port: 80
       keystone-events:
         imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
         keystone:

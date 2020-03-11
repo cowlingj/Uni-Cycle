@@ -7,31 +7,24 @@ resource "helm_release" "store" {
   version    = "0.0.1"
   namespace  = var.namespaces.main
 
-  set {
-    name = "imagePullSecrets"
-    value = jsonencode(local.image_pull_secrets)
-  }
-
-  set {
-    name = "resources.internal.path"
-    value = "/cms/graphql"
-  }
-
-  set {
-    name = "resources.external.path"
-    value = "/cms/graphql"
-  }
-
-  dynamic set {
-    for_each = var.lb_ip_address.address != null ? [ null ] : []
-    content {
-      name = "backend.ip"
-      value = var.lb_ip_address.address
-    }
-  }
-
-  set {
-    name = "email"
-    value = jsondecode(file("${path.root}/config/store/contact.json")).contact_email
-  }
+  values = [
+    <<EOT
+      email: "${jsondecode(file("${path.root}/config/store/contact.json")).contact_email}"
+      imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
+      events:
+        internal:
+          hostname: keystone-events
+      products:
+        internal:
+          hostname: keystone-products
+      resources:
+        external:
+          path: /cms/graphql
+        internal:
+          path: /cms/graphql
+          hostname: keystone-cms
+      backend:
+        ip: ${var.lb_ip_address.address != null ? var.lb_ip_address.address : ""}
+    EOT
+  ]
 }

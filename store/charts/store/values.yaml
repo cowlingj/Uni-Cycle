@@ -12,12 +12,12 @@ service:
   port: 80
 
 backend:
-  ip: null
-  hostname: null
+  ip: ""
+  hostname: ""
 
 events:
   internal:
-    hostname: cms
+    hostname: events
     ip: null
     path: /
     protocol: http
