@@ -46,6 +46,7 @@ resource "helm_release" "backend" {
     <<EOT
       tags:
         simple-example: true
+        endpoints-example: true
         keystone: true
       nginx-ingress:
         enabled: true
@@ -69,24 +70,31 @@ resource "helm_release" "backend" {
             service:
               name: keystone-events
               port: 80
-          - path: /example
+          - path: /example/simple
             service:
               name: simple-example
               port: 80
+          - path: /
+            service:
+              name: endpoints-example
+              port: 80
       keystone-events:
         imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
+        env: development
         keystone:
           uri: http://keystone-cms/cms/graphql
         service:
           fullnameOverride: keystone-events
       keystone-products:
         imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
+        env: development
         keystone:
           uri: http://keystone-cms/cms/graphql
         service:
           fullnameOverride: keystone-products
       keystone-cms:
         imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
+        env: development
         basePath: "/cms"
         service:
           fullnameOverride: keystone-cms
@@ -120,10 +128,33 @@ resource "helm_release" "backend" {
         imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
         service:
           fullnameOverride: simple-example
-        basePath: "/example"
+        basePath: "/simple"
         network:
           products: "http://${var.lb_ip_address.address}/products"
           events: "http://${var.lb_ip_address.address}/events"
+          resources: "http://${var.lb_ip_address.address}/cms/graphql"
+      endpoints-example:
+        imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
+        service:
+          fullnameOverride: endpoints-example
+        basePath: "/"
+        endpoints:
+          endpoints:
+            - name: products
+              description: "A standardised interface for products"
+              uri: "http://${var.lb_ip_address.address}/products"
+            - name: events
+              description: "A standardised interface for events"
+              uri: "http://${var.lb_ip_address.address}/events"
+            - name: cms-graphql
+              description: "The graphql endpoint for the cms"
+              uri: "http://${var.lb_ip_address.address}/cms/graphql"
+            - name: cms-playground
+              description: "get to grips with the graphql api provided by the cms with a graphql playground.\\\\nIn order for this to work the cms must be deployed in development mode"
+              uri: "http://${var.lb_ip_address.address}/cms/playground"
+            - name: cms-admin
+              description: "Admins of the cms can view and edit content stored there"
+              uri: "http://${var.lb_ip_address.address}/cms"
     EOT
   ]
 }
