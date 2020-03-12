@@ -9,7 +9,7 @@ resource null_resource "minikube_cluster" {
 
   provisioner "local-exec" {
     when = create
-    command = "minikube start --kubernetes-version=1.15.8 --profile=${self.triggers.profile}"
+    command = "minikube start --kubernetes-version=1.15.8 --memory=4gb --profile=${self.triggers.profile}"
     interpreter = [ "bash", "-c" ]
   }
 
