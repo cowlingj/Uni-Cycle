@@ -13,10 +13,10 @@ resource "helm_release" "store" {
       imagePullSecrets: ${jsonencode(local.image_pull_secrets)}
       events:
         internal:
-          hostname: keystone-events
+          hostname: events
       products:
         internal:
-          hostname: keystone-products
+          hostname: products
       resources:
         external:
           path: /cms/graphql
