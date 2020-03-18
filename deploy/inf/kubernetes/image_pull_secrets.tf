@@ -1,5 +1,5 @@
 locals {
-  image_pull_secrets = jsondecode(file("${path.root}/config/kubernetes/${var.cluster}/image-pull-secrets.json")).image_pull_secrets
+  image_pull_secrets = jsondecode(file("${path.root}/config/kubernetes/image-pull-secrets.json")).image_pull_secrets
 }
 
 resource "kubernetes_secret" "image_pull_secrets" {

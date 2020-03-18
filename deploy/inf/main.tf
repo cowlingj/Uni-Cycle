@@ -14,10 +14,10 @@ terraform {
 }
 
 provider "google-beta" {
+  credentials = "${path.root}/.secrets/credentials/gke-demo.json"
   region = var.google_region
   zone = var.google_region
   project = var.google_project
-  # TODO: add another gke key for creds
 }
 
 module "cluster" {

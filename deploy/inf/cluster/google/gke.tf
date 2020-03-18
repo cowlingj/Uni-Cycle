@@ -1,3 +1,7 @@
+locals {
+  service_account = jsondecode(file("${path.root}/.secrets/credentials/gke-demo.json")).client_email
+}
+
 resource "random_password" "username" {
   length = 32
   special = false
@@ -8,6 +12,11 @@ resource "random_password" "password" {
   special = false
 }
 
+# resource "google_service_account" "gke_node" {
+#   account_id   = "gke-node"
+#   display_name = "Google Kubernetes Cluster"
+# }
+
 resource "google_container_cluster" "main" {
   count = var.enabled ? 1: 0
   provider = google-beta
@@ -15,6 +24,9 @@ resource "google_container_cluster" "main" {
 
   remove_default_node_pool = true
   initial_node_count = 1
+  node_config {
+    service_account = local.service_account
+  }
 
   addons_config {
     istio_config {
@@ -28,12 +40,20 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  min_master_version = "1.15.8-gke.3" #"1.14.8-gke.33"
+  min_master_version = "1.15.8-gke.3"
 
   master_auth {
     username = random_password.username.result
     password = random_password.password.result
   }
+
+  # master_auth {
+  #   username = null
+  #   password = null
+  #   client_certificate_config {
+  #     issue_client_certificate = true
+  #   }
+  # }
 }
 
 resource "google_container_node_pool" "primary_nodes" {
@@ -56,6 +76,7 @@ resource "google_container_node_pool" "primary_nodes" {
   node_config {
     preemptible  = false
     machine_type = "g1-small"
+    service_account = local.service_account
 
     metadata = {
       disable-legacy-endpoints = "true"
