@@ -9,12 +9,12 @@ version: 2.1
 workflows:
   version: 2
 
-  package:
-    jobs:
-      - build-store:
-          filters:
-            branches:
-              only: master
+  # package:
+  #   jobs:
+  #     - build-store:
+  #         filters:
+  #           branches:
+  #             only: master
 
 executors:
   gcloud:

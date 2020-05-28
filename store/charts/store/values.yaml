@@ -2,8 +2,8 @@
 env: production
 name: store
 group: frontend
-version: "0.0.1"
-image: gcr.io/gke-test-253221/store.frontend
+version: "0.0.2"
+image: cowlingj/uni-cycle
 imagePullSecrets: []
 eamil: null
 

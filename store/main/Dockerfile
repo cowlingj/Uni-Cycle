@@ -1,6 +1,6 @@
 FROM node:13.2.0-alpine
 
-LABEL version 0.0.1
+LABEL version 0.0.2
 
 COPY / /usr/lib/app
 WORKDIR /usr/lib/app
