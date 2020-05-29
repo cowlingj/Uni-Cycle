@@ -1,4 +1,4 @@
-name: Izettle Products Docker
+name: Store Docker
 on:
   push:
     branches:
