@@ -33,4 +33,4 @@ jobs:
             --backend-config "region=${{ env.AWS_DEFAULT_REGION }}" \
             --backend-config "key=${{ env.AWS_STATE_KEY }}" \
             --backend-config "bucket=${{ env.AWS_STATE_BUCKET }}"
-      - run: terraform plan
+      - run: terraform apply --auto-approve
