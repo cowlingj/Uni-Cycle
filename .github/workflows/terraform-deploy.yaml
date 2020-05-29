@@ -8,7 +8,7 @@ on:
 
 env:
   AWS_ACCESS_KEY_ID: AKIA4GTFVI55WFJVRON4
-  AWS_SECRET_ACCESS_KEY: "${{ secret.AWS_SECRET_ACCESS_KEY }}" 
+  AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}" 
   AWS_DEFAULT_REGION: eu-west-2
   AWS_STATE_BUCKET: wildfire-bucket
   AWS_STATE_KEY: wildfire-bucket/dev/terraform
