@@ -1,8 +1,6 @@
 name: Terraform Deploy
 on:
   push:
-    branches-ignore:    
-      - '!master'
     tags:        
       - v.*
 
@@ -19,6 +17,7 @@ defaults:
 
 jobs:
   deploy:
+    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
