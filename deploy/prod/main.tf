@@ -34,7 +34,7 @@ provider "helm" {
   kubernetes {
     host                   = module.cluster.host
     cluster_ca_certificate = base64decode(module.cluster.certificate_authority_data)
-    config_path            = module.cluster.kubeconfig_filename
+    config_path            = module.cluster.kubeconfig.filename
     load_config_file       = true
   }
   version = "~> 1.2"
