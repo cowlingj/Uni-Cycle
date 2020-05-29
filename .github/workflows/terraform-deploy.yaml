@@ -23,9 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |-
-          for $key in jq 'keys' <<< '${{ secrets.BACKEND_CONFIG }}'; do
-            jq ".$key" > secrets/backend/$key
-          done
+          while read key; do
+            jq ".$key" <<< '${{ secrets.BACKEND_CONFIG }}' > secrets/backend/$key
+          done < <( jq 'keys' '${{ secrets.BACKEND_CONFIG }}' )
       - run: |-
           terraform init \
             --backend-config "region=${{ env.AWS_DEFAULT_REGION }}" \
