@@ -1,8 +1,8 @@
 name: Terraform Deploy
 on:
   push:
-    branches:    
-      - master
+    branches-ignore:    
+      - '!master'
     tags:        
       - v.*
 
@@ -22,6 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: |-
+          for $key in jq 'keys' <<< '${{ secrets.BACKEND_CONFIG }}'; do
+            jq ".$key" > secrets/backend/$key
+          done
       - run: |-
           terraform init \
             --backend-config "region=${{ env.AWS_DEFAULT_REGION }}" \
