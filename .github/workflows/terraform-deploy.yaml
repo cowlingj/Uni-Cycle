@@ -13,8 +13,12 @@ env:
   AWS_STATE_BUCKET: wildfire-bucket
   AWS_STATE_KEY: wildfire-bucket/dev/terraform
 
+defaults:
+  run:
+    working-directory: deploy/prod/
+
 jobs:
-  build-and-publish:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
