@@ -1,0 +1,36 @@
+tags:
+  keystone-cms: true
+
+mongodb:
+  service:
+    name: mongo
+    port: 27017
+  persistence:
+    existingClaim: ${mongodb.pvc_name}
+
+mongodb-config:
+  imagePullSecrets: ${general.image_pull_secrets}
+  rootPassword: ${mongodb.root_db_password}
+
+keystone-cms:
+  service:
+    fullnameOverride: cms
+  imagePullSecrets: ${general.image_pull_secrets}
+  secrets:
+    mongodbCms:
+      data:
+        password: ${keystone-cms.cms_db_password}
+    users:
+      data: ${keystone-cms.users}
+    strings:
+      data: ${keystone-cms.string_values}
+  mongodb:
+    host: mongo
+    port: 27017
+    cms:
+      username: cms
+      database: cms
+    admin:
+      username: root
+      database: admin
+

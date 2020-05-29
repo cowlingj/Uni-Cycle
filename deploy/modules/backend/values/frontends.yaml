@@ -1,0 +1,39 @@
+tags:
+  simple-example: true
+  endpoints-example: true
+
+simple-example:
+  basePath: /example
+  service:
+    fullnameOverride: simple
+  imagePullSecrets: ${general.image_pull_secrets}
+  network:
+    products: "http://${general.ingress_ip_address}/products"
+    events: "http://${general.ingress_ip_address}/events"
+    resources: "http://${general.ingress_ip_address}/cms/graphql"
+
+endpoints-example:
+  basePath: /
+  service:
+    fullnameOverride: endpoints
+  imagePullSecrets: ${general.image_pull_secrets}
+  endpoints:
+    endpoints:
+      - name: products
+        description: "A standardised interface for products"
+        uri: "http://${general.ingress_ip_address}/products"
+      - name: events
+        description: "A standardised interface for events"
+        uri: "http://${general.ingress_ip_address}/events"
+      - name: cms-graphql
+        description: "The graphql endpoint for the cms"
+        uri: "http://${general.ingress_ip_address}/cms/graphql"
+      - name: cms-admin
+        description: "Admins of the cms can view and edit content stored there"
+        uri: "http://${general.ingress_ip_address}/cms"
+      - name: example-frontend
+        description: "A simple html frontend that uses the api"
+        uri: "http://${general.ingress_ip_address}/example"
+      # - name: prismic-repo
+      #   description: "The admin interface for data stored in prismic.io"
+      #   uri: "https://$${prismic-events.repo}.prismic.io/"

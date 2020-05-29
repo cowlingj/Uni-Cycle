@@ -1,0 +1,27 @@
+tags:
+  keystone-products: true
+  izettle-products: false
+  json-products: false
+
+keystone-products:
+  env: development
+  imagePullSecrets: ${general.image_pull_secrets}
+  keystone:
+    uri: http://cms:80/cms/graphql
+  service:
+    fullnameOverride: products
+
+#   izettle-products:
+#     imagePullSecrets: ${general.image_pull_secrets}
+#     service:
+#       fullnameOverride: products
+#     secrets:
+#       credentials:
+#         nameOverride: null
+#         exists: false
+#         data:
+#           credentials:
+#             username: $${izettle-products.username}
+#             password: $${izettle-products.password}
+#             client_id: $${izettle-products.client_id}
+#             client_secret: $${izettle-products.client_secret}

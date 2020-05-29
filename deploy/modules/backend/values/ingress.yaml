@@ -1,0 +1,25 @@
+tags:
+  nginx-ingress: true
+
+nginx-ingress:    
+  paths:
+    - path: /cms
+      service:
+        name: cms
+        port: 80
+    - path: /products
+      service:
+        name: products
+        port: 80
+    - path: /events
+      service:
+        name: events
+        port: 80
+    - path: /example
+      service:
+        name: simple
+        port: 80
+    - path: /
+      service:
+        name: endpoints
+        port: 80

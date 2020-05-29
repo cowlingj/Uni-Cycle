@@ -1,0 +1,21 @@
+tags:
+  prismic-events: false
+  keystone-events: true
+
+# prismic-events:
+#   env: development
+#   service:
+#     fullnameOverride: events
+#   imagePullSecrets: ${general.image_pull_secrets}
+#   prismic:
+#     accessToken: "$${prismic-events.auth_token}"
+#     uri:
+#       refs: "https://$${prismic-events.repo}.prismic.io/api/v2"
+#       graphql: "https://$${prismic-events.repo}.prismic.io/graphql"
+
+keystone-events:
+  imagePullSecrets: ${general.image_pull_secrets}
+  keystone:
+    uri: http://cms:80/cms/graphql
+  service:
+    fullnameOverride: events
