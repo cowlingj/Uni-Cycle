@@ -1,10 +1,10 @@
-output "kubeconfig_filename" {
+output "kubeconfig" {
   depends_on = [
     null_resource.wait_for_cluster,
     kubernetes_config_map.aws_auth,
     helm_release.autoscaler
   ]
-  value = local_file.kubeconfig.filename
+  value = local_file.kubeconfig
 }
 
 output host {
@@ -17,9 +17,5 @@ output host {
 
 output certificate_authority_data {
   value = aws_eks_cluster.primary.certificate_authority.0.data
-}
-
-output token {
-  value = data.aws_eks_cluster_auth.primary.token
 }
 

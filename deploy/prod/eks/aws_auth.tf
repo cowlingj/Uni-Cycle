@@ -27,14 +27,11 @@ resource null_resource "delete_old_aws_auth" {
   triggers = {
     kubeconfig = local_file.kubeconfig.filename
     region = data.aws_region.current.name
-    credentials_file = var.aws_credentials_path
   }
 
   provisioner local-exec {
     command = "kubectl delete configmap aws-auth -n kube-system"
     environment = {
-      AWS_DEFAULT_REGION = self.triggers.region
-      AWS_SHARED_CREDENTIALS_FILE = self.triggers.credentials_file
       KUBECONFIG  = self.triggers.kubeconfig
     }
   }

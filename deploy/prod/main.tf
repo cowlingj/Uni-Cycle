@@ -1,31 +1,22 @@
 terraform {
-  backend "s3" {
-    bucket = var.aws_s3_bucket_name
-    key    = var.aws_s3_bucket_object_key
-    region = data.aws_region.current.name
-  }
+  backend "s3" {}
   required_providers {
     null = "~> 2.1"
   }
 }
 
 provider "aws" {
-  region                  = "eu-west-2"
-  shared_credentials_file = var.aws_shared_credentials_file
   version = "~> 2.63"
 }
 
-data "aws_region" "current" {}
-
 module cluster {
   source = "./eks"
-  aws_credentials_path = var.aws_shared_credentials_file
 }
 
 provider "kubernetes" {
   host                   = module.cluster.host
   cluster_ca_certificate = base64decode(module.cluster.certificate_authority_data)
-  config_path            = module.cluster.kubeconfig_filename
+  config_path            = module.cluster.kubeconfig.filename
   load_config_file       = true
   version                = "~> 1.11"
 }
@@ -69,4 +60,8 @@ module "ingress" {
 
 output "url" {
   value = module.ingress.public_endpoint
+}
+
+output "kubeconfig" {
+  value = file(module.cluster.kubeconfig.content)
 }

@@ -21,9 +21,11 @@ keystone-cms:
       data:
         password: ${keystone-cms.cms_db_password}
     users:
-      data: ${keystone-cms.users}
+      data:
+        users: ${keystone-cms.users}
     strings:
-      data: ${keystone-cms.string_values}
+      data: 
+        strings: ${keystone-cms.string_values}
   mongodb:
     host: mongo
     port: 27017

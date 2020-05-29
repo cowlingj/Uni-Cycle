@@ -1,9 +1,3 @@
-provider "aws" {
-  region                  = "eu-west-2"
-  shared_credentials_file = var.aws_credentials_path
-  version = "~> 2.63"
-}
-
 provider "kubernetes" {
   host                   = aws_eks_cluster.primary.endpoint
   cluster_ca_certificate = base64decode(aws_eks_cluster.primary.certificate_authority.0.data)
@@ -22,8 +16,11 @@ provider "helm" {
   version = "~> 1.2"
 }
 
-provider local {
-  version = "~> 1.4"
+terraform {
+  required_providers {
+    local = "~> 1.4"
+    aws = "~> 2.63"
+  }
 }
 
 data "aws_region" "current" {}

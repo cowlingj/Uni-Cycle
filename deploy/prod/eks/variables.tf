@@ -1,15 +1,6 @@
-#
-# Variables Configuration
-#
-
 variable "cluster_name" {
   default = "terraform-eks-demo"
   type    = string
-}
-
-variable "aws_credentials_path" {
-  type = string
-  default = "./secrets/aws/credentials"
 }
 
 variable kubernetes_version_major {
