@@ -10,17 +10,17 @@ terraform {
 
 provider "google" {
   credentials = "${path.root}/secrets/gke/service-account.json"
-  region = "europe-west2"
-  zone = "europe-west2-a"
-  project = "ecommerce-backend-demo"
+  region      = "europe-west2"
+  zone        = "europe-west2-a"
+  project     = "ecommerce-backend-demo"
 }
 
 data "google_client_config" "provider" {}
 
 resource "google_container_cluster" "main" {
-  name     = "primary-cluster"
+  name                     = "primary-cluster"
   remove_default_node_pool = true
-  initial_node_count = 1
+  initial_node_count       = 1
 
   maintenance_policy {
     daily_maintenance_window {
@@ -38,9 +38,9 @@ resource "google_container_cluster" "main" {
 }
 
 resource "google_container_node_pool" "primary_nodes" {
-  provider   = google
-  name       = "primary-node-pool"
-  cluster    = google_container_cluster.main.name
+  provider           = google
+  name               = "primary-node-pool"
+  cluster            = google_container_cluster.main.name
   initial_node_count = 3
 
   autoscaling {
@@ -49,7 +49,7 @@ resource "google_container_node_pool" "primary_nodes" {
   }
 
   management {
-    auto_repair = true
+    auto_repair  = true
     auto_upgrade = true
   }
 
@@ -68,7 +68,7 @@ resource "google_container_node_pool" "primary_nodes" {
 
 resource "null_resource" "wait" {
   triggers = {
-    cluster = google_container_cluster.main.id
+    cluster   = google_container_cluster.main.id
     node_pool = google_container_node_pool.primary_nodes.id
   }
 
@@ -78,7 +78,7 @@ resource "null_resource" "wait" {
 }
 
 resource "google_compute_address" "ip_address" {
-  region = data.google_client_config.provider.region
-  name = "lb-ip-address"
+  region       = data.google_client_config.provider.region
+  name         = "lb-ip-address"
   network_tier = "PREMIUM"
 }

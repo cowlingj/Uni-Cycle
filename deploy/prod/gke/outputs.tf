@@ -2,7 +2,7 @@ output "token" {
   value = data.google_client_config.provider.access_token
   depends_on = [
     null_resource.wait.id
-  ]  
+  ]
 }
 
 output "cluster_ca_certificate" {
@@ -22,7 +22,7 @@ output "host" {
 
 output "loadbalancer_ip_address" {
   value = {
-    address: google_compute_address.ip_address.address
-    name: google_compute_address.ip_address.name
+    address : google_compute_address.ip_address.address
+    name : google_compute_address.ip_address.name
   }
 }

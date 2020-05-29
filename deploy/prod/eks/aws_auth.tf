@@ -3,7 +3,7 @@
 resource "kubernetes_config_map" "aws_auth" {
   depends_on = [
     null_resource.delete_old_aws_auth
-  # null_resource.wait_for_cluster
+    # null_resource.wait_for_cluster
   ]
 
   metadata {
@@ -26,13 +26,13 @@ resource null_resource "delete_old_aws_auth" {
 
   triggers = {
     kubeconfig = local_file.kubeconfig.filename
-    region = data.aws_region.current.name
+    region     = data.aws_region.current.name
   }
 
   provisioner local-exec {
     command = "kubectl delete configmap aws-auth -n kube-system"
     environment = {
-      KUBECONFIG  = self.triggers.kubeconfig
+      KUBECONFIG = self.triggers.kubeconfig
     }
   }
 }

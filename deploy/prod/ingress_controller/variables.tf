@@ -1,4 +1,4 @@
 variable "ingress_ip_address" {
-  type = string
+  type    = string
   default = null
 }

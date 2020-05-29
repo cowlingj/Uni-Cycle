@@ -5,31 +5,31 @@ resource "helm_release" "ingress_controller" {
   repository = "https://kubernetes-charts.storage.googleapis.com"
 
   set {
-    name = "controller.publishService.enabled"
+    name  = "controller.publishService.enabled"
     value = true
   }
 
   set {
-    name = "rbac.create"
+    name  = "rbac.create"
     value = true
   }
 
   dynamic "set" {
     for_each = var.ingress_ip_address != null ? [null] : []
     content {
-      name = "controller.service.loadBalancerIP"
+      name  = "controller.service.loadBalancerIP"
       value = var.ingress_ip_address
     }
   }
 
   set {
-    name = "fullnameOverride"
+    name  = "fullnameOverride"
     value = "ingress-nginx-ingress"
 
   }
 
   set {
-    name = "controller.name"
+    name  = "controller.name"
     value = "controller"
   }
 

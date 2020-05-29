@@ -130,8 +130,8 @@
 
 resource "kubernetes_secret" "dashboard_csrf" {
   metadata {
-    name = "kubernetes-dashboard-csrf"
-    namespace  = "kube-system"
+    name      = "kubernetes-dashboard-csrf"
+    namespace = "kube-system"
   }
   type = "Opaque"
   data = {
@@ -144,34 +144,34 @@ resource "helm_release" "dashboard" {
   chart      = "kubernetes-dashboard"
   namespace  = "kube-system"
   repository = "https://kubernetes-charts.storage.googleapis.com"
-  
+
   set {
-    name = "image.repository"
+    name  = "image.repository"
     value = "kubernetesui/dashboard"
   }
 
   set {
-    name = "image.tag"
+    name  = "image.tag"
     value = "v2.0.0"
   }
 
   set {
-    name = "enableInsecureLogin"
+    name  = "enableInsecureLogin"
     value = true
   }
 
   set {
-    name = "enableSkipLogin"
+    name  = "enableSkipLogin"
     value = true
   }
 
   set {
-    name = "rbac.clusterAdminRole"
+    name  = "rbac.clusterAdminRole"
     value = true
   }
 
   set {
-    name = "fullnameOverride"
+    name  = "fullnameOverride"
     value = "kubernetes-dashboard"
   }
 }

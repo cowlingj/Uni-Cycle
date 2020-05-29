@@ -4,16 +4,16 @@ variable "cluster_name" {
 }
 
 variable kubernetes_version_major {
-  type = number
+  type    = number
   default = 1
 }
 
 variable kubernetes_version_minor {
-  type = number
+  type    = number
   default = 16
 }
 
 variable kubernetes_version_patch {
-  type = number
+  type    = number
   default = 3
 }

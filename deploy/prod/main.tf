@@ -41,17 +41,17 @@ provider "helm" {
 }
 
 module "store" {
-  source = "../modules/store"
+  source                  = "../modules/store"
   image_pull_secret_names = module.kubernetes.image_pull_secret_names
-  ingress_ip_address = module.ingress.public_endpoint
+  ingress_ip_address      = module.ingress.public_endpoint
 }
 
 module "backend" {
-  source = "../modules/backend"
-  ingress_ip_address = module.ingress.public_endpoint
+  source                  = "../modules/backend"
+  ingress_ip_address      = module.ingress.public_endpoint
   image_pull_secret_names = module.kubernetes.image_pull_secret_names
-  pvc_name = module.storage.pvc_name
-  timeout = 900
+  pvc_name                = module.storage.pvc_name
+  timeout                 = 900
 }
 
 module "ingress" {

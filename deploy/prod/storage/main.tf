@@ -2,7 +2,7 @@ resource "kubernetes_persistent_volume_claim" "pvc" {
 
   metadata {
     generate_name = "mongodb-pvc-"
-    namespace = "default"
+    namespace     = "default"
   }
 
   spec {

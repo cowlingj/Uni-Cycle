@@ -1,4 +1,4 @@
- 
+
 # enable autoscaling using the helm chart
 # the chart needs IAM permissions using OpenID Connect and iam roles for service accounts
 # see: https://www.terraform.io/docs/providers/aws/r/eks_cluster.html
@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "assume_role_with_oidc" {
 }
 
 resource "aws_iam_role" "cluster_autoscaler" {
-  name                 = "cluster-autoscaler"
+  name               = "cluster-autoscaler"
   assume_role_policy = data.aws_iam_policy_document.assume_role_with_oidc.json
 }
 
@@ -84,7 +84,7 @@ resource "helm_release" "autoscaler" {
     for_each = aws_eks_node_group.primary.resources.0.autoscaling_groups.*.name
     iterator = name
     content {
-      name = "autoscalingGroups[${name.key}].name"
+      name  = "autoscalingGroups[${name.key}].name"
       value = name.value
     }
   }
@@ -93,7 +93,7 @@ resource "helm_release" "autoscaler" {
     for_each = aws_eks_node_group.primary.resources.0.autoscaling_groups.*.name
     iterator = name
     content {
-      name = "autoscalingGroups[${name.key}].maxSize"
+      name  = "autoscalingGroups[${name.key}].maxSize"
       value = aws_eks_node_group.primary.scaling_config[name.key].max_size
     }
   }
@@ -102,42 +102,42 @@ resource "helm_release" "autoscaler" {
     for_each = aws_eks_node_group.primary.resources.0.autoscaling_groups.*.name
     iterator = name
     content {
-      name = "autoscalingGroups[${name.key}].minSize"
+      name  = "autoscalingGroups[${name.key}].minSize"
       value = aws_eks_node_group.primary.scaling_config[name.key].min_size
     }
   }
 
   set {
-    name = "rbac.serviceAccountAnnotations.eks\\.amazonaws\\.com/role-arn"
+    name  = "rbac.serviceAccountAnnotations.eks\\.amazonaws\\.com/role-arn"
     value = aws_iam_role.cluster_autoscaler.arn
   }
 
   set {
-    name = "rbac.create"
+    name  = "rbac.create"
     value = true
   }
   set {
-    name = "rbac.serviceAccount.create"
+    name  = "rbac.serviceAccount.create"
     value = true
   }
 
   set {
-    name = "rbac.serviceAccount.name"
+    name  = "rbac.serviceAccount.name"
     value = local.service_account_name
   }
 
   set {
-    name = "kubeTargetVersionOverride"
+    name  = "kubeTargetVersionOverride"
     value = "1.16"
   }
 
   set {
-    name = "image.tag"
+    name  = "image.tag"
     value = "v${var.kubernetes_version_major}.${var.kubernetes_version_minor}.${var.kubernetes_version_patch}"
   }
 
   set {
-    name = "awsRegion"
+    name  = "awsRegion"
     value = data.aws_region.current.name
   }
 }

@@ -2,7 +2,7 @@
 # create the cluster, allow it to act as EKS service and wait for it to come online
 
 resource "aws_iam_role" "primary-cluster" {
-  name = "terraform-eks-primary-cluster"
+  name               = "terraform-eks-primary-cluster"
   assume_role_policy = data.aws_iam_policy_document.cluster.json
 }
 
@@ -52,11 +52,11 @@ resource null_resource wait_for_cluster {
 
   triggers = {
     cluster_endpoint = aws_eks_cluster.primary.endpoint
-    cluster_nodes = join("|", [aws_eks_node_group.primary.id])
+    cluster_nodes    = join("|", [aws_eks_node_group.primary.id])
   }
 
   provisioner local-exec {
-    when = create
+    when    = create
     command = <<EOF
       for i in `seq 1 60`; do
         wget --no-check-certificate -O - -q ${self.triggers.cluster_endpoint}/healthz >/dev/null && exit 0

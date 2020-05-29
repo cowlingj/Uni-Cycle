@@ -4,7 +4,7 @@ resource "kubernetes_secret" "image_pull_secrets" {
 
   metadata {
     generate_name = "secret-regcred-"
-    namespace = "default"
+    namespace     = "default"
   }
 
   type = "kubernetes.io/dockerconfigjson"
@@ -25,7 +25,7 @@ resource "kubernetes_service_account" "helm" {
 
   metadata {
     generate_name = "helm-"
-    namespace = kubernetes_namespace.helm.metadata[0].name
+    namespace     = kubernetes_namespace.helm.metadata[0].name
   }
 }
 

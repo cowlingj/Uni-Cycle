@@ -9,7 +9,7 @@ resource "helm_release" "rancher_local_path" {
   # }
 
   set {
-    name = "storageClass.provisionerName"
+    name  = "storageClass.provisionerName"
     value = "rancher-local-path"
   }
 }
@@ -26,7 +26,7 @@ resource "kubernetes_persistent_volume_claim" "pvc" {
 
   metadata {
     generate_name = "mongodb-pvc-"
-    namespace = "default"
+    namespace     = "default"
   }
 
   spec {

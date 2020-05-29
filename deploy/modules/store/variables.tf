@@ -1,9 +1,9 @@
 variable "image_pull_secret_names" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
 variable "ingress_ip_address" {
-  type = string
+  type    = string
   default = "127.0.0.1"
 }

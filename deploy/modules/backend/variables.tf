@@ -1,10 +1,10 @@
 variable "timeout" {
-  type = number
+  type    = number
   default = 300
 }
 
 variable "image_pull_secret_names" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 

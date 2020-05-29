@@ -1,7 +1,7 @@
 # create worker nodes and let them assume the role of EC2s
 
 resource "aws_iam_role" "primary" {
-  name = "terraform-eks-primary"
+  name               = "terraform-eks-primary"
   assume_role_policy = data.aws_iam_policy_document.workers.json
 }
 
@@ -63,17 +63,17 @@ resource "aws_eks_node_group" "primary" {
 locals {
   mapNodeRoles = [
     {
-      rolearn = aws_iam_role.primary.arn
+      rolearn  = aws_iam_role.primary.arn
       username = "system:node:{{EC2PrivateDNSName}}"
-      groups = ["system:bootstrappers", "system:nodes"]
+      groups   = ["system:bootstrappers", "system:nodes"]
     }
   ]
 
   mapCallerUser = [
     {
-      userarn = data.aws_caller_identity.current.arn
+      userarn  = data.aws_caller_identity.current.arn
       username = "${var.cluster_name}-creator"
-      groups = ["system:masters"]
+      groups   = ["system:masters"]
     }
   ]
 }

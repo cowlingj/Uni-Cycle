@@ -5,27 +5,27 @@ resource "helm_release" "ingress_controller" {
   repository = "https://kubernetes-charts.storage.googleapis.com"
 
   set {
-    name = "controller.publishService.enabled"
+    name  = "controller.publishService.enabled"
     value = true
   }
 
   set {
-    name = "rbac.create"
+    name  = "rbac.create"
     value = true
   }
 
   set {
-    name = "controller.service.type"
+    name  = "controller.service.type"
     value = "NodePort"
   }
 
   set {
-    name = "controller.service.nodePorts.http"
+    name  = "controller.service.nodePorts.http"
     value = 30080
   }
 
-    set {
-    name = "controller.service.nodePorts.https"
+  set {
+    name  = "controller.service.nodePorts.https"
     value = 30443
   }
 }

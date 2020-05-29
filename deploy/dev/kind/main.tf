@@ -4,8 +4,8 @@ locals {
 
 resource "null_resource" "kind_cluster" {
 
-  triggers = { 
-    cluster_name = var.cluster_name
+  triggers = {
+    cluster_name        = var.cluster_name
     kubeconfig_location = local.kubeconfig_location
   }
 
@@ -19,7 +19,7 @@ resource "null_resource" "kind_cluster" {
       --config="${path.module}/config.yaml" \
       --wait 2m
     EOF
-    when = create
+    when    = create
   }
 
   provisioner "local-exec" {
@@ -27,11 +27,11 @@ resource "null_resource" "kind_cluster" {
       KUBECONFIG = self.triggers.kubeconfig_location
     }
     command = "kind delete cluster --name ${self.triggers.cluster_name}"
-    when = destroy
+    when    = destroy
   }
 }
 
-data "local_file" "kubeconfig" { 
+data "local_file" "kubeconfig" {
   depends_on = [
     null_resource.kind_cluster
   ]
