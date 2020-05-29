@@ -1,0 +1,26 @@
+name: Store Docker
+on:
+  push:
+    branches:    
+      - master
+    tags:        
+      - v.*
+
+env:
+  AWS_ACCESS_KEY_ID: AKIA4GTFVI55WFJVRON4
+  AWS_SECRET_ACCESS_KEY: {{ secret.AWS_SECRET_ACCESS_KEY }} 
+  AWS_DEFAULT_REGION: eu-west-2
+  AWS_STATE_BUCKET: wildfire-bucket
+  AWS_STATE_KEY: wildfire-bucket/dev/terraform
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |-
+          terraform init \
+            --backend-config region={{ env.AWS_DEFAULT_REGION }} \
+            --backend-config key={{ env.AWS_STATE_KEY }} \
+            --backend-config bucket={{ env.AWS_STATE_BUCKET }}
+      - run: terraform plan
