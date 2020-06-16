@@ -1,7 +1,10 @@
 terraform {
   backend "s3" {}
   required_providers {
-    null = "~> 2.1"
+    null       = "~> 2.1"
+    kubernetes = "~> 1.11.3"
+    local      = "~> 1.4.0"
+    helm       = "~> 1.2.2"
   }
 }
 

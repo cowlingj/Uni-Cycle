@@ -1,0 +1,23 @@
+keycloak:
+  existingSecret: ${keycloak.admin_secret_name}
+  existingSecretKey: password
+  basepath: auth
+  username: keycloak
+  fullname: keycloak
+  extraArgs: ${keycloak.extra_args}
+  extraVolumes: |
+${keycloak.volumes}
+  extraVolumeMounts: |
+${keycloak.volume_mounts}
+  service:
+    httpPort: 80
+    httpsPort: 443
+  persistence:
+    # existingSecret:
+    # existingSecretPasswordKey:
+    # existingSecretUsernameKey:
+    dbVendor: h2
+    # dbName:
+    # dbHost:
+    # dbPort:
+    # dbUser:

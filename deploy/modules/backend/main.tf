@@ -32,7 +32,7 @@ resource "helm_release" "backend" {
   name       = "ecommerce-backend"
   repository = "https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/"
   chart      = "ecommerce-backend"
-  version    = "0.0.1"
+  version    = "0.0.2"
   namespace  = "default"
 
   values = [

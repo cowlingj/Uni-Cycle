@@ -2,8 +2,9 @@
 terraform {
   required_providers {
     null       = "~> 2.1"
-    kubernetes = "~> 1.11.2"
+    kubernetes = "~> 1.11.3"
     local      = "~> 1.4.0"
+    helm       = "~> 1.2.2"
   }
 }
 
@@ -21,6 +22,10 @@ module "storage" {
 
 module "dashboard" {
   source = "./dashboard"
+}
+
+module "keycloak" {
+  source = "../modules/helm-keycloak"
 }
 
 module "kubernetes" {

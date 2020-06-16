@@ -13,6 +13,9 @@ mongodb-config:
   rootPassword: ${mongodb.root_db_password}
 
 keystone-cms:
+  image:
+    main:
+      tag: "0.0.6"
   service:
     fullnameOverride: cms
   imagePullSecrets: ${general.image_pull_secrets}

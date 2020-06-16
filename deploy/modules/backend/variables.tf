@@ -1,6 +1,6 @@
 variable "timeout" {
   type    = number
-  default = 300
+  default = 600
 }
 
 variable "image_pull_secret_names" {
