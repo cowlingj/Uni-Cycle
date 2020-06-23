@@ -24,10 +24,6 @@ module "dashboard" {
   source = "./dashboard"
 }
 
-module "keycloak" {
-  source = "../modules/helm-keycloak"
-}
-
 module "kubernetes" {
   source = "../modules/kubernetes"
 }
