@@ -1,0 +1,24 @@
+tags:
+  keycloak: true
+
+keycloak:
+  keycloak:
+    existingSecret: ${keycloak.admin_secret_name}
+    existingSecretKey: password
+    basepath: auth
+    username: keycloak
+    fullname: keycloak
+    extraArgs: ${keycloak.extra_args}
+    extraVolumes: |
+      - name: "import-realms"
+        secret:
+          secretName: "${keycloak.import_realms_secret_name}"
+    extraVolumeMounts: |
+      - name: "import-realms"
+        mountPath: "/etc/keycloak/import/"
+        readOnly: true
+    service:
+      httpPort: 80
+      httpsPort: 443
+    persistence:
+      dbVendor: h2

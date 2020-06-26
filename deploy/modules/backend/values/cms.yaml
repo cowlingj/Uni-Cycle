@@ -38,4 +38,39 @@ keystone-cms:
     admin:
       username: root
       database: admin
-
+  authAdmin:
+    enabled: true
+    secrets:
+      clientSecret:
+        fullnameOverride: ${keystone-cms.admin_secret}
+        exists: true
+    extraArgs:
+    config:
+      clientSecretSecretKey: "client_secret"
+      clientId: keystone
+      discoveryUrl: http://${general.endpoint}/auth/realms/default
+      redirectionUrl: http://${general.endpoint}/cms/admin
+      proxyUrl: http://ecommerce-backend-ke-http
+      upstreamUrl: http://localhost:80
+      secureCookie: false
+      defaultDeny: true
+      resources:
+        - "uri=/cms/admin|roles=keystone:admin"
+  authApi:
+    enabled: true
+    secrets:
+      clientSecret:
+        fullnameOverride: "${keystone-cms.api_secret}"
+        exists: true
+    extraArgs:
+    config:
+      clientSecretSecretKey: "client_secret"
+      clientId: keystone
+      discoveryUrl: http://${general.endpoint}/auth/realms/default
+      redirectionUrl: http://${general.endpoint}/cms/graphql
+      proxyUrl: http://ecommerce-backend-ke-http
+      upstreamUrl: http://localhost:80
+      secureCookie: false
+      defaultDeny: true
+      resources:
+        - "uri=/cms/graphql|roles=keystone:admin"
