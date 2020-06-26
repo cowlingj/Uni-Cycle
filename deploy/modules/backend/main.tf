@@ -105,9 +105,8 @@ resource "helm_release" "backend" {
   timeout = var.timeout
 
   name       = "ecommerce-backend"
-  #repository =  "https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/"
-  #chart      = "ecommerce-backend"
-  chart      = "${path.root}/../../../backend/helm/charts/ecommerce-backend" 
+  repository =  "https://raw.githubusercontent.com/cowlingj/ecommerce-backend/master/helm/repo/"
+  chart      = "ecommerce-backend"
   version    = "0.0.4"
   namespace  = "default"
 

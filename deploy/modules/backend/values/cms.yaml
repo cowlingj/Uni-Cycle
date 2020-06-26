@@ -49,7 +49,7 @@ keystone-cms:
       clientSecretSecretKey: "client_secret"
       clientId: keystone
       discoveryUrl: http://${general.endpoint}/auth/realms/default
-      redirectionUrl: http://${general.endpoint}/cms/admin
+      redirectionUrl: http://${general.endpoint}
       proxyUrl: http://ecommerce-backend-ke-http
       upstreamUrl: http://localhost:80
       secureCookie: false
@@ -67,7 +67,7 @@ keystone-cms:
       clientSecretSecretKey: "client_secret"
       clientId: keystone
       discoveryUrl: http://${general.endpoint}/auth/realms/default
-      redirectionUrl: http://${general.endpoint}/cms/graphql
+      redirectionUrl: http://${general.endpoint}
       proxyUrl: http://ecommerce-backend-ke-http
       upstreamUrl: http://localhost:80
       secureCookie: false
