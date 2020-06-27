@@ -15,9 +15,12 @@ mongodb-config:
 keystone-cms:
   image:
     main:
-      tag: "0.0.6"
+      tag: "0.0.12"
   service:
     fullnameOverride: cms
+    unauthenticated:
+      enabled: true
+      port: 80
   imagePullSecrets: ${general.image_pull_secrets}
   secrets:
     mongodbCms:
@@ -56,21 +59,7 @@ keystone-cms:
       defaultDeny: true
       resources:
         - "uri=/cms/admin|roles=keystone:admin"
+    service:
+      port: 8080
   authApi:
-    enabled: true
-    secrets:
-      clientSecret:
-        fullnameOverride: "${keystone-cms.api_secret}"
-        exists: true
-    extraArgs:
-    config:
-      clientSecretSecretKey: "client_secret"
-      clientId: keystone
-      discoveryUrl: http://${general.endpoint}/auth/realms/default
-      redirectionUrl: http://${general.endpoint}
-      proxyUrl: http://ecommerce-backend-ke-http
-      upstreamUrl: http://localhost:80
-      secureCookie: false
-      defaultDeny: true
-      resources:
-        - "uri=/cms/graphql|roles=keystone:admin"
+    enabled: false
