@@ -1,6 +1,6 @@
 resource "kubernetes_secret" "image_pull_secrets" {
 
-  for_each = fileset("${path.root}/secrets/kubernetes/image-pull-secrets/", "*")
+  for_each = fileset("${path.root}/secrets/kubernetes/image-pull-secrets/", "*.json")
 
   metadata {
     generate_name = "secret-regcred-"
@@ -32,7 +32,6 @@ resource "kubernetes_service_account" "helm" {
 resource "kubernetes_cluster_role_binding" "helm_role_binding" {
 
   metadata {
-    # name = "terraform-example"
     name = "helm-crb"
   }
 

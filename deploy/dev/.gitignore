@@ -3,5 +3,4 @@
 terraform.tfstate*
 terraform.tfvars
 .helm
-*/secrets
-*/generated
+/generated
