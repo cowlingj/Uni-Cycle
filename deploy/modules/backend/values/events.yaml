@@ -14,6 +14,7 @@ tags:
 #       graphql: "https://$${prismic-events.repo}.prismic.io/graphql"
 
 keystone-events:
+  env: ${general.env}
   imagePullSecrets: ${general.image_pull_secrets}
   keystone:
     uri: http://cms:80/cms/graphql

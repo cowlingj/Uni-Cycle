@@ -114,6 +114,7 @@ resource "helm_release" "backend" {
     for filename in fileset("${path.module}/values", "**/*.yaml") :
     templatefile("${path.module}/values/${filename}", {
       general = {
+        env = var.env
         endpoint = var.ingress_ip_address
         image_pull_secrets = jsonencode([for secret in var.image_pull_secret_names : { name = secret }])
       },

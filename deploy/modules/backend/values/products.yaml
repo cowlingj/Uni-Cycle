@@ -4,7 +4,7 @@ tags:
   json-products: false
 
 keystone-products:
-  env: development
+  env: ${general.env}
   imagePullSecrets: ${general.image_pull_secrets}
   keystone:
     uri: http://cms:80/cms/graphql

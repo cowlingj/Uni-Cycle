@@ -46,6 +46,7 @@ module "backend" {
   ingress_ip_address      = "localhost:9080"
   image_pull_secret_names = module.kubernetes.image_pull_secret_names
   pvc_name                = module.storage.pvc_name
+  env                     = "development"
 }
 
 module "ingress" {

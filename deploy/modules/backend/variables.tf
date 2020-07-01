@@ -15,3 +15,8 @@ variable "pvc_name" {
 variable "ingress_ip_address" {
   type = string
 }
+
+variable "env" {
+  type = string
+  default = "production"
+}
