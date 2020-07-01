@@ -33,7 +33,7 @@ endpoints-example:
         uri: "http://${general.endpoint}/cms"
       - name: example-frontend
         description: "A simple html frontend that uses the api"
-        uri: "http://${general.endpoint}/example"
+        uri: "http://${general.endpoint}/example/"
       # - name: prismic-repo
       #   description: "The admin interface for data stored in prismic.io"
       #   uri: "https://$${prismic-events.repo}.prismic.io/"
