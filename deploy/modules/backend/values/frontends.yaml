@@ -34,6 +34,6 @@ endpoints-example:
       - name: example-frontend
         description: "A simple html frontend that uses the api"
         uri: "http://${general.endpoint}/example/"
-      # - name: prismic-repo
-      #   description: "The admin interface for data stored in prismic.io"
-      #   uri: "https://$${prismic-events.repo}.prismic.io/"
+      - name: uni-cycle store
+        description: "The Uni-Cycle store (powered by nuxt)"
+        uri: "http://${general.endpoint}/store/"

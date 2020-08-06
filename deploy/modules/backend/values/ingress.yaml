@@ -27,3 +27,7 @@ nginx-ingress:
       service:
         name: endpoints
         port: 80
+    - path: /store
+      service:
+        name: store
+        port: 80

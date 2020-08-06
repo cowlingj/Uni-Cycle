@@ -4,6 +4,9 @@ resource "helm_release" "store" {
   version   = "0.0.1"
   namespace = "default"
 
+  # ingress_ip_address (incorrectly) includes port
+  # so we can set the external ports to an empty string to
+  # just use the ingress_ip_address on its own
   values = [
     <<EOT
       email: "hello@uni-cycle.org.uk"
@@ -11,17 +14,22 @@ resource "helm_release" "store" {
       events:
         internal:
           hostname: events
+        external:
+          port: ""
       products:
         internal:
           hostname: products
+        external:
+          port: ""
       resources:
         external:
           path: /cms/graphql
+          port: ""
         internal:
           path: /cms/graphql
           hostname: cms
       backend:
-        ip: ${var.ingress_ip_address}
+        hostname: ${var.ingress_ip_address}
     EOT
   ]
 }
