@@ -65,7 +65,7 @@
     "jest": "^24.1.0",
     "jest-transform-graphql": "^2.1.0",
     "jest-transform-stub": "^2.0.0",
-    "jsdom": "^15.2.1",
+    "jsdom": "^16.5.0",
     "lighthouse-ci": "^1.10.0",
     "lint-staged": "^8.2.1",
     "lorem-ipsum": "^2.0.3",
